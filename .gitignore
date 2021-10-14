@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+bin
+obj
+documentation
+/backend/.vs/EasyJob/v16
+/backend/.vs/EasyJob

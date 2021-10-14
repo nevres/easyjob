@@ -1,0 +1,31 @@
+version: '3.4' 
+
+services:
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432" # a:b - a is exposed port, b is internal port in container
+    environment:
+      POSTGRES_PASSWORD: Pin.1234
+    volumes:
+      - postgresql:/var/lib/postgresql
+      - postgresql_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:4.27
+    ports:
+      - "5123:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@test.net
+      PGADMIN_DEFAULT_PASSWORD: Pin.1234
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+
+volumes:
+  postgresql:
+  postgresql_data:
+  pgadmin:
+
+
+

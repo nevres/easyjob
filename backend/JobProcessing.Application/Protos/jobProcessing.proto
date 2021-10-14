@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+option csharp_namespace = "JobProcessing.Application";
+
+package jobProcessing;
+
+// The greeting service definition.
+service JobService {
+  // Sends a greeting
+  rpc GetJobById (GetJobByIdRequest) returns (JobResponse);
+}
+
+message GetJobByIdRequest {
+	int32 Id = 1;
+}
+
+message JobResponse {
+  string Id = 1;
+  string Name = 2;
+  string Description = 3;
+  int32 NumberOfEmployeesRequired = 4;
+  Address Location = 5;
+  JobDuration Duration = 6;
+  Price Price = 7;
+  JobUrgency Urgency = 8;
+}
+
+message JobDuration {
+	int32 Amount = 1;
+	JobDurationType DurationType = 2;
+}
+
+message Price {
+	string CurrencyCode = 1;
+	PriceType PriceType = 2;
+	int32 MinPrice = 3;
+	int32 MaxPrice = 4;
+}
+
+message Address {
+	int32 Id = 1;
+	float Latitude = 2;
+	float Longitude = 3;
+	string Country = 4;
+	string City = 5;
+	string AddressLine = 6;
+	string Zip = 7;
+}
+
+enum JobDurationType {
+    Hours = 0;
+    Days = 1;
+    Months = 2;
+}
+
+enum PriceType {
+	Hourly = 0;
+	FixedPrice = 1;
+}
+
+enum JobUrgency {
+	Normal = 0;
+    Hight = 1;
+    Urgent = 2;
+}
