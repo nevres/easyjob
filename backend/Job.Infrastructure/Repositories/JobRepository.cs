@@ -40,14 +40,15 @@ namespace JobProcessing.Infrastructure.Repositories
             return await Task.FromResult(job);
         }
 
-        public async Task<List<Job>> ListAsync()
+        public async Task<IEnumerable<Job>> ListAsync()
         {
             return await _db.Jobs.ToListAsync();
         }
 
-        public Task<List<Job>> ListAsync(params ISpecification<Job>[] specs)
+        public async Task<IEnumerable<Job>> ListAsync(params ISpecification<Job>[] specs)
         {
-            throw new NotImplementedException();
+            var query = specs.CreateQuery(_db);
+            return await query.ToListAsync();
         }
 
         public Task UpdateAsync(Job entity)

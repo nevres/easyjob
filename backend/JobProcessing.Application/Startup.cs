@@ -16,11 +16,14 @@ namespace JobProcessing.Application
 {
     public class Startup
     {
+        private readonly IWebHostEnvironment _environment;
+
         public IConfiguration Configuration { get; }
 
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            _environment = environment;
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -30,7 +33,7 @@ namespace JobProcessing.Application
             services.AddGrpc();
             AddJobContext<JobContext>(services);
             AddAutoMapper(services);
-            services.AddScoped<JobRepository>();
+            services.AddScoped<IJobRepository, JobRepository>();
             services.AddMediatR(typeof(Startup));
         }
 
@@ -63,7 +66,7 @@ namespace JobProcessing.Application
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll));
         }
 
-        private static void AddAutoMapper(IServiceCollection services)
+        private void AddAutoMapper(IServiceCollection services)
         {
             // Auto Mapper Configurations
             var mapperConfig = new MapperConfiguration(mc =>
@@ -71,7 +74,13 @@ namespace JobProcessing.Application
                 mc.AddProfile(new MappingProfile());
             });
 
+            if (_environment.IsDevelopment())
+            {
+                mapperConfig.AssertConfigurationIsValid();
+            }
+
             IMapper mapper = mapperConfig.CreateMapper();
+            
             services.AddSingleton(mapper);
         }
 

@@ -11,6 +11,8 @@ const en: ITranslation = {
     search: "Search",
     hourlyRate: "Hourly Rate",
     fixedPrice: "Fixed Price",
+    min: "Min",
+    max: "Max",
   },
 };
 

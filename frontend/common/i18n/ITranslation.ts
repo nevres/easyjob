@@ -9,5 +9,7 @@ export default interface ITranslation {
     search: string;
     hourlyRate: string;
     fixedPrice: string;
+    min: string;
+    max: string;
   };
 }
