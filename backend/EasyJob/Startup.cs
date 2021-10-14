@@ -42,7 +42,7 @@ namespace EasyJob
             // this is needed because of typescript client generation and nsag: https://github.com/RicoSuter/NJsonSchema/wiki/Enums
                     opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())
                     );
-            ;
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "EasyJob", Version = "v1" });

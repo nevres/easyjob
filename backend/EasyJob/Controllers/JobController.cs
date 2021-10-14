@@ -22,11 +22,17 @@ namespace EasyJob.Controllers
             _jobServiceClient = jobServiceClient;
         }
 
-        [HttpGet]
-        public async Task<JobResponse> GetAsync()
+        [HttpGet("{id}")]
+        public async Task<JobResponse> GetAsync(int id)
         {
             return await _jobServiceClient.GetJobByIdAsync(new GetJobByIdRequest() { Id = 1 });
-
+        }
+        
+        [HttpGet]
+        public async Task<List<JobResponse>> GetjobsAsync([FromQuery]GetJobsQuery query)
+        {
+            var jobServiceResponse = await _jobServiceClient.GetJobsAsync(query);
+            return jobServiceResponse.Jobs.ToList();
         }
     }
 }

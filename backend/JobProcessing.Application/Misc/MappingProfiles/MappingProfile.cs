@@ -20,6 +20,8 @@ namespace JobProcessing.Application.Misc.MappingConfigurations
                 {
                     opt.MapFrom(x => new JobDuration() { Amount = x.Duration.Amount, DurationType = (JobDurationType)(int)x.Duration.DurationType });
                 });
+
+            CreateMap<GetJobsQuery, Queries.GetJobs.GetJobsQuery>();
         }
     }
 

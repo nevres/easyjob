@@ -1,13 +1,13 @@
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Box from "@mui/material/Box";
-import { JobUrgency } from "../../domain/models/job";
 import useI18n from "../../common/i18n/useI18n";
 import TextFieldElement from "../../common/react-hook-mui/TextFieldElement";
 import InputAdornment from "@mui/material/InputAdornment";
 import MultiSelectElement from "../../common/react-hook-mui/SelectElement";
 import { Button, Stack, useThemeProps } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { JobUrgency } from "../../api/Models/JobUrgency";
 
 export interface JobFilterModel {
   name: string;

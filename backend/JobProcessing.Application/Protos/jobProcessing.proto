@@ -8,6 +8,7 @@ package jobProcessing;
 service JobService {
   // Sends a greeting
   rpc GetJobById (GetJobByIdRequest) returns (JobResponse);
+  rpc GetJobs (GetJobsQuery) returns (JobResponses);
 }
 
 message GetJobByIdRequest {
@@ -23,6 +24,10 @@ message JobResponse {
   JobDuration Duration = 6;
   Price Price = 7;
   JobUrgency Urgency = 8;
+}
+
+message JobResponses {
+	repeated JobResponse Jobs = 2;
 }
 
 message JobDuration {
@@ -45,6 +50,14 @@ message Address {
 	string City = 5;
 	string AddressLine = 6;
 	string Zip = 7;
+}
+
+message GetJobsQuery {
+	string Name =  1;
+	string Description = 2;
+	int32 Page = 3;
+	int32 PageSize = 4;
+	string OrderBy = 5;
 }
 
 enum JobDurationType {

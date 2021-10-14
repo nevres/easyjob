@@ -27,6 +27,6 @@
 		3. build FrontendClientGenerator
 		Note: last command argument is name of swagger doc from Startup.cs (won't run if name mismatch)-->
 		<Exec Command="swagger tofile --output swagger.json $(OutDir)EasyJob.dll v1" />
-		<Exec Command="$(SolutionDir)FrontendClientGenerator\bin\Debug\net5.0\FrontendClientGenerator.exe $(ProjectDir)swagger.json C:\Users\njahic\Desktop\Projects\easyit\api" />
+		<Exec Command="$(SolutionDir)FrontendClientGenerator\bin\Debug\net5.0\FrontendClientGenerator.exe $(ProjectDir)swagger.json C:\Users\njahic\Desktop\Projects\easyjob\frontend\api" />
 	</Target>
 </Project>

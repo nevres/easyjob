@@ -11,11 +11,7 @@ export default function JobPortfolio() {
   var jobApi = useJobApi();
 
   const getJobs = async (filter: JobFilterModel) => {
-    var job = await jobApi.get();
-    var allJobs = [job];
-    return allJobs.filter(
-      (x) => filter.name === undefined || x.name!.indexOf(filter.name) !== -1
-    );
+    return await jobApi.getjobs(filter?.name, filter?.name, 1, 10, undefined);
   };
 
   var fetchResult = useAsync<JobResponse[]>(getJobs, [filter]);
@@ -31,6 +27,8 @@ export default function JobPortfolio() {
       </Grid>
       <Grid item md={9} xs={12}>
         <Grid container spacing={2}>
+          {fetchResult.loading && <div>Loading</div>}
+          {fetchResult.error && <div>Error: {fetchResult.error.message}</div>}
           {fetchResult.result &&
             fetchResult.result.map((x) => (
               <Grid item key={x.id}>

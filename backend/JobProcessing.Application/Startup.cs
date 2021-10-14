@@ -30,7 +30,7 @@ namespace JobProcessing.Application
             services.AddGrpc();
             AddJobContext<JobContext>(services);
             AddAutoMapper(services);
-            services.AddScoped<JobRepository>();
+            services.AddScoped<IJobRepository, JobRepository>();
             services.AddMediatR(typeof(Startup));
         }
 
