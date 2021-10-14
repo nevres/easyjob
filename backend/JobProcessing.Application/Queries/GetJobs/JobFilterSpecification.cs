@@ -21,6 +21,15 @@ namespace JobProcessing.Application.Queries.GetJobs
                 Query.OrderBy(x => x.Id);
             }
 
+            if (filter.Price?.IsPriceValid() == true)
+            {
+                Query.Where(x => x.Price.CurrencyCode == filter.Price.CurrencyCode &&
+                            (filter.Price.MinPrice <=0 || x.Price.MinPrice >= filter.Price.MinPrice) &&
+                            (filter.Price.MaxPrice <=0 || x.Price.MaxPrice <= filter.Price.MaxPrice )&&
+                            (int)x.Price.PriceType == (int)filter.Price.PriceType
+                    );
+            }
+
             Query.Skip(PaginationHelper.CalculateSkip(filter))
                      .Take(PaginationHelper.CalculateTake(filter));
 

@@ -54,12 +54,16 @@ export class JobClient {
     /**
      * @param name (optional) 
      * @param description (optional) 
+     * @param price_CurrencyCode (optional) 
+     * @param price_PriceType (optional) 
+     * @param price_MinPrice (optional) 
+     * @param price_MaxPrice (optional) 
      * @param page (optional) 
      * @param pageSize (optional) 
      * @param orderBy (optional) 
      * @return Success
      */
-    async getjobs(name: string | undefined, description: string | undefined, page: number | undefined, pageSize: number | undefined, orderBy: string | undefined): Promise<JobResponse[]> {
+    async getjobs(name: string | undefined, description: string | undefined, price_CurrencyCode: string | undefined, price_PriceType: PriceType | undefined, price_MinPrice: number | undefined, price_MaxPrice: number | undefined, page: number | undefined, pageSize: number | undefined, orderBy: string | undefined): Promise<JobResponse[]> {
         let url_ = this.baseUrl + "/Job?";
         if (name === null)
             throw new Error("The parameter 'name' cannot be null.");
@@ -69,6 +73,22 @@ export class JobClient {
             throw new Error("The parameter 'description' cannot be null.");
         else if (description !== undefined)
             url_ += "Description=" + encodeURIComponent("" + description) + "&";
+        if (price_CurrencyCode === null)
+            throw new Error("The parameter 'price_CurrencyCode' cannot be null.");
+        else if (price_CurrencyCode !== undefined)
+            url_ += "Price.CurrencyCode=" + encodeURIComponent("" + price_CurrencyCode) + "&";
+        if (price_PriceType === null)
+            throw new Error("The parameter 'price_PriceType' cannot be null.");
+        else if (price_PriceType !== undefined)
+            url_ += "Price.PriceType=" + encodeURIComponent("" + price_PriceType) + "&";
+        if (price_MinPrice === null)
+            throw new Error("The parameter 'price_MinPrice' cannot be null.");
+        else if (price_MinPrice !== undefined)
+            url_ += "Price.MinPrice=" + encodeURIComponent("" + price_MinPrice) + "&";
+        if (price_MaxPrice === null)
+            throw new Error("The parameter 'price_MaxPrice' cannot be null.");
+        else if (price_MaxPrice !== undefined)
+            url_ += "Price.MaxPrice=" + encodeURIComponent("" + price_MaxPrice) + "&";
         if (page === null)
             throw new Error("The parameter 'page' cannot be null.");
         else if (page !== undefined)

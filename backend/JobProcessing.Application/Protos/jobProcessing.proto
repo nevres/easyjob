@@ -55,9 +55,10 @@ message Address {
 message GetJobsQuery {
 	string Name =  1;
 	string Description = 2;
-	int32 Page = 3;
-	int32 PageSize = 4;
-	string OrderBy = 5;
+	Price Price = 3;
+	int32 Page = 4;
+	int32 PageSize = 5;
+	string OrderBy = 6;
 }
 
 enum JobDurationType {

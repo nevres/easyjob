@@ -1,17 +1,28 @@
 import JobCard from "./JobCard";
 import { useAsync } from "react-async-hook";
 import { Grid } from "@mui/material";
-import JobFilter, { JobFilterModel } from "./Filter";
+import JobFilter, { JobFilterModel } from "./Filter/Filter";
 import { useCallback, useState } from "react";
 import { useJobApi } from "../../common/customHooks/api/useJobApi";
 import { JobResponse } from "../../api/Models/JobResponse";
+import { SHOP_CURRENCY } from "../../domain/constants";
 
 export default function JobPortfolio() {
   var [filter, setFilter] = useState<JobFilterModel>();
   var jobApi = useJobApi();
 
   const getJobs = async (filter: JobFilterModel) => {
-    return await jobApi.getjobs(filter?.name, filter?.name, 1, 10, undefined);
+    return await jobApi.getjobs(
+      filter?.name,
+      filter?.name,
+      SHOP_CURRENCY,
+      filter?.price.type,
+      filter?.price.minAmount,
+      filter?.price.maxAmount,
+      1,
+      10,
+      undefined
+    );
   };
 
   var fetchResult = useAsync<JobResponse[]>(getJobs, [filter]);

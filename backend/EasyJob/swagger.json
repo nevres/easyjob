@@ -68,6 +68,36 @@
             }
           },
           {
+            "name": "Price.CurrencyCode",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Price.PriceType",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/PriceType"
+            }
+          },
+          {
+            "name": "Price.MinPrice",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "Price.MaxPrice",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
             "name": "Page",
             "in": "query",
             "schema": {

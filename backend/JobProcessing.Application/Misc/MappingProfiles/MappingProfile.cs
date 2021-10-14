@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using JobProcessing.Domain.Entities;
+using Shared.Automapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,10 @@ namespace JobProcessing.Application.Misc.MappingConfigurations
     {
         public MappingProfile()
         {
+            CreateMap<GetJobsQuery, Queries.GetJobs.GetJobsQuery>()
+                .MapRecordMember(dest => dest.Price, x => new Queries.GetJobs.Price(x.Price.CurrencyCode, 
+                (Domain.Enums.PriceType)(int)x.Price.PriceType, x.Price.MinPrice, x.Price.MaxPrice));
+
             CreateMap<Job, JobResponse>()
                 .ForMember(dest => dest.Price, opt =>
                 {
@@ -19,9 +24,9 @@ namespace JobProcessing.Application.Misc.MappingConfigurations
                 .ForMember(dest => dest.Duration, opt =>
                 {
                     opt.MapFrom(x => new JobDuration() { Amount = x.Duration.Amount, DurationType = (JobDurationType)(int)x.Duration.DurationType });
-                });
+                })
+                .ForMember(dest => dest.Location, opt => opt.Ignore());
 
-            CreateMap<GetJobsQuery, Queries.GetJobs.GetJobsQuery>();
         }
     }
 

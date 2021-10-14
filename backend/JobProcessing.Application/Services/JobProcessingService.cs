@@ -30,13 +30,20 @@ namespace JobProcessing.Application
 
         public override async Task<JobResponses> GetJobs(GetJobsQuery request, ServerCallContext context)
         {
-            var getJobsQuery = _mapper.Map<Queries.GetJobs.GetJobsQuery>(request);
-            var jobs = await _mediator.Send(getJobsQuery);
-            var response = new JobResponses();
-            foreach (var job in jobs) {
-                response.Jobs.Add(_mapper.Map<JobResponse>(job));
+            try
+            {
+                var getJobsQuery = _mapper.Map<Queries.GetJobs.GetJobsQuery>(request);
+                var jobs = await _mediator.Send(getJobsQuery);
+                var response = new JobResponses();
+                foreach (var job in jobs)
+                {
+                    response.Jobs.Add(_mapper.Map<JobResponse>(job));
+                }
+                return response;
             }
-            return response;
+            catch (Exception e) {
+                return null;
+            }
         }
     }
 }

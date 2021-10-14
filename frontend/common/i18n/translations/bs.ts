@@ -11,6 +11,8 @@ const bs: ITranslation = {
     search: "Trazi",
     hourlyRate: "Satnica",
     fixedPrice: "Fixna cijena",
+    min: "Min",
+    max: "Max",
   },
 };
 
