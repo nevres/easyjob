@@ -34,5 +34,12 @@ namespace EasyJob.Controllers
             var jobServiceResponse = await _jobServiceClient.GetJobsAsync(query);
             return jobServiceResponse.Jobs.ToList();
         }
+
+        [HttpGet("categories")]
+        public async Task<List<CategoryResponse>> GetJobCategories()
+        {
+            var jobServiceResponse = await _jobServiceClient.GetJobCategoriesAsync(new Empty());
+            return jobServiceResponse.Categories.ToList();
+        }
     }
 }

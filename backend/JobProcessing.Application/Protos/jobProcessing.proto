@@ -9,7 +9,10 @@ service JobService {
   // Sends a greeting
   rpc GetJobById (GetJobByIdRequest) returns (JobResponse);
   rpc GetJobs (GetJobsQuery) returns (JobResponses);
+  rpc GetJobCategories (Empty) returns (CategoryResponses);
 }
+
+message Empty {}
 
 message GetJobByIdRequest {
 	int32 Id = 1;
@@ -27,7 +30,11 @@ message JobResponse {
 }
 
 message JobResponses {
-	repeated JobResponse Jobs = 2;
+	repeated JobResponse Jobs = 1;
+}
+
+message CategoryResponses {
+	repeated CategoryResponse Categories = 1;
 }
 
 message JobDuration {
@@ -59,6 +66,11 @@ message GetJobsQuery {
 	int32 Page = 4;
 	int32 PageSize = 5;
 	string OrderBy = 6;
+}
+
+message CategoryResponse {
+	int32 Id = 1;
+	string CategoryName = 2;
 }
 
 enum JobDurationType {

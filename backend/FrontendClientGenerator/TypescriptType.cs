@@ -19,7 +19,7 @@ namespace FrontendClientGenerator
                 "interface" => TypescriptType.Interface,
                 "function" => TypescriptType.Function,
                 "enum" => TypescriptType.Enum,
-                _ => throw new ArgumentOutOfRangeException(),
+                _ => throw new ArgumentOutOfRangeException(nameof(str)),
             };
         }
         internal static string GetRelativeFilePath(this TypescriptType enm, TypescriptClientFile fi)
@@ -33,7 +33,7 @@ namespace FrontendClientGenerator
                 TypescriptType.Class => fi.Type == TypescriptType.Interface || fi.Type == TypescriptType.Enum
                 ? $"../Models/{fi.FileName}"
                 : $"../{fi.FileName}", // for throwException function
-                _ => throw new ArgumentOutOfRangeException()
+                _ => throw new ArgumentOutOfRangeException(nameof(enm))
             };
         }
     }

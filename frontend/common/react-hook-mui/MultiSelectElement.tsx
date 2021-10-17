@@ -11,8 +11,15 @@ import {
   SelectProps,
 } from "@mui/material";
 
+export type ValueType = number | string;
+
+export type SelectItem = {
+  value: ValueType;
+  label: string;
+};
+
 export type MultiSelectElementProps<T> = Omit<SelectProps, "value"> & {
-  menuItems: any;
+  menuItems: Array<SelectItem>;
   name: FieldPath<T>;
   control: Control<T, object>;
   label: string;
@@ -50,15 +57,16 @@ export default function MultiSelectElement<T>({
       name={name}
       rules={validation}
       control={control}
-      render={({
-        field: { value, onChange, onBlur },
-        fieldState: { invalid, error },
-      }) => {
+      render={({ field, fieldState: { invalid, error } }) => {
         helperText = error
           ? typeof parseError === "function"
             ? parseError(error)
             : error.message
           : helperText;
+
+        const { onChange, onBlur } = field;
+        const value = field.value as Array<ValueType>;
+
         return (
           <FormControl
             variant={variant}
@@ -93,9 +101,9 @@ export default function MultiSelectElement<T>({
               }}
               renderValue={
                 showChips
-                  ? (selected: any) => (
+                  ? (selected: Array<ValueType>) => (
                       <div style={{ display: "flex", flexWrap: "wrap" }}>
-                        {((selected as any[]) || []).map((selectedValue) => (
+                        {(selected || []).map((selectedValue) => (
                           <Chip
                             key={selectedValue}
                             label={selectedValue}
@@ -120,17 +128,17 @@ export default function MultiSelectElement<T>({
                   : undefined
               }
             >
-              {menuItems.map((item: any) => (
+              {menuItems.map((item: SelectItem) => (
                 <MenuItem
-                  key={item}
-                  value={item}
+                  key={item.value}
+                  value={item.value}
                   style={{
-                    fontWeight: (value || []).includes(item)
+                    fontWeight: (value || []).includes(item.value)
                       ? "bold"
                       : "normal",
                   }}
                 >
-                  {item}
+                  {item.label}
                 </MenuItem>
               ))}
             </Select>

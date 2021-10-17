@@ -27,6 +27,7 @@ namespace JobProcessing.Application.Misc.MappingConfigurations
                 })
                 .ForMember(dest => dest.Location, opt => opt.Ignore());
 
+            CreateMap<Category, CategoryResponse>();
         }
     }
 

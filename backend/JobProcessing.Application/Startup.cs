@@ -34,6 +34,7 @@ namespace JobProcessing.Application
             AddJobContext<JobContext>(services);
             AddAutoMapper(services);
             services.AddScoped<IJobRepository, JobRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddMediatR(typeof(Startup));
         }
 

@@ -1,5 +1,6 @@
 using AutoMapper;
 using Grpc.Core;
+using JobProcessing.Application.Queries.GetCategories;
 using JobProcessing.Application.Queries.GetJob;
 using MediatR;
 using Microsoft.Extensions.Logging;
@@ -30,20 +31,24 @@ namespace JobProcessing.Application
 
         public override async Task<JobResponses> GetJobs(GetJobsQuery request, ServerCallContext context)
         {
-            try
+            var getJobsQuery = _mapper.Map<Queries.GetJobs.GetJobsQuery>(request);
+            var jobs = await _mediator.Send(getJobsQuery);
+            var response = new JobResponses();
+            foreach (var job in jobs)
             {
-                var getJobsQuery = _mapper.Map<Queries.GetJobs.GetJobsQuery>(request);
-                var jobs = await _mediator.Send(getJobsQuery);
-                var response = new JobResponses();
-                foreach (var job in jobs)
-                {
-                    response.Jobs.Add(_mapper.Map<JobResponse>(job));
-                }
-                return response;
+                response.Jobs.Add(_mapper.Map<JobResponse>(job));
             }
-            catch (Exception e) {
-                return null;
+            return response;
+        }
+
+        public override async Task<CategoryResponses> GetJobCategories(Empty request, ServerCallContext context)
+        {
+            var categories = await _mediator.Send(new GetCategoriesQuery());
+            var response = new CategoryResponses();
+            foreach (var cat in categories) {
+                response.Categories.Add(cat);
             }
+            return response;
         }
     }
 }

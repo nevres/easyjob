@@ -2,6 +2,7 @@
 using JobProcessing.Domain.Enums;
 using JobProcessing.Domain.ValueTypes;
 using Shared.SeedWork;
+using System;
 
 namespace JobProcessing.Domain.Entities
 {
@@ -11,10 +12,16 @@ namespace JobProcessing.Domain.Entities
         public string Description { get; private set; }
         public int NumberOfEmployeesRequired { get; private set; }
         public Address Location { get; private set; }
+        public int LocationId { get; private set; }
         public JobDuration Duration { get; private set; }
         public Price Price { get; private set; }
         public JobUrgency Urgency { get; private set; }
-
+        public DateTimeOffset CreateDate { get; private set; }
+        public int UserId { get; private set; }
+        public JobStatus JobStatus { get; private set; }
+        public int CategoryId { get; private set; }
+        public Category Category { get; private set; }
+        
         private Job()
         {
             // for ef core

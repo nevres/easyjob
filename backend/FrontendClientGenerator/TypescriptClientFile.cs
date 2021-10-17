@@ -114,7 +114,7 @@ namespace FrontendClientGenerator
                 TypescriptType.Enum => "Models" + _dirSepChar + fileName,
                 TypescriptType.Class => "Clients" + _dirSepChar + fileName,
                 TypescriptType.Function => fileName,
-                _ => throw new ArgumentOutOfRangeException(),
+                _ => throw new ArgumentOutOfRangeException(nameof(codeType)),
             };
             return location;
         }
