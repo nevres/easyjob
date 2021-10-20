@@ -62,9 +62,10 @@ export class JobClient {
      * @param page (optional) 
      * @param pageSize (optional) 
      * @param orderBy (optional) 
+     * @param categoryIds (optional) 
      * @return Success
      */
-    async getjobs(name: string | undefined, description: string | undefined, price_CurrencyCode: string | undefined, price_PriceType: PriceType | undefined, price_MinPrice: number | undefined, price_MaxPrice: number | undefined, page: number | undefined, pageSize: number | undefined, orderBy: string | undefined): Promise<JobResponse[]> {
+    async getjobs(name: string | undefined, description: string | undefined, price_CurrencyCode: string | undefined, price_PriceType: PriceType | undefined, price_MinPrice: number | undefined, price_MaxPrice: number | undefined, page: number | undefined, pageSize: number | undefined, orderBy: string | undefined, categoryIds: number[] | undefined): Promise<JobResponse[]> {
         let url_ = this.baseUrl + "/Job?";
         if (name === null)
             throw new Error("The parameter 'name' cannot be null.");
@@ -102,6 +103,10 @@ export class JobClient {
             throw new Error("The parameter 'orderBy' cannot be null.");
         else if (orderBy !== undefined)
             url_ += "OrderBy=" + encodeURIComponent("" + orderBy) + "&";
+        if (categoryIds === null)
+            throw new Error("The parameter 'categoryIds' cannot be null.");
+        else if (categoryIds !== undefined)
+            categoryIds && categoryIds.forEach(item => { url_ += "CategoryIds=" + encodeURIComponent("" + item) + "&"; });
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{

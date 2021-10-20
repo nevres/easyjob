@@ -32,8 +32,8 @@ const ExpandMore = styled((props: ExpandMoreIconProps) => {
   transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
   marginLeft: "auto",
   transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest,
-  }),
+    duration: theme.transitions.duration.shortest
+  })
 }));
 
 export default function JobCard(props: JobCardProps) {
@@ -83,12 +83,7 @@ export default function JobCard(props: JobCardProps) {
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
+        <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
           <ExpandMoreIcon />
         </ExpandMore>
       </CardActions>
@@ -96,8 +91,8 @@ export default function JobCard(props: JobCardProps) {
         <CardContent>
           <Typography paragraph>Method:</Typography>
           <Typography paragraph>
-            Phasellus eleifend ligula est, in interdum est gravida ac. Donec id
-            orci ultricies, fringilla quam vitae, viverra massa.
+            Phasellus eleifend ligula est, in interdum est gravida ac. Donec id orci ultricies, fringilla quam vitae,
+            viverra massa.
           </Typography>
         </CardContent>
       </Collapse>

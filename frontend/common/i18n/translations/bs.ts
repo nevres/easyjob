@@ -1,6 +1,6 @@
 import ITranslation from "../ITranslation";
 
-const bs: ITranslation = {
+const ba: ITranslation = {
   translation: {
     name: "Ime",
     location: "Lokacija",
@@ -13,7 +13,9 @@ const bs: ITranslation = {
     fixedPrice: "Fixna cijena",
     min: "Min",
     max: "Max",
-  },
+    category: "Kategorija",
+    clear: "Ocisti"
+  }
 };
 
-export default bs;
+export default ba;

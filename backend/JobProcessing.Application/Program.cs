@@ -22,7 +22,7 @@ namespace JobProcessing.Application
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseUrls("http://localhost:5001", "https://localhost:5002");
+                    webBuilder.UseUrls("http://localhost:6001", "https://localhost:6002");
                 });
     }
 }

@@ -13,7 +13,9 @@ const en: ITranslation = {
     fixedPrice: "Fixed Price",
     min: "Min",
     max: "Max",
-  },
+    category: "Category",
+    clear: "Clear"
+  }
 };
 
 export default en;

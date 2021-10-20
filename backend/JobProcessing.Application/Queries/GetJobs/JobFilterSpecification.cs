@@ -30,6 +30,10 @@ namespace JobProcessing.Application.Queries.GetJobs
                     );
             }
 
+            if (filter.CategoryIds?.Any() == true) {
+                Query.Where(x => filter.CategoryIds.Contains(x.CategoryId));
+            }
+
             Query.Skip(PaginationHelper.CalculateSkip(filter))
                      .Take(PaginationHelper.CalculateTake(filter));
 

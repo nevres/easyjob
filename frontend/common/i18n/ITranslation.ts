@@ -11,5 +11,7 @@ export default interface ITranslation {
     fixedPrice: string;
     min: string;
     max: string;
+    category: string;
+    clear: string;
   };
 }

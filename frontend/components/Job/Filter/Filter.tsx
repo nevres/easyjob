@@ -7,9 +7,11 @@ import InputAdornment from "@mui/material/InputAdornment";
 import MultiSelectElement from "../../../common/react-hook-mui/MultiSelectElement";
 import { Button, Divider, Stack, useThemeProps } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import ClearIcon from "@mui/icons-material/Clear";
 import { JobUrgency } from "../../../api/Models/JobUrgency";
 import PriceFilter from "./PriceFilter";
 import { PriceType } from "../../../api/Models/PriceType";
+import { CategoriesSelect } from "../../../common/components/CategoriesSelect";
 
 export type JobFilterModel = {
   name: string;
@@ -17,6 +19,7 @@ export type JobFilterModel = {
   durationInHours: number;
   urgency: JobUrgency;
   price: PriceFilterModel;
+  categories: Array<number>;
 };
 
 type PriceFilterModel = {
@@ -30,7 +33,7 @@ interface JobFilterProps {
 }
 
 export default function JobFilter(props: JobFilterProps) {
-  const { handleSubmit, control, watch } = useForm<JobFilterModel>();
+  const { handleSubmit, control, watch, reset } = useForm<JobFilterModel>();
 
   const onSubmit: SubmitHandler<JobFilterModel> = (data) => {
     window.console.log(data);
@@ -38,7 +41,6 @@ export default function JobFilter(props: JobFilterProps) {
   };
 
   const t = useI18n();
-  watch("price.type");
 
   return (
     <Stack spacing={2}>
@@ -59,9 +61,7 @@ export default function JobFilter(props: JobFilterProps) {
         placeholder=""
         fullWidth
         InputProps={{
-          endAdornment: (
-            <InputAdornment position="end">{t("hoursShort")}</InputAdornment>
-          ),
+          endAdornment: <InputAdornment position="end">{t("hoursShort")}</InputAdornment>
         }}
       />
       <Divider />
@@ -75,16 +75,15 @@ export default function JobFilter(props: JobFilterProps) {
       />
       <Divider />
       <PriceFilter control={control} />
-      {/* <CategoriesSelect control={control} /> */}
-      <Box textAlign="center">
-        <Button
-          variant="contained"
-          endIcon={<SearchIcon />}
-          onClick={handleSubmit(onSubmit)}
-        >
+      <CategoriesSelect control={control} name="categories" />
+      <Stack spacing={2} direction={"row"} justifyContent="center">
+        <Button variant="contained" endIcon={<SearchIcon />} onClick={handleSubmit(onSubmit)}>
           {t("search")}
         </Button>
-      </Box>
+        <Button variant="outlined" endIcon={<ClearIcon />} onClick={() => reset()}>
+          {t("clear")}
+        </Button>
+      </Stack>
     </Stack>
   );
 }
