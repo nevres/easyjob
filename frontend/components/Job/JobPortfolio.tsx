@@ -22,7 +22,8 @@ export default function JobPortfolio() {
       filter?.price.maxAmount,
       1,
       10,
-      undefined
+      undefined,
+      filter?.categories
     );
   };
 
