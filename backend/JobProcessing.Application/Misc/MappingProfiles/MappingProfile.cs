@@ -12,6 +12,9 @@ namespace JobProcessing.Application.Misc.MappingConfigurations
     {
         public MappingProfile()
         {
+            CreateMap<Domain.Entities.Address, Address>();
+            CreateMap<GetJobLocationsQuery, Queries.GetJobLocations.GetJobLocationsQuery>();
+
             CreateMap<GetJobsQuery, Queries.GetJobs.GetJobsQuery>()
                 .MapRecordMember(dest => dest.Price, x => new Queries.GetJobs.Price(x.Price.CurrencyCode, 
                 (Domain.Enums.PriceType)(int)x.Price.PriceType, x.Price.MinPrice, x.Price.MaxPrice));

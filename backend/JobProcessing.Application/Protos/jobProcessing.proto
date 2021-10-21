@@ -10,6 +10,7 @@ service JobService {
   rpc GetJobById (GetJobByIdRequest) returns (JobResponse);
   rpc GetJobs (GetJobsQuery) returns (JobResponses);
   rpc GetJobCategories (Empty) returns (CategoryResponses);
+  rpc GetJobLocations (GetJobLocationsQuery) returns (Addresses);
 }
 
 message Empty {}
@@ -35,6 +36,14 @@ message JobResponses {
 
 message CategoryResponses {
 	repeated CategoryResponse Categories = 1;
+}
+
+message GetJobLocationsQuery {
+	string Location = 1;
+}
+
+message Addresses {
+	repeated Address Address = 1;
 }
 
 message JobDuration {
