@@ -2,10 +2,11 @@ import JobCard from "./JobCard";
 import { useAsync } from "react-async-hook";
 import { Grid } from "@mui/material";
 import JobFilter, { JobFilterModel } from "./Filter/Filter";
-import { useCallback, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useJobApi } from "../../common/customHooks/api/useJobApi";
 import { JobResponse } from "../../api/Models/JobResponse";
 import { SHOP_CURRENCY } from "../../domain/constants";
+import { JobNewModal } from "./New/JobNewModal";
 
 export default function JobPortfolio() {
   var [filter, setFilter] = useState<JobFilterModel>();
@@ -35,6 +36,7 @@ export default function JobPortfolio() {
     <Grid container spacing={6}>
       <Grid item md={3} xs={12}>
         <JobFilter handleOnSubmit={handleFilterSubmit} />
+        <JobNewModal />
       </Grid>
       <Grid item md={9} xs={12}>
         <Grid container spacing={2}>

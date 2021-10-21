@@ -13,6 +13,9 @@ const bs: ITranslation = {
     fixedPrice: "Fixna cijena",
     min: "Min",
     max: "Max",
+    back: "Nazad",
+    next: "Dalje",
+    save: "Sačuvaj"
   },
 };
 

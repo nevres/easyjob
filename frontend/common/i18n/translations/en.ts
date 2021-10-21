@@ -13,6 +13,9 @@ const en: ITranslation = {
     fixedPrice: "Fixed Price",
     min: "Min",
     max: "Max",
+    back: "Back",
+    next: "Next",
+    save: "Save"
   },
 };
 
