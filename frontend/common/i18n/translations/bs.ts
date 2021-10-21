@@ -15,8 +15,7 @@ const ba: ITranslation = {
     max: "Max",
     back: "Nazad",
     next: "Dalje",
-    save: "Sačuvaj"
-  },
+    save: "Sačuvaj",
     category: "Kategorija",
     clear: "Ocisti"
   }

@@ -15,8 +15,7 @@ const en: ITranslation = {
     max: "Max",
     back: "Back",
     next: "Next",
-    save: "Save"
-  },
+    save: "Save",
     category: "Category",
     clear: "Clear"
   }
