@@ -14,7 +14,8 @@ const en: ITranslation = {
     min: "Min",
     max: "Max",
     category: "Category",
-    clear: "Clear"
+    clear: "Clear",
+    jobDescription: "Job Description"
   }
 };
 

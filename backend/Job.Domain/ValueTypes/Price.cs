@@ -26,16 +26,15 @@ namespace JobProcessing.Domain.ValueTypes
             MaxPrice = fixedPriceAmount;
         }
 
-        public Price(string currencyCode, int minHourlyRate, int maxHourlyRate)
+        public Price(string currencyCode, int minHourlyRate, int maxHourlyRate, PriceType priceType)
         {
             Guard.Against.NullOrWhiteSpace(currencyCode, nameof(currencyCode));
             Guard.Against.NegativeOrZero(minHourlyRate, nameof(minHourlyRate));
-            Guard.Against.NegativeOrZero(maxHourlyRate, nameof(maxHourlyRate));
-
-            PriceType = PriceType.Hourly;
+            
             CurrencyCode = currencyCode;
             MinPrice = minHourlyRate;
             MaxPrice = maxHourlyRate;
+            PriceType = priceType;
         }
     }
 }

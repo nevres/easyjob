@@ -62,5 +62,12 @@ namespace JobProcessing.Application
             }
             return response;
         }
+
+        public override async Task<Id> CreateJob(CreateJobRequest request, ServerCallContext context)
+        {
+            var query = _mapper.Map<Commands.CreateJobCommand>(request);
+            var id = await _mediator.Send(query);
+            return new Id() { Id_ = id };
+        }
     }
 }

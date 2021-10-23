@@ -16,9 +16,16 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { JobResponse } from "../../api/Models/JobResponse";
 import { getUserFriendlyLocation, getUserFriendlyPrice } from "../../domain/job/jobHelper";
 import useI18n from "../../common/i18n/useI18n";
+import LocationOnOutlined from "@mui/icons-material/LocationOnOutlined";
+import Stack from "@mui/material/Stack";
+import fromUnixTime from "date-fns/fromUnixTime";
+import formatDistance from "date-fns/formatDistance";
+import { getUserFriendlyDate } from "../../common/utils/dateTimeHelper";
+import { isNullOrUndefined } from "../../common/utils/jsHelper";
 
 interface JobCardProps {
   job: JobResponse;
+  handleCardClick?(job: JobResponse): void;
 }
 
 interface ExpandMoreProps {
@@ -46,7 +53,11 @@ export default function JobCard(props: JobCardProps) {
   };
 
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card
+      onClick={() => {
+        if (!isNullOrUndefined(props.handleCardClick)) props.handleCardClick(props.job);
+      }}
+    >
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
@@ -59,16 +70,19 @@ export default function JobCard(props: JobCardProps) {
           </IconButton>
         }
         title={job.name}
-        subheader="September 14, 2016"
+        subheader={getUserFriendlyDate(fromUnixTime(job.createDate?.seconds!), "bs")}
       />
       <CardContent>
         <Typography variant="body1" color="text.secondary">
-          {job.description}
+          {job.highlightedDescription}
         </Typography>
         {job.location && (
-          <Typography variant="body2" color="text.secondary">
-            {getUserFriendlyLocation(job.location)}
-          </Typography>
+          <Stack direction="row" alignItems="center">
+            <LocationOnOutlined />
+            <Typography variant="body2" color="text.secondary">
+              {getUserFriendlyLocation(job.location)}
+            </Typography>
+          </Stack>
         )}
         {job.price && (
           <Typography variant="body2" color="text.secondary">
@@ -89,11 +103,8 @@ export default function JobCard(props: JobCardProps) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>Method:</Typography>
-          <Typography paragraph>
-            Phasellus eleifend ligula est, in interdum est gravida ac. Donec id orci ultricies, fringilla quam vitae,
-            viverra massa.
-          </Typography>
+          <Typography paragraph>{t("jobDescription")}</Typography>
+          <Typography paragraph>{job.description}</Typography>
         </CardContent>
       </Collapse>
     </Card>

@@ -14,7 +14,8 @@ const ba: ITranslation = {
     min: "Min",
     max: "Max",
     category: "Kategorija",
-    clear: "Ocisti"
+    clear: "Ocisti",
+    jobDescription: "Opis posla"
   }
 };
 

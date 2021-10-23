@@ -10,6 +10,7 @@ namespace JobProcessing.Domain.Entities
     {
         public string Name { get; private set; }
         public string Description { get; private set; }
+        public string HighlightedDescription { get; private set; }
         public int NumberOfEmployeesRequired { get; private set; }
         public Address Location { get; private set; }
         public int LocationId { get; private set; }
@@ -27,16 +28,30 @@ namespace JobProcessing.Domain.Entities
             // for ef core
         }
 
-        public Job(string name, string description, Address location, int numberOfEmployeesRequred, JobDuration duration, Price price, JobUrgency urgency) {
+        public Job(string name,
+                   string description,
+                   string highlightedDescription,
+                   Address location,
+                   int numberOfEmployeesRequred,
+                   JobDuration duration,
+                   Price price,
+                   JobUrgency urgency,
+                   int userId,
+                   int categoryId) {
             Guard.Against.NullOrWhiteSpace(name, nameof(name));
             Guard.Against.NullOrWhiteSpace(description, nameof(description));
             this.Name = name;
             this.Description = description;
-            this.Location = location;
+            this.HighlightedDescription = highlightedDescription;
             this.NumberOfEmployeesRequired = numberOfEmployeesRequred;
+            this.Location = location;
             this.Duration = duration;
             this.Price = price;
             this.Urgency = urgency;
+            CreateDate = DateTimeOffset.UtcNow;
+            this.UserId = userId;
+            this.JobStatus = JobStatus.Active;
+            this.CategoryId = categoryId;
         }
     }
 }

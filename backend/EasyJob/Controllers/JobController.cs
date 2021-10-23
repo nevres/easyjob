@@ -48,5 +48,12 @@ namespace EasyJob.Controllers
             var jobServiceResponse = await _jobServiceClient.GetJobLocationsAsync(query);
             return jobServiceResponse.Address.ToList();
         }
+
+        [HttpPost]
+        public async Task<int> CreateJob([FromQuery] CreateJobRequest query)
+        {
+            var jobServiceResponse = await _jobServiceClient.CreateJobAsync(query);
+            return jobServiceResponse.Id_;
+        }
     }
 }

@@ -13,5 +13,6 @@ export default interface ITranslation {
     max: string;
     category: string;
     clear: string;
+    jobDescription: string;
   };
 }

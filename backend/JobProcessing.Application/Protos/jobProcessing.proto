@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+import "google/protobuf/timestamp.proto";
+
 option csharp_namespace = "JobProcessing.Application";
 
 package jobProcessing;
@@ -11,23 +13,45 @@ service JobService {
   rpc GetJobs (GetJobsQuery) returns (JobResponses);
   rpc GetJobCategories (Empty) returns (CategoryResponses);
   rpc GetJobLocations (GetJobLocationsQuery) returns (Addresses);
+  rpc CreateJob(CreateJobRequest) returns (Id);
 }
 
 message Empty {}
 
+message Id {
+	int32 Id = 1;
+}
+
 message GetJobByIdRequest {
 	int32 Id = 1;
+}
+
+message CreateJobRequest {
+	string Name = 1;
+    string Description = 2;
+	string HighlightedDescription = 3;
+	int32 NumberOfEmployeesRequired = 4;
+    JobAddressRequest Location = 5;
+    JobDuration Duration = 6;
+    Price Price = 7;
+    JobUrgency Urgency = 8;
+    int32 CategoryId = 9;
+    int32 UserId = 10;
 }
 
 message JobResponse {
   string Id = 1;
   string Name = 2;
   string Description = 3;
-  int32 NumberOfEmployeesRequired = 4;
-  Address Location = 5;
-  JobDuration Duration = 6;
-  Price Price = 7;
-  JobUrgency Urgency = 8;
+  string HighlightedDescription = 4;
+  int32 NumberOfEmployeesRequired = 5;
+  Address Location = 6;
+  JobDuration Duration = 7;
+  Price Price = 8;
+  JobUrgency Urgency = 9;
+  google.protobuf.Timestamp CreateDate = 10;
+  int32 CategoryId = 11;
+  string CategoryName = 12;
 }
 
 message JobResponses {
@@ -56,6 +80,15 @@ message Price {
 	PriceType PriceType = 2;
 	int32 MinPrice = 3;
 	int32 MaxPrice = 4;
+}
+
+message JobAddressRequest {
+	float Latitude = 1;
+	float Longitude = 2;
+	string Country = 3;
+	string City = 4;
+	string AddressLine = 5;
+	string Zip = 6;
 }
 
 message Address {

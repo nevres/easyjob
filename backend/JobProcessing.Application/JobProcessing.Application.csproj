@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DTO\**" />
+    <Content Remove="DTO\**" />
+    <EmbeddedResource Remove="DTO\**" />
+    <None Remove="DTO\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Protobuf Include="Protos\jobProcessing.proto" GrpcServices="Server" />
   </ItemGroup>
 
@@ -21,10 +28,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Job.Infrastructure\JobProcessing.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DTO\" />
   </ItemGroup>
 
 </Project>

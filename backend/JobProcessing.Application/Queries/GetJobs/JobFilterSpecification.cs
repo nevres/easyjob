@@ -41,7 +41,9 @@ namespace JobProcessing.Application.Queries.GetJobs
                 Query.Where(x => x.Name.ToLower().Contains(filter.Name.ToLower()));
 
             if (!string.IsNullOrEmpty(filter.Description))
-                Query.Where(x => x.Description.ToLower().Contains(filter.Description.ToLower()));
+                Query.Where(x => x.Description.ToLower().Contains(filter.Description.ToLower()) || x.HighlightedDescription.ToLower().Contains(filter.Description.ToLower()));
+
+            Query.Include(x => x.Location).Include(x => x.Category);
         }
     }
 }
