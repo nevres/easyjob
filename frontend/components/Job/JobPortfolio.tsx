@@ -8,14 +8,17 @@ import { JobResponse } from "../../api/Models/JobResponse";
 import { SHOP_CURRENCY } from "../../domain/constants";
 import JobPreview from "./JobPreview";
 import { isNullOrUndefined } from "../../common/utils/jsHelper";
+import useLoader from "../../common/useLoader/useLoader";
 
 export default function JobPortfolio() {
-  var [filter, setFilter] = useState<JobFilterModel>();
-  var [selectedJob, setSelectedJob] = useState<JobResponse>();
-  var jobApi = useJobApi();
+  const [filter, setFilter] = useState<JobFilterModel>();
+  const [selectedJob, setSelectedJob] = useState<JobResponse>();
+  const jobApi = useJobApi();
+  const { addLoader, removeLoader } = useLoader();
 
   const getJobs = async (filter: JobFilterModel) => {
-    return await jobApi.getjobs(
+    addLoader();
+    const jobs = await jobApi.getjobs(
       filter?.name,
       filter?.name,
       SHOP_CURRENCY,
@@ -27,6 +30,8 @@ export default function JobPortfolio() {
       undefined,
       filter?.categories
     );
+    removeLoader();
+    return jobs;
   };
 
   var fetchResult = useAsync<JobResponse[]>(getJobs, [filter]);
