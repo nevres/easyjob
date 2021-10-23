@@ -32,7 +32,7 @@ message CreateJobRequest {
 	string HighlightedDescription = 3;
 	int32 NumberOfEmployeesRequired = 4;
     JobAddressRequest Location = 5;
-    JobDuration Duration = 6;
+    JobDurationType JobDurationType = 6;
     Price Price = 7;
     JobUrgency Urgency = 8;
     int32 CategoryId = 9;
@@ -46,7 +46,7 @@ message JobResponse {
   string HighlightedDescription = 4;
   int32 NumberOfEmployeesRequired = 5;
   Address Location = 6;
-  JobDuration Duration = 7;
+  JobDurationType JobDurationType = 7;
   Price Price = 8;
   JobUrgency Urgency = 9;
   google.protobuf.Timestamp CreateDate = 10;
@@ -68,11 +68,6 @@ message GetJobLocationsQuery {
 
 message Addresses {
 	repeated Address Address = 1;
-}
-
-message JobDuration {
-	int32 Amount = 1;
-	JobDurationType DurationType = 2;
 }
 
 message Price {
@@ -109,6 +104,7 @@ message GetJobsQuery {
 	int32 PageSize = 5;
 	string OrderBy = 6;
 	repeated int32 CategoryIds = 7;
+	optional JobDurationType JobDurationType = 8;
 }
 
 message CategoryResponse {
@@ -117,9 +113,11 @@ message CategoryResponse {
 }
 
 enum JobDurationType {
-    Hours = 0;
-    Days = 1;
-    Months = 2;
+     LessThanADay = 0;
+     LessThanAWeek = 1;
+     LessThanAMonth = 2;
+     OneToSixMonths = 3;
+     MoreThanSixMonths = 4;
 }
 
 enum PriceType {

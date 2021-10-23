@@ -1,7 +1,7 @@
 import {Timestamp} from './Timestamp'
 import {Price} from './Price'
 import {JobUrgency} from './JobUrgency'
-import {JobDuration} from './JobDuration'
+import {JobDurationType} from './JobDurationType'
 import {Address} from './Address'
 export interface JobResponse {
     id?: string | undefined;
@@ -10,7 +10,7 @@ export interface JobResponse {
     highlightedDescription?: string | undefined;
     numberOfEmployeesRequired?: number;
     location?: Address;
-    duration?: JobDuration;
+    jobDurationType?: JobDurationType;
     price?: Price;
     urgency?: JobUrgency;
     createDate?: Timestamp;

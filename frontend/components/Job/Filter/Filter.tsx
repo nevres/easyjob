@@ -1,17 +1,16 @@
-import React from "react";
-import { useForm, SubmitHandler, useWatch } from "react-hook-form";
-import Box from "@mui/material/Box";
+import { useForm, SubmitHandler } from "react-hook-form";
 import useI18n from "../../../common/i18n/useI18n";
 import TextFieldElement from "../../../common/react-hook-mui/TextFieldElement";
-import InputAdornment from "@mui/material/InputAdornment";
 import MultiSelectElement from "../../../common/react-hook-mui/MultiSelectElement";
-import { Button, Divider, Stack, useThemeProps } from "@mui/material";
+import { Button, Divider, Stack } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import { JobUrgency } from "../../../api/Models/JobUrgency";
 import PriceFilter from "./PriceFilter";
 import { PriceType } from "../../../api/Models/PriceType";
 import { CategoriesSelect } from "../../../common/components/CategoriesSelect";
+import { JobDurationType } from "../../../api/Models/JobDurationType";
+import { JobDurationSelect } from "../../../common/components/JobDurationSelect";
 
 export type JobFilterModel = {
   name: string;
@@ -20,6 +19,7 @@ export type JobFilterModel = {
   urgency: JobUrgency;
   price: PriceFilterModel;
   categories: Array<number>;
+  jobDurationType?: JobDurationType;
 };
 
 type PriceFilterModel = {
@@ -52,18 +52,7 @@ export default function JobFilter(props: JobFilterProps) {
         type="search"
         fullWidth
       />
-      <TextFieldElement
-        control={control}
-        name={"durationInHours"}
-        id="outlined-search"
-        label={t("durationInHours")}
-        type="number"
-        placeholder=""
-        fullWidth
-        InputProps={{
-          endAdornment: <InputAdornment position="end">{t("hoursShort")}</InputAdornment>
-        }}
-      />
+      <JobDurationSelect control={control} name={"jobDurationType"} />
       <Divider />
       <MultiSelectElement
         name="location"

@@ -4,7 +4,7 @@ const ba: ITranslation = {
   translation: {
     name: "Ime",
     location: "Lokacija",
-    durationInHours: "Trajanje",
+    jobDuration: "Trajanje",
     price: "Cijena",
     urgency: "Urgentnost",
     hoursShort: "sati",
@@ -15,7 +15,12 @@ const ba: ITranslation = {
     max: "Max",
     category: "Kategorija",
     clear: "Ocisti",
-    jobDescription: "Opis posla"
+    jobDescription: "Opis posla",
+    lessThanADay: "Nekoliko sati do jedan dan",
+    lessThanAWeek: "Manje od jedne sedmice",
+    lessThanAMonth: "Manje od jednog mjeseca",
+    oneToSixMonths: "1 do 6 mjeseci",
+    moreThanSixMonths: "Vise od 6 mjeseci"
   }
 };
 

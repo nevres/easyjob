@@ -14,7 +14,7 @@ namespace JobProcessing.Domain.Entities
         public int NumberOfEmployeesRequired { get; private set; }
         public Address Location { get; private set; }
         public int LocationId { get; private set; }
-        public JobDuration Duration { get; private set; }
+        public JobDurationType JobDurationType { get; private set; }
         public Price Price { get; private set; }
         public JobUrgency Urgency { get; private set; }
         public DateTimeOffset CreateDate { get; private set; }
@@ -33,7 +33,7 @@ namespace JobProcessing.Domain.Entities
                    string highlightedDescription,
                    Address location,
                    int numberOfEmployeesRequred,
-                   JobDuration duration,
+                   JobDurationType jobDurationType,
                    Price price,
                    JobUrgency urgency,
                    int userId,
@@ -45,7 +45,7 @@ namespace JobProcessing.Domain.Entities
             this.HighlightedDescription = highlightedDescription;
             this.NumberOfEmployeesRequired = numberOfEmployeesRequred;
             this.Location = location;
-            this.Duration = duration;
+            this.JobDurationType = jobDurationType;
             this.Price = price;
             this.Urgency = urgency;
             CreateDate = DateTimeOffset.UtcNow;

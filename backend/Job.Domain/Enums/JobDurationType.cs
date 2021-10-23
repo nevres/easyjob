@@ -6,8 +6,10 @@ namespace JobProcessing.Domain.Enums
 {
     public enum JobDurationType
     {
-        Hours,
-        Days,
-        Months
+        LessThanADay,
+        LessThanAWeek,
+        LessThanAMonth,
+        OneToSixMonths,
+        MoreThanSixMonths
     }
 }

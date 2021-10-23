@@ -21,12 +21,10 @@ namespace JobProcessing.Application.Misc.MappingConfigurations
 
             CreateMap<JobAddressRequest, Commands.JobAddressRequest>();
             CreateMap<CreateJobRequest, CreateJobCommand>();
-            CreateMap<JobDuration, JobDurationRequest>();
             CreateMap<Price, JobPriceRequest>();
 
             CreateMap<GetJobsQuery, Queries.GetJobs.GetJobsQuery>()
-                .MapRecordMember(dest => dest.Price, x => new Queries.GetJobs.Price(x.Price.CurrencyCode, 
-                (Domain.Enums.PriceType)(int)x.Price.PriceType, x.Price.MinPrice, x.Price.MaxPrice));
+                .MapRecordMember(dest => dest.Price, x => new Queries.GetJobs.Price(x.Price.CurrencyCode, (Domain.Enums.PriceType)(int)x.Price.PriceType, x.Price.MinPrice, x.Price.MaxPrice));
 
             // Job -> JobResponse
             CreateMap<Job, JobResponse>()
@@ -37,10 +35,6 @@ namespace JobProcessing.Application.Misc.MappingConfigurations
                 .ForMember(dest => dest.CategoryName, opt =>
                 {
                     opt.MapFrom(x => x.Category.CategoryName);
-                })
-                .ForMember(dest => dest.Duration, opt =>
-                {
-                    opt.MapFrom(x => new JobDuration() { Amount = x.Duration.Amount, DurationType = (JobDurationType)(int)x.Duration.DurationType });
                 });
 
             CreateMap<Category, CategoryResponse>();

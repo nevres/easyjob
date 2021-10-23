@@ -18,14 +18,18 @@ export function CategoriesSelect<T>(props: CategoriesSelectProps<T>) {
 
   let categoriesPromise = useAsync<CategoryResponse[]>(async () => await jobApi.getJobCategories(), []);
 
-  type CategoriesPromiseType = typeof categoriesPromise;
-
   const categoryMenuItems = useMemo((): Array<SelectItem> => {
     if (!categoriesPromise?.result) return [];
     return categoriesPromise.result.map((x) => ({ value: x.id, label: x.categoryName } as SelectItem));
   }, [categoriesPromise]);
 
   return (
-    <MultiSelectElement control={props.control} name={props.name} menuItems={categoryMenuItems} label={t("category")} />
+    <MultiSelectElement
+      control={props.control}
+      name={props.name}
+      menuItems={categoryMenuItems}
+      label={t("category")}
+      multiple
+    />
   );
 }

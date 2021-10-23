@@ -14,7 +14,11 @@ import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { JobResponse } from "../../api/Models/JobResponse";
-import { getUserFriendlyLocation, getUserFriendlyPrice } from "../../domain/job/jobHelper";
+import {
+  getJobDurationTypeTranslation,
+  getUserFriendlyLocation,
+  getUserFriendlyPrice
+} from "../../domain/job/jobHelper";
 import useI18n from "../../common/i18n/useI18n";
 import LocationOnOutlined from "@mui/icons-material/LocationOnOutlined";
 import Stack from "@mui/material/Stack";
@@ -22,6 +26,7 @@ import fromUnixTime from "date-fns/fromUnixTime";
 import formatDistance from "date-fns/formatDistance";
 import { getUserFriendlyDate } from "../../common/utils/dateTimeHelper";
 import { isNullOrUndefined } from "../../common/utils/jsHelper";
+import Chip from "@mui/material/Chip";
 
 interface JobCardProps {
   job: JobResponse;
@@ -73,6 +78,10 @@ export default function JobCard(props: JobCardProps) {
         subheader={getUserFriendlyDate(fromUnixTime(job.createDate?.seconds!), "bs")}
       />
       <CardContent>
+        <Stack direction="row" spacing={2}>
+          <Chip label={job.categoryName} />
+          {job.jobDurationType && <Chip label={getJobDurationTypeTranslation(job.jobDurationType, t)} />}
+        </Stack>
         <Typography variant="body1" color="text.secondary">
           {job.highlightedDescription}
         </Typography>

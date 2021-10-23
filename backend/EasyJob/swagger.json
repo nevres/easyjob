@@ -130,6 +130,20 @@
                 "format": "int32"
               }
             }
+          },
+          {
+            "name": "JobDurationType",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/JobDurationType"
+            }
+          },
+          {
+            "name": "HasJobDurationType",
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
           }
         ],
         "responses": {
@@ -244,15 +258,7 @@
             }
           },
           {
-            "name": "Duration.Amount",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Duration.DurationType",
+            "name": "JobDurationType",
             "in": "query",
             "schema": {
               "$ref": "#/components/schemas/JobDurationType"
@@ -477,24 +483,13 @@
         },
         "additionalProperties": false
       },
-      "JobDuration": {
-        "type": "object",
-        "properties": {
-          "amount": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "durationType": {
-            "$ref": "#/components/schemas/JobDurationType"
-          }
-        },
-        "additionalProperties": false
-      },
       "JobDurationType": {
         "enum": [
-          "Hours",
-          "Days",
-          "Months"
+          "LessThanAday",
+          "LessThanAweek",
+          "LessThanAmonth",
+          "OneToSixMonths",
+          "MoreThanSixMonths"
         ],
         "type": "string"
       },
@@ -524,8 +519,8 @@
           "location": {
             "$ref": "#/components/schemas/Address"
           },
-          "duration": {
-            "$ref": "#/components/schemas/JobDuration"
+          "jobDurationType": {
+            "$ref": "#/components/schemas/JobDurationType"
           },
           "price": {
             "$ref": "#/components/schemas/Price"

@@ -64,9 +64,11 @@ export class JobClient {
      * @param pageSize (optional) 
      * @param orderBy (optional) 
      * @param categoryIds (optional) 
+     * @param jobDurationType (optional) 
+     * @param hasJobDurationType (optional) 
      * @return Success
      */
-    async getjobs(name: string | undefined, description: string | undefined, price_CurrencyCode: string | undefined, price_PriceType: PriceType | undefined, price_MinPrice: number | undefined, price_MaxPrice: number | undefined, page: number | undefined, pageSize: number | undefined, orderBy: string | undefined, categoryIds: number[] | undefined): Promise<JobResponse[]> {
+    async getjobs(name: string | undefined, description: string | undefined, price_CurrencyCode: string | undefined, price_PriceType: PriceType | undefined, price_MinPrice: number | undefined, price_MaxPrice: number | undefined, page: number | undefined, pageSize: number | undefined, orderBy: string | undefined, categoryIds: number[] | undefined, jobDurationType: JobDurationType | undefined, hasJobDurationType: boolean | undefined): Promise<JobResponse[]> {
         let url_ = this.baseUrl + "/Job?";
         if (name === null)
             throw new Error("The parameter 'name' cannot be null.");
@@ -108,6 +110,14 @@ export class JobClient {
             throw new Error("The parameter 'categoryIds' cannot be null.");
         else if (categoryIds !== undefined)
             categoryIds && categoryIds.forEach(item => { url_ += "CategoryIds=" + encodeURIComponent("" + item) + "&"; });
+        if (jobDurationType === null)
+            throw new Error("The parameter 'jobDurationType' cannot be null.");
+        else if (jobDurationType !== undefined)
+            url_ += "JobDurationType=" + encodeURIComponent("" + jobDurationType) + "&";
+        if (hasJobDurationType === null)
+            throw new Error("The parameter 'hasJobDurationType' cannot be null.");
+        else if (hasJobDurationType !== undefined)
+            url_ += "HasJobDurationType=" + encodeURIComponent("" + hasJobDurationType) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -150,8 +160,7 @@ export class JobClient {
      * @param location_City (optional) 
      * @param location_AddressLine (optional) 
      * @param location_Zip (optional) 
-     * @param duration_Amount (optional) 
-     * @param duration_DurationType (optional) 
+     * @param jobDurationType (optional) 
      * @param price_CurrencyCode (optional) 
      * @param price_PriceType (optional) 
      * @param price_MinPrice (optional) 
@@ -161,7 +170,7 @@ export class JobClient {
      * @param userId (optional) 
      * @return Success
      */
-    async createJob(name: string | undefined, description: string | undefined, highlightedDescription: string | undefined, numberOfEmployeesRequired: number | undefined, location_Latitude: number | undefined, location_Longitude: number | undefined, location_Country: string | undefined, location_City: string | undefined, location_AddressLine: string | undefined, location_Zip: string | undefined, duration_Amount: number | undefined, duration_DurationType: JobDurationType | undefined, price_CurrencyCode: string | undefined, price_PriceType: PriceType | undefined, price_MinPrice: number | undefined, price_MaxPrice: number | undefined, urgency: JobUrgency | undefined, categoryId: number | undefined, userId: number | undefined): Promise<number> {
+    async createJob(name: string | undefined, description: string | undefined, highlightedDescription: string | undefined, numberOfEmployeesRequired: number | undefined, location_Latitude: number | undefined, location_Longitude: number | undefined, location_Country: string | undefined, location_City: string | undefined, location_AddressLine: string | undefined, location_Zip: string | undefined, jobDurationType: JobDurationType | undefined, price_CurrencyCode: string | undefined, price_PriceType: PriceType | undefined, price_MinPrice: number | undefined, price_MaxPrice: number | undefined, urgency: JobUrgency | undefined, categoryId: number | undefined, userId: number | undefined): Promise<number> {
         let url_ = this.baseUrl + "/Job?";
         if (name === null)
             throw new Error("The parameter 'name' cannot be null.");
@@ -203,14 +212,10 @@ export class JobClient {
             throw new Error("The parameter 'location_Zip' cannot be null.");
         else if (location_Zip !== undefined)
             url_ += "Location.Zip=" + encodeURIComponent("" + location_Zip) + "&";
-        if (duration_Amount === null)
-            throw new Error("The parameter 'duration_Amount' cannot be null.");
-        else if (duration_Amount !== undefined)
-            url_ += "Duration.Amount=" + encodeURIComponent("" + duration_Amount) + "&";
-        if (duration_DurationType === null)
-            throw new Error("The parameter 'duration_DurationType' cannot be null.");
-        else if (duration_DurationType !== undefined)
-            url_ += "Duration.DurationType=" + encodeURIComponent("" + duration_DurationType) + "&";
+        if (jobDurationType === null)
+            throw new Error("The parameter 'jobDurationType' cannot be null.");
+        else if (jobDurationType !== undefined)
+            url_ += "JobDurationType=" + encodeURIComponent("" + jobDurationType) + "&";
         if (price_CurrencyCode === null)
             throw new Error("The parameter 'price_CurrencyCode' cannot be null.");
         else if (price_CurrencyCode !== undefined)

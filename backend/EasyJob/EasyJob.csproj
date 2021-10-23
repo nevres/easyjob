@@ -8,15 +8,15 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Grpc.AspNetCore" Version="2.32.0" />
+		<PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<Protobuf Include="..\JobProcessing.Application\Protos\jobProcessing.proto" GrpcServices="Client">
-			<Link>Protos\jobProcessing.proto</Link>
-		</Protobuf>
+	  <Protobuf Include="..\JobProcessing.Application\Protos\jobProcessing.proto" GrpcServices="Client">
+	    <Link>Protos\jobProcessing.proto</Link>
+	  </Protobuf>
 	</ItemGroup>
     
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">

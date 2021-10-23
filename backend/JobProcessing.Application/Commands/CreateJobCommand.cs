@@ -15,7 +15,7 @@ namespace JobProcessing.Application.Commands
         public string HighlightedDescription { get; private set; }
         public int NumberOfEmployeesRequired { get; private set; }
         public JobAddressRequest Location { get; private set; }
-        public JobDurationRequest Duration { get; private set; }
+        public Domain.Enums.JobDurationType JobDurationType { get; private set; }
         public JobPriceRequest Price { get; private set; }
         public Domain.Enums.JobUrgency Urgency { get; private set; }
         public int CategoryId { get; private set; }
@@ -29,11 +29,6 @@ namespace JobProcessing.Application.Commands
         public string City { get; set; }
         public string AddressLine { get; set; }
         public string Zip { get; set; }
-    }
-
-    public class JobDurationRequest {
-        public int Amount { get; private set; }
-        public Domain.Enums.JobDurationType DurationType { get; private set; }
     }
 
     public class JobPriceRequest {
