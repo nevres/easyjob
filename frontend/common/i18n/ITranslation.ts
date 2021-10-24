@@ -2,7 +2,7 @@ export default interface ITranslation {
   translation: {
     name: string;
     location: string;
-    durationInHours: string;
+    jobDuration: string;
     price: string;
     urgency: string;
     hoursShort: string;
@@ -16,6 +16,11 @@ export default interface ITranslation {
     save: string;
     category: string;
     clear: string;
-    description: string;
+    jobDescription: string;
+    lessThanADay: string;
+    lessThanAWeek: string;
+    lessThanAMonth: string;
+    oneToSixMonths: string;
+    moreThanSixMonths: string;
   };
 }

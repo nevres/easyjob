@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using Google.Protobuf.WellKnownTypes;
+using JobProcessing.Application.Commands;
 using JobProcessing.Domain.Entities;
 using Shared.Automapper;
 using System;
@@ -12,23 +14,28 @@ namespace JobProcessing.Application.Misc.MappingConfigurations
     {
         public MappingProfile()
         {
+            CreateMap<DateTimeOffset, Timestamp>().ConvertUsing(new Proto3TimeStampDateConverter());
+
             CreateMap<Domain.Entities.Address, Address>();
             CreateMap<GetJobLocationsQuery, Queries.GetJobLocations.GetJobLocationsQuery>();
 
-            CreateMap<GetJobsQuery, Queries.GetJobs.GetJobsQuery>()
-                .MapRecordMember(dest => dest.Price, x => new Queries.GetJobs.Price(x.Price.CurrencyCode, 
-                (Domain.Enums.PriceType)(int)x.Price.PriceType, x.Price.MinPrice, x.Price.MaxPrice));
+            CreateMap<JobAddressRequest, Commands.JobAddressRequest>();
+            CreateMap<CreateJobRequest, CreateJobCommand>();
+            CreateMap<Price, JobPriceRequest>();
 
+            CreateMap<GetJobsQuery, Queries.GetJobs.GetJobsQuery>()
+                .MapRecordMember(dest => dest.Price, x => new Queries.GetJobs.Price(x.Price.CurrencyCode, (Domain.Enums.PriceType)(int)x.Price.PriceType, x.Price.MinPrice, x.Price.MaxPrice));
+
+            // Job -> JobResponse
             CreateMap<Job, JobResponse>()
                 .ForMember(dest => dest.Price, opt =>
                 {
                     opt.MapFrom(x => new Price() { CurrencyCode = x.Price.CurrencyCode, MaxPrice = x.Price.MaxPrice, MinPrice = x.Price.MinPrice, PriceType = (PriceType)(int)x.Price.PriceType });
                 })
-                .ForMember(dest => dest.Duration, opt =>
+                .ForMember(dest => dest.CategoryName, opt =>
                 {
-                    opt.MapFrom(x => new JobDuration() { Amount = x.Duration.Amount, DurationType = (JobDurationType)(int)x.Duration.DurationType });
-                })
-                .ForMember(dest => dest.Location, opt => opt.Ignore());
+                    opt.MapFrom(x => x.Category.CategoryName);
+                });
 
             CreateMap<Category, CategoryResponse>();
         }

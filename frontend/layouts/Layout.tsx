@@ -1,5 +1,6 @@
 import { styled } from "@mui/material";
 import React from "react";
+import Loader from "../common/useLoader/Loader";
 import Header from "../components/Heaader/Header";
 
 interface Props {
@@ -8,11 +9,11 @@ interface Props {
 
 export default function Layout({ children }: Props) {
   return (
-    <>
+    <Loader>
       {/* <Sidebar /> */}
       <Header />
       <Body>{children}</Body>
-    </>
+    </Loader>
   );
 }
 

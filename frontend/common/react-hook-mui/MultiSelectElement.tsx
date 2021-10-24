@@ -1,15 +1,7 @@
 import React from "react";
 import CloseIcon from "@mui/icons-material/Cancel";
 import { Controller, FieldError, Control, FieldPath } from "react-hook-form";
-import {
-  Chip,
-  FormControl,
-  FormHelperText,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectProps,
-} from "@mui/material";
+import { Chip, FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectProps } from "@mui/material";
 
 export type ValueType = number | string;
 
@@ -17,12 +9,13 @@ export type SelectItem = {
   value: ValueType;
   label: string;
 };
- 
+
 export type MultiSelectElementProps<T> = Omit<SelectProps, "value"> & {
   menuItems: Array<SelectItem>;
   name: FieldPath<T>;
   control: Control<T, object>;
   label: string;
+  multiple?: boolean;
   required?: boolean;
   validation?: any;
   parseError?: (error: FieldError) => string;
@@ -50,6 +43,7 @@ export default function MultiSelectElement<T>({
   helperText,
   showChips,
   variant,
+  multiple,
   ...rest
 }: MultiSelectElementProps<T>): JSX.Element {
   return (
@@ -58,34 +52,21 @@ export default function MultiSelectElement<T>({
       rules={validation}
       control={control}
       render={({ field, fieldState: { invalid, error } }) => {
-        helperText = error
-          ? typeof parseError === "function"
-            ? parseError(error)
-            : error.message
-          : helperText;
+        helperText = error ? (typeof parseError === "function" ? parseError(error) : error.message) : helperText;
 
         const { onChange, onBlur } = field;
         const value = field.value as Array<ValueType>;
 
         return (
-          <FormControl
-            variant={variant}
-            style={{ minWidth }}
-            fullWidth={rest.fullWidth}
-            error={invalid}
-          >
-            <InputLabel
-              error={invalid}
-              htmlFor={rest.id || `select-multi-select-${name}`}
-              required={required}
-            >
+          <FormControl variant={variant} style={{ minWidth }} fullWidth={rest.fullWidth} error={invalid}>
+            <InputLabel error={invalid} htmlFor={rest.id || `select-multi-select-${name}`} required={required}>
               {label}
             </InputLabel>
             <Select
               {...rest}
               id={rest.id || `select-multi-select-${name}`}
               label={label}
-              multiple
+              multiple={multiple}
               error={invalid}
               value={value || []}
               required={required}
@@ -95,9 +76,9 @@ export default function MultiSelectElement<T>({
                 PaperProps: {
                   style: {
                     maxHeight: menuMaxHeight,
-                    width: menuMaxWidth,
-                  },
-                },
+                    width: menuMaxWidth
+                  }
+                }
               }}
               renderValue={
                 showChips
@@ -109,9 +90,7 @@ export default function MultiSelectElement<T>({
                             label={selectedValue}
                             style={{ display: "flex", flexWrap: "wrap" }}
                             onDelete={() => {
-                              onChange(
-                                value.filter((i: any) => i !== selectedValue)
-                              );
+                              onChange(value.filter((i: any) => i !== selectedValue));
                               // setValue(name, formValue.filter((i: any) => i !== value), { shouldValidate: true })
                             }}
                             deleteIcon={
@@ -133,9 +112,7 @@ export default function MultiSelectElement<T>({
                   key={item.value}
                   value={item.value}
                   style={{
-                    fontWeight: (value || []).includes(item.value)
-                      ? "bold"
-                      : "normal",
+                    fontWeight: (value || []).includes(item.value) ? "bold" : "normal"
                   }}
                 >
                   {item.label}

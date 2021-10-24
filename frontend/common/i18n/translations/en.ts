@@ -4,7 +4,7 @@ const en: ITranslation = {
   translation: {
     name: "Name",
     location: "Location",
-    durationInHours: "Duration",
+    jobDuration: "Duration",
     price: "Price",
     urgency: "Urgency",
     hoursShort: "hours",
@@ -18,7 +18,12 @@ const en: ITranslation = {
     save: "Save",
     category: "Category",
     clear: "Clear",
-    description : "Description"
+    jobDescription: "Job Description",
+    lessThanADay: "Couple hours less than a day",
+    lessThanAWeek: "Less than a week",
+    lessThanAMonth: "Less than a month",
+    oneToSixMonths: "1 to 6 months",
+    moreThanSixMonths: "More than 6 months"
   }
 };
 

@@ -18,9 +18,11 @@ namespace JobProcessing.Infrastructure.Repositories
         {
             _db = db;
         }
-        public Task<Job> AddAsync(Job entity)
+        public async Task<Job> AddAsync(Job entity)
         {
-            throw new NotImplementedException();
+            _db.Jobs.Add(entity);
+            await _db.SaveChangesAsync();
+            return entity;
         }
 
         public Task DeleteAsync(Job entity)

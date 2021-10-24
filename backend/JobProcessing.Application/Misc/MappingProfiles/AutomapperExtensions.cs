@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.Internal;
+using Google.Protobuf.WellKnownTypes;
 using System;
 using System.Linq.Expressions;
 
@@ -16,6 +17,14 @@ namespace Shared.Automapper
             return mappingExpression
                 .ForMember(destinationMember, opt => opt.MapFrom(sourceMember))
                 .ForCtorParam(memberName, opt => opt.MapFrom(sourceMember));
+        }
+    }
+
+    public class Proto3TimeStampDateConverter : ITypeConverter<DateTimeOffset, Timestamp>
+    {
+        public Timestamp Convert(DateTimeOffset source, Timestamp destination, ResolutionContext context)
+        {
+            return Timestamp.FromDateTimeOffset(source);
         }
     }
 }

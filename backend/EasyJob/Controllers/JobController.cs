@@ -27,9 +27,9 @@ namespace EasyJob.Controllers
         {
             return await _jobServiceClient.GetJobByIdAsync(new GetJobByIdRequest() { Id = 1 });
         }
-        
+
         [HttpGet]
-        public async Task<List<JobResponse>> GetjobsAsync([FromQuery]GetJobsQuery query)
+        public async Task<List<JobResponse>> GetjobsAsync([FromQuery] GetJobsQuery query)
         {
             var jobServiceResponse = await _jobServiceClient.GetJobsAsync(query);
             return jobServiceResponse.Jobs.ToList();
@@ -43,10 +43,17 @@ namespace EasyJob.Controllers
         }
 
         [HttpGet("locations")]
-        public async Task<List<Address>> GetJobLocations([FromQuery]GetJobLocationsQuery query)
+        public async Task<List<Address>> GetJobLocations([FromQuery] GetJobLocationsQuery query)
         {
             var jobServiceResponse = await _jobServiceClient.GetJobLocationsAsync(query);
             return jobServiceResponse.Address.ToList();
+        }
+
+        [HttpPost]
+        public async Task<int> CreateJob([FromQuery] CreateJobRequest query)
+        {
+            var jobServiceResponse = await _jobServiceClient.CreateJobAsync(query);
+            return jobServiceResponse.Id_;
         }
     }
 }

@@ -8,6 +8,8 @@ export const supportedLanguages = {
   bs: "Bosanski",
 } as const;
 
+export type SupportedLanguage = keyof typeof supportedLanguages;
+
 type Resources = Resource &
   Record<keyof typeof supportedLanguages, ResourceLanguage>;
 
@@ -17,7 +19,7 @@ const resources: Resources = {
 };
 
 i18next.use(initReactI18next).init({
-  lng: "en",
+  lng: "bs",
   fallbackLng: "en",
   supportedLngs: ["en", "bs"],
   nonExplicitSupportedLngs: true,

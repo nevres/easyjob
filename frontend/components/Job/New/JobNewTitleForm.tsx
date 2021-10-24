@@ -26,7 +26,7 @@ export function JobNewTitleForm(props: Props) {
         control={props.control}
         name={"description"}
         id="outlined"
-        label={t("description")}
+        label={t("jobDescription")}
         multiline
         rows={3}
         fullWidth

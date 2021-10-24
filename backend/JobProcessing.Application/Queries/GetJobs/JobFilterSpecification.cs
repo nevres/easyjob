@@ -41,7 +41,29 @@ namespace JobProcessing.Application.Queries.GetJobs
                 Query.Where(x => x.Name.ToLower().Contains(filter.Name.ToLower()));
 
             if (!string.IsNullOrEmpty(filter.Description))
-                Query.Where(x => x.Description.ToLower().Contains(filter.Description.ToLower()));
+                Query.Where(x => x.Description.ToLower().Contains(filter.Description.ToLower()) || x.HighlightedDescription.ToLower().Contains(filter.Description.ToLower()));
+
+            if (filter.JobDurationType.HasValue) {
+                switch (filter.JobDurationType) {
+                    case Domain.Enums.JobDurationType.LessThanADay:
+                        Query.Where(x => x.JobDurationType == Domain.Enums.JobDurationType.LessThanADay);
+                        break;
+                    case Domain.Enums.JobDurationType.LessThanAWeek:
+                        Query.Where(x => x.JobDurationType == Domain.Enums.JobDurationType.LessThanADay || x.JobDurationType == Domain.Enums.JobDurationType.LessThanAWeek);
+                        break;
+                    case Domain.Enums.JobDurationType.LessThanAMonth:
+                        Query.Where(x => x.JobDurationType == Domain.Enums.JobDurationType.LessThanADay || x.JobDurationType == Domain.Enums.JobDurationType.LessThanAWeek || x.JobDurationType == Domain.Enums.JobDurationType.LessThanAMonth);
+                        break;
+                    case Domain.Enums.JobDurationType.OneToSixMonths:
+                        Query.Where(x => x.JobDurationType == Domain.Enums.JobDurationType.OneToSixMonths);
+                        break;
+                    case Domain.Enums.JobDurationType.MoreThanSixMonths:
+                        Query.Where(x => x.JobDurationType == Domain.Enums.JobDurationType.MoreThanSixMonths);
+                        break;
+                }
+            }
+
+            Query.Include(x => x.Location).Include(x => x.Category);
         }
     }
 }
