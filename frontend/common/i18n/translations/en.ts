@@ -17,7 +17,8 @@ const en: ITranslation = {
     next: "Next",
     save: "Save",
     category: "Category",
-    clear: "Clear"
+    clear: "Clear",
+    description : "Description"
   }
 };
 

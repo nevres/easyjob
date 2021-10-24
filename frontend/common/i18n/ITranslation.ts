@@ -16,5 +16,6 @@ export default interface ITranslation {
     save: string;
     category: string;
     clear: string;
+    description: string;
   };
 }

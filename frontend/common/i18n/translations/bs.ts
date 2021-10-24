@@ -17,7 +17,8 @@ const ba: ITranslation = {
     next: "Dalje",
     save: "Sačuvaj",
     category: "Kategorija",
-    clear: "Ocisti"
+    clear: "Ocisti",
+    description: "Opis"
   }
 };
 
