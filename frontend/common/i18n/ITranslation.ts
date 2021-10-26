@@ -22,5 +22,6 @@ export default interface ITranslation {
     lessThanAMonth: string;
     oneToSixMonths: string;
     moreThanSixMonths: string;
+    jobSkills: string;
   };
 }

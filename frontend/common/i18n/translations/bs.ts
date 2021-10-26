@@ -23,7 +23,8 @@ const ba: ITranslation = {
     lessThanAWeek: "Manje od jedne sedmice",
     lessThanAMonth: "Manje od jednog mjeseca",
     oneToSixMonths: "1 do 6 mjeseci",
-    moreThanSixMonths: "Vise od 6 mjeseci"
+    moreThanSixMonths: "Vise od 6 mjeseci",
+    jobSkills: "Vještine"
   }
 };
 

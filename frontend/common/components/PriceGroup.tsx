@@ -1,31 +1,34 @@
-import CheckboxButtonGroup, { CheckBoxOption } from "../../../common/react-hook-mui/CheckboxButtonGroup";
 import { Control, FieldPath } from "react-hook-form";
-import { PriceType } from "../../../api/Models/PriceType";
-import { JobFilterModel } from "./Filter";
 import React from "react";
-import { SHOP_CURRENCY } from "../../../domain/constants";
 import InputAdornment from "@mui/material/InputAdornment";
-import TextFieldElement from "../../../common/react-hook-mui/TextFieldElement";
 import Stack from "@mui/material/Stack";
-import useI18n from "../../../common/i18n/useI18n";
-import PriceGroup from "../../../common/components/PriceGroup";
+import CheckboxButtonGroup, { CheckBoxOption } from "../react-hook-mui/CheckboxButtonGroup";
+import { PriceType } from "../../api/Models/PriceType";
+import useI18n from "../i18n/useI18n";
+import { SHOP_CURRENCY } from "../../domain/constants";
+import TextFieldElement from "../react-hook-mui/TextFieldElement";
 
-export const priceOptions: Array<CheckBoxOption> = [
+export const PRICE_OPTIONS: Array<CheckBoxOption> = [
   { label: PriceType.FixedPrice, value: 0 },
   { label: PriceType.Hourly, value: 1 }
 ];
 
-interface PriceFilterProps {
-  control: Control<JobFilterModel, object>;
+export type PriceModel = {
+  type: PriceType;
+  minAmount: number;
+  maxAmount: number;
+};
+
+interface Props<T extends { price: PriceModel }> {
+  control: Control<T, object>;
 }
 
-export default function PriceFilter(props: PriceFilterProps) {
+export default function PriceGroup<T extends { price: PriceModel }>(props: Props<T>) {
   let t = useI18n();
 
   return (
     <>
-      <PriceGroup control={props.control} />
-      <CheckboxButtonGroup name={"price.type"} control={props.control} options={priceOptions} row />
+      <CheckboxButtonGroup name={"price.type"} control={props.control} options={PRICE_OPTIONS} row />
       <Stack direction="row" spacing={2}>
         <TextFieldElement
           control={props.control}
