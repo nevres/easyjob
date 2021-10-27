@@ -11,10 +11,11 @@ import { PriceType } from "../../../api/Models/PriceType";
 import { CategoriesSelect } from "../../../common/components/CategoriesSelect";
 import { JobDurationType } from "../../../api/Models/JobDurationType";
 import { JobDurationSelect } from "../../../common/components/JobDurationSelect";
+import { LocationSelect } from "../../../common/components/LocationSelect";
 
 export type JobFilterModel = {
   name: string;
-  location: Array<string>;
+  location: string;
   durationInHours: number;
   urgency: JobUrgency;
   price: PriceFilterModel;
@@ -54,14 +55,7 @@ export default function JobFilter(props: JobFilterProps) {
       />
       <JobDurationSelect control={control} name={"jobDurationType"} />
       <Divider />
-      <MultiSelectElement
-        name="location"
-        menuItems={[{ value: 1, label: "Bosnia" }]}
-        control={control}
-        showChips
-        fullWidth
-        label={t("location")}
-      />
+      <LocationSelect name="location" control={control} />
       <Divider />
       <PriceFilter control={control} />
       <CategoriesSelect control={control} name="categories" />

@@ -105,6 +105,7 @@ message GetJobsQuery {
 	string OrderBy = 6;
 	repeated int32 CategoryIds = 7;
 	optional JobDurationType JobDurationType = 8;
+	string City = 9;
 }
 
 message CategoryResponse {
