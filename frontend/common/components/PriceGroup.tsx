@@ -28,11 +28,11 @@ export default function PriceGroup<T extends { price: PriceModel }>(props: Props
 
   return (
     <>
-      <CheckboxButtonGroup name={"price.type"} control={props.control} options={PRICE_OPTIONS} row />
+      <CheckboxButtonGroup name={"price.type" as any} control={props.control} options={PRICE_OPTIONS} row />
       <Stack direction="row" spacing={2}>
         <TextFieldElement
           control={props.control}
-          name={"price.minAmount"}
+          name={"price.minAmount" as any}
           id="outlined-search"
           type="number"
           placeholder={t("min")}
@@ -42,7 +42,7 @@ export default function PriceGroup<T extends { price: PriceModel }>(props: Props
         />
         <TextFieldElement
           control={props.control}
-          name={"price.maxAmount"}
+          name={"price.maxAmount" as any}
           id="outlined-search"
           type="number"
           placeholder={t("max")}

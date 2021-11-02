@@ -24,7 +24,8 @@ const en: ITranslation = {
     lessThanAMonth: "Less than a month",
     oneToSixMonths: "1 to 6 months",
     moreThanSixMonths: "More than 6 months",
-    jobSkills: "Skills"
+    jobSkills: "Skills",
+    close: "Close"
   }
 };
 

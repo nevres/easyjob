@@ -4,12 +4,9 @@ import useI18n from "../../i18n/useI18n";
 
 interface Props {
   activeStep: number;
-  setActiveStep: (activeStep: number) => void;
+  onStepChange: (activeStep: number) => void;
   numberOfSteps: number;
-  lastStep: {
-    label: string;
-    postAction: () => void;
-  };
+  lastStepLabel: string;
 }
 
 export function StepperActionButtons(props: Props) {
@@ -20,31 +17,20 @@ export function StepperActionButtons(props: Props) {
   return (
     <ButtonGroup size="small">
       <Button
-        onClick={() => props.setActiveStep(props.activeStep - 1)}
+        onClick={() => props.onStepChange(props.activeStep - 1)}
         variant="contained"
         disabled={isFirstStep}
         style={{ marginRight: "5px" }}
       >
         {t("back")}
       </Button>
-      {isLastStep ? (
-        <Button
-          onClick={props.lastStep.postAction}
-          variant="contained"
-          style={{ marginLeft: "5px" }}
-        >
-          {props.lastStep.label}
-        </Button>
-      ) : (
-        <Button
-          onClick={() => props.setActiveStep(props.activeStep + 1)}
-          variant="contained"
-          disabled={isLastStep}
-          style={{ marginLeft: "5px" }}
-        >
-          {t("next")}
-        </Button>
-      )}
+      <Button
+        onClick={() => props.onStepChange(props.activeStep + 1)}
+        variant="contained"
+        style={{ marginLeft: "5px" }}
+      >
+        {isLastStep ? props.lastStepLabel : t("next")}
+      </Button>
     </ButtonGroup>
   );
 }

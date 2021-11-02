@@ -1,6 +1,5 @@
-import { Box, Button, ButtonGroup, Modal } from "@mui/material";
+import { Box, Button, Modal } from "@mui/material";
 import * as React from "react";
-import { useState } from "react";
 import useI18n from "../../i18n/useI18n";
 import { Stepper } from "./Stepper";
 import { StepperActionButtons } from "./StepperActionButtons";
@@ -18,12 +17,13 @@ export class ModalStep {
 }
 
 interface Props {
+  activeStep: number;
   steps: Array<ModalStep>;
-  onSave: () => void;
+  lastStepLabel: string;
+  onStepChange: (activeStep: number) => void;
 }
 
 export function StepBasedModal(props: Props) {
-  const [activeStep, setActiveStep] = useState(0);
   const [open, setOpen] = React.useState(true);
   const handleClose = () => setOpen(false);
   const t = useI18n();
@@ -36,21 +36,19 @@ export function StepBasedModal(props: Props) {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style as any}>
-        <Stepper activeStep={activeStep} steps={props.steps} />
+        <Stepper activeStep={props.activeStep} steps={props.steps} />
         <div style={{ padding: "10px 0px" }}>
-          {activeStep < props.steps.length
-            ? props.steps[activeStep].body
-            : null}
+          {props.activeStep < props.steps.length ? props.steps[props.activeStep].body : null}
         </div>
         <div style={{ display: "flex", justifyContent: "end" }}>
+          <Button onClick={handleClose} variant="outlined" style={{ marginRight: "5px" }}>
+            {t("close")}
+          </Button>
           <StepperActionButtons
-            activeStep={activeStep}
-            setActiveStep={setActiveStep}
+            activeStep={props.activeStep}
+            onStepChange={props.onStepChange}
             numberOfSteps={props.steps.length}
-            lastStep={{
-              label: t("save"),
-              postAction: props.onSave,
-            }}
+            lastStepLabel={props.lastStepLabel}
           />
         </div>
       </Box>
@@ -68,5 +66,5 @@ const style = {
   border: "1px solid #000",
   boxShadow: 24,
   borderRadius: "10px",
-  p: 2,
+  p: 2
 };

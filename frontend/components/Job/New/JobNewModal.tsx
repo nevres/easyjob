@@ -1,31 +1,37 @@
 import * as React from "react";
 import { useForm } from "react-hook-form";
-import { PriceModel } from "../../../common/components/PriceGroup";
-import { ModalStep, StepBasedModal } from "../../../common/components/stepBased/StepBasedModal";
-import { JobNewBudgetForm } from "./JobNewBudgetForm";
-import { JobNewScopeForm } from "./JobNewScopeForm";
-import { JobNewSkillsForm } from "./JobNewSkillsForm";
-import { JobNewTitleForm } from "./JobNewTitleForm";
-
-export type JobNewModel = {
-  name: string;
-  description: string;
-  category: number;
-  skills: string[];
-  price: PriceModel;
-};
+import { StepBasedModal } from "../../../common/components/stepBased/StepBasedModal";
+import { useState } from "react";
+import { useYupValidationResolver } from "../../../common/utils/yupValidationHelper";
+import { GetJobNewSteps, GetJobNewValidationSchemas, JobNewModel } from "./helper/JobNewHelper";
+import useI18n from "../../../common/i18n/useI18n";
 
 interface Props {}
 
 export function JobNewModal(props: Props) {
-  const { handleSubmit, control, watch, reset } = useForm<JobNewModel>();
+  const [schemaContext, setSchemaContext] = useState({ validationSchemaId: 0 });
+  const [activeStep, setActiveStep] = useState(0);
+  const { handleSubmit, control } = useForm<JobNewModel>({
+    context: schemaContext,
+    mode: "onBlur",
+    resolver: useYupValidationResolver(GetJobNewValidationSchemas())
+  });
 
-  var steps = [
-    new ModalStep("Title", <JobNewTitleForm control={control} />, true),
-    new ModalStep("Skills", <JobNewSkillsForm control={control} />, true),
-    new ModalStep("Scope", <JobNewScopeForm />, true),
-    new ModalStep("Budget", <JobNewBudgetForm control={control} />, true)
-  ];
+  const t = useI18n();
+  const steps = GetJobNewSteps(control);
 
-  return <StepBasedModal steps={steps} onSave={() => window.console.log("save")} />;
+  const handleStepChange = (newActiveStep: number) => {
+    handleSubmit(() => {
+      if (newActiveStep === steps.length) {
+        window.console.log("fefefef");
+        return;
+      }
+      setActiveStep(newActiveStep);
+      setSchemaContext({ validationSchemaId: newActiveStep });
+    }, undefined)();
+  };
+
+  return (
+    <StepBasedModal activeStep={activeStep} steps={steps} onStepChange={handleStepChange} lastStepLabel={t("save")} />
+  );
 }
