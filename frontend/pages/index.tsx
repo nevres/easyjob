@@ -5,7 +5,6 @@ import styles from "../styles/Home.module.css";
 import Layout from "../layouts/Layout";
 import { Container } from "@mui/material";
 import JobCard from "../components/Job/JobCard";
-import { jobMock } from "../domain/models/job";
 import JobPortfolio from "../components/Job/JobPortfolio";
 import "../common/i18n/i18next";
 

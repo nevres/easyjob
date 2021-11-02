@@ -81,6 +81,12 @@ namespace JobProcessing.Infrastructure.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<string>("HighlightedDescription")
+                        .HasColumnType("text");
+
+                    b.Property<int>("JobDurationType")
+                        .HasColumnType("integer");
+
                     b.Property<int>("JobStatus")
                         .HasColumnType("integer");
 
@@ -122,27 +128,6 @@ namespace JobProcessing.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("JobProcessing.Domain.ValueTypes.JobDuration", "Duration", b1 =>
-                        {
-                            b1.Property<int>("JobId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("integer")
-                                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                            b1.Property<int>("Amount")
-                                .HasColumnType("integer");
-
-                            b1.Property<int>("DurationType")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("JobId");
-
-                            b1.ToTable("Jobs");
-
-                            b1.WithOwner()
-                                .HasForeignKey("JobId");
-                        });
-
                     b.OwnsOne("JobProcessing.Domain.ValueTypes.Price", "Price", b1 =>
                         {
                             b1.Property<int>("JobId")
@@ -171,8 +156,6 @@ namespace JobProcessing.Infrastructure.Migrations
                         });
 
                     b.Navigation("Category");
-
-                    b.Navigation("Duration");
 
                     b.Navigation("Location");
 

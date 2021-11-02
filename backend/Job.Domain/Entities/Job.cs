@@ -10,10 +10,11 @@ namespace JobProcessing.Domain.Entities
     {
         public string Name { get; private set; }
         public string Description { get; private set; }
+        public string HighlightedDescription { get; private set; }
         public int NumberOfEmployeesRequired { get; private set; }
         public Address Location { get; private set; }
         public int LocationId { get; private set; }
-        public JobDuration Duration { get; private set; }
+        public JobDurationType JobDurationType { get; private set; }
         public Price Price { get; private set; }
         public JobUrgency Urgency { get; private set; }
         public DateTimeOffset CreateDate { get; private set; }
@@ -27,16 +28,30 @@ namespace JobProcessing.Domain.Entities
             // for ef core
         }
 
-        public Job(string name, string description, Address location, int numberOfEmployeesRequred, JobDuration duration, Price price, JobUrgency urgency) {
+        public Job(string name,
+                   string description,
+                   string highlightedDescription,
+                   Address location,
+                   int numberOfEmployeesRequred,
+                   JobDurationType jobDurationType,
+                   Price price,
+                   JobUrgency urgency,
+                   int userId,
+                   int categoryId) {
             Guard.Against.NullOrWhiteSpace(name, nameof(name));
             Guard.Against.NullOrWhiteSpace(description, nameof(description));
             this.Name = name;
             this.Description = description;
-            this.Location = location;
+            this.HighlightedDescription = highlightedDescription;
             this.NumberOfEmployeesRequired = numberOfEmployeesRequred;
-            this.Duration = duration;
+            this.Location = location;
+            this.JobDurationType = jobDurationType;
             this.Price = price;
             this.Urgency = urgency;
+            CreateDate = DateTimeOffset.UtcNow;
+            this.UserId = userId;
+            this.JobStatus = JobStatus.Active;
+            this.CategoryId = categoryId;
         }
     }
 }

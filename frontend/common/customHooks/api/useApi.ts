@@ -36,7 +36,7 @@ function createFetch(): IHttp["fetch"] {
 export default function useApi<T>(clientClass: IClientClass<T>) {
   //   const auth = useContext(AuthenticationContext);
 
-  const client = new clientClass("https://localhost:44335", {
+  const client = new clientClass("https://localhost:5001", {
     fetch: createFetch(), //(auth),
   });
   const api = useRef(client);

@@ -13,7 +13,6 @@ namespace JobProcessing.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Job> builder)
         {
-            builder.OwnsOne(p => p.Duration);
             builder.OwnsOne(p => p.Price);
             builder.HasOne(x => x.Location).WithMany().HasForeignKey(x => x.LocationId);
             builder.HasOne(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId);

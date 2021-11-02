@@ -50,5 +50,24 @@ namespace JobProcessing.Application
             }
             return response;
         }
+
+        public override async Task<Addresses> GetJobLocations(GetJobLocationsQuery request, ServerCallContext context)
+        {
+            var query = _mapper.Map<Queries.GetJobLocations.GetJobLocationsQuery>(request);
+            var locations = await _mediator.Send(query);
+            var response = new Addresses();
+            foreach (var location in locations)
+            {
+                response.Address.Add(location);
+            }
+            return response;
+        }
+
+        public override async Task<Id> CreateJob(CreateJobRequest request, ServerCallContext context)
+        {
+            var query = _mapper.Map<Commands.CreateJobCommand>(request);
+            var id = await _mediator.Send(query);
+            return new Id() { Id_ = id };
+        }
     }
 }

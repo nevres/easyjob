@@ -7,6 +7,9 @@ namespace JobProcessing.Application.Queries.GetJobs
     public record GetJobsQuery(string Name,
         string Description, 
         Price Price,
+        IEnumerable<int> CategoryIds,
+        Domain.Enums.JobDurationType? JobDurationType,
+        string City,
         int Page, 
         int PageSize, 
         string OrderBy) : BaseFilter(Page, PageSize, OrderBy), IRequest<IEnumerable<JobResponse>>;
