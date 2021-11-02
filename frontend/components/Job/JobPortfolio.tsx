@@ -31,7 +31,8 @@ export default function JobPortfolio() {
       undefined,
       filter?.categories,
       filter?.jobDurationType,
-      !isNullOrUndefined(filter?.jobDurationType)
+      !isNullOrUndefined(filter?.jobDurationType),
+      filter?.location
     );
     removeLoader();
     return jobs;

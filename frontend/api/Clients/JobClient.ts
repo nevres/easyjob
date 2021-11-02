@@ -66,9 +66,10 @@ export class JobClient {
      * @param categoryIds (optional) 
      * @param jobDurationType (optional) 
      * @param hasJobDurationType (optional) 
+     * @param city (optional) 
      * @return Success
      */
-    async getjobs(name: string | undefined, description: string | undefined, price_CurrencyCode: string | undefined, price_PriceType: PriceType | undefined, price_MinPrice: number | undefined, price_MaxPrice: number | undefined, page: number | undefined, pageSize: number | undefined, orderBy: string | undefined, categoryIds: number[] | undefined, jobDurationType: JobDurationType | undefined, hasJobDurationType: boolean | undefined): Promise<JobResponse[]> {
+    async getjobs(name: string | undefined, description: string | undefined, price_CurrencyCode: string | undefined, price_PriceType: PriceType | undefined, price_MinPrice: number | undefined, price_MaxPrice: number | undefined, page: number | undefined, pageSize: number | undefined, orderBy: string | undefined, categoryIds: number[] | undefined, jobDurationType: JobDurationType | undefined, hasJobDurationType: boolean | undefined, city: string | undefined): Promise<JobResponse[]> {
         let url_ = this.baseUrl + "/Job?";
         if (name === null)
             throw new Error("The parameter 'name' cannot be null.");
@@ -118,6 +119,10 @@ export class JobClient {
             throw new Error("The parameter 'hasJobDurationType' cannot be null.");
         else if (hasJobDurationType !== undefined)
             url_ += "HasJobDurationType=" + encodeURIComponent("" + hasJobDurationType) + "&";
+        if (city === null)
+            throw new Error("The parameter 'city' cannot be null.");
+        else if (city !== undefined)
+            url_ += "City=" + encodeURIComponent("" + city) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{

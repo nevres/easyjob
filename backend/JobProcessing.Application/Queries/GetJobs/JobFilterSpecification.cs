@@ -63,6 +63,10 @@ namespace JobProcessing.Application.Queries.GetJobs
                 }
             }
 
+            if (!string.IsNullOrEmpty(filter.City)) {
+                Query.Where(x => x.Location.City.ToLower().Contains(filter.City.ToLower()));
+            }
+
             Query.Include(x => x.Location).Include(x => x.Category);
         }
     }
