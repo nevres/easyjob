@@ -1,17 +1,15 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 using static JobProcessing.Application.JobService;
 
 namespace EasyJob
@@ -34,12 +32,20 @@ namespace EasyJob
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   builder =>
                                   {
-                                      builder.WithOrigins("http://localhost:3000");
-                                  });
+                                      builder.WithOrigins("http://localhost:3000")
+                                        .AllowAnyMethod()
+                                        .AllowAnyHeader()
+                                        .AllowCredentials();
+                });
             });
             AddGrpcServices(services);
-            services.AddControllers().AddJsonOptions(opt =>
-            // this is needed because of typescript client generation and nsag: https://github.com/RicoSuter/NJsonSchema/wiki/Enums
+            services.AddControllers(opt =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                opt.Filters.Add(new AuthorizeFilter(policy));
+            })
+                .AddJsonOptions(opt =>
+                    // this is needed because of typescript client generation and nsag: https://github.com/RicoSuter/NJsonSchema/wiki/Enums
                     opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())
                     );
 
@@ -49,6 +55,8 @@ namespace EasyJob
                 // Nswag.CodeGeneration.Typescript needs this for splitting controllers into client classes
                 c.CustomOperationIds(e => $"{e.ActionDescriptor.RouteValues["controller"]}_{e.ActionDescriptor.RouteValues["action"]}");
             });
+
+            AddCustomAuthentication(services, Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,9 +72,10 @@ namespace EasyJob
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            
+
             app.UseCors(MyAllowSpecificOrigins);
-            
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
@@ -81,6 +90,25 @@ namespace EasyJob
             {
                 var grpcUrl = Configuration.GetValue<string>("urls:grpcJob");
                 options.Address = new Uri(grpcUrl);
+            });
+        }
+
+        public static void AddCustomAuthentication(IServiceCollection services, IConfiguration configuration)
+        {
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
+
+            var identityUrl = configuration.GetValue<string>("urls:identity");
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            })
+            .AddJwtBearer(options =>
+            {
+                options.Authority = identityUrl;
+                options.RequireHttpsMetadata = false;
+                options.Audience = "easyJobAggregate";
             });
         }
     }

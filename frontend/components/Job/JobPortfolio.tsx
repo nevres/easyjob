@@ -18,23 +18,26 @@ export default function JobPortfolio() {
 
   const getJobs = async (filter: JobFilterModel) => {
     addLoader();
-    const jobs = await jobApi.getjobs(
-      filter?.name,
-      filter?.name,
-      SHOP_CURRENCY,
-      filter?.price.type,
-      filter?.price.minAmount,
-      filter?.price.maxAmount,
-      1,
-      10,
-      undefined,
-      filter?.categories,
-      filter?.jobDurationType,
-      !isNullOrUndefined(filter?.jobDurationType),
-      filter?.location
-    );
-    removeLoader();
-    return jobs;
+    try {
+      const jobs = await jobApi.getjobs(
+        filter?.name,
+        filter?.name,
+        SHOP_CURRENCY,
+        filter?.price.type,
+        filter?.price.minAmount,
+        filter?.price.maxAmount,
+        1,
+        10,
+        undefined,
+        filter?.categories,
+        filter?.jobDurationType,
+        !isNullOrUndefined(filter?.jobDurationType),
+        filter?.location
+      );
+      return jobs;
+    } finally {
+      removeLoader();
+    }
   };
 
   var fetchResult = useAsync<JobResponse[]>(getJobs, [filter]);
