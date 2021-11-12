@@ -2,7 +2,9 @@ using AutoMapper;
 using Grpc.Core;
 using JobProcessing.Application.Queries.GetCategories;
 using JobProcessing.Application.Queries.GetJob;
+using JobProcessing.Application.Services.Identity;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -11,17 +13,20 @@ using System.Threading.Tasks;
 
 namespace JobProcessing.Application
 {
+    [Authorize]
     public class JobProcessingService : JobService.JobServiceBase
     {
         private readonly ILogger<JobProcessingService> _logger;
         private readonly IMediator _mediator;
         private readonly IMapper _mapper;
+        private readonly IIdentityService _identityService;
 
-        public JobProcessingService(ILogger<JobProcessingService> logger, IMediator mediator, IMapper mapper)
+        public JobProcessingService(ILogger<JobProcessingService> logger, IMediator mediator, IMapper mapper, IIdentityService identityService)
         {
             _logger = logger;
             _mediator = mediator;
             _mapper = mapper;
+            _identityService = identityService;
         }
 
         public override Task<JobResponse> GetJobById(GetJobByIdRequest request, ServerCallContext context)

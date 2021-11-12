@@ -1,7 +1,10 @@
+using EasyJob.Infrastructure;
+using Grpc.Core;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,6 +13,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 using static JobProcessing.Application.JobService;
 
 namespace EasyJob
@@ -38,6 +42,7 @@ namespace EasyJob
                                         .AllowCredentials();
                 });
             });
+            
             AddGrpcServices(services);
             services.AddControllers(opt =>
             {
@@ -86,11 +91,18 @@ namespace EasyJob
 
         private void AddGrpcServices(IServiceCollection services)
         {
+            services.AddTransient<GrpcExceptionInterceptor>();
+
+            //register delegating handlers
+            services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             services.AddGrpcClient<JobServiceClient>((services, options) =>
             {
                 var grpcUrl = Configuration.GetValue<string>("urls:grpcJob");
                 options.Address = new Uri(grpcUrl);
-            });
+            }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+            .AddInterceptor<GrpcExceptionInterceptor>();
         }
 
         public static void AddCustomAuthentication(IServiceCollection services, IConfiguration configuration)

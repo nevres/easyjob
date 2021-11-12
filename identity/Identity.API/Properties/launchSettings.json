@@ -19,7 +19,7 @@
     "EasyJob.Identity": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "http://localhost:55105",
+      "launchUrl": "https://localhost:5001",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
