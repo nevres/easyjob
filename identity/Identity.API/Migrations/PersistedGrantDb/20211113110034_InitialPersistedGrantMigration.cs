@@ -3,12 +3,16 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Identity.API.Migrations.PersistedGrantDb
 {
-    public partial class initialPresistedGrant : Migration
+    public partial class InitialPersistedGrantMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "identity");
+
             migrationBuilder.CreateTable(
                 name: "DeviceCodes",
+                schema: "identity",
                 columns: table => new
                 {
                     UserCode = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
@@ -26,6 +30,7 @@ namespace Identity.API.Migrations.PersistedGrantDb
 
             migrationBuilder.CreateTable(
                 name: "PersistedGrants",
+                schema: "identity",
                 columns: table => new
                 {
                     Key = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
@@ -43,22 +48,26 @@ namespace Identity.API.Migrations.PersistedGrantDb
 
             migrationBuilder.CreateIndex(
                 name: "IX_DeviceCodes_DeviceCode",
+                schema: "identity",
                 table: "DeviceCodes",
                 column: "DeviceCode",
                 unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_DeviceCodes_Expiration",
+                schema: "identity",
                 table: "DeviceCodes",
                 column: "Expiration");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PersistedGrants_Expiration",
+                schema: "identity",
                 table: "PersistedGrants",
                 column: "Expiration");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PersistedGrants_SubjectId_ClientId_Type",
+                schema: "identity",
                 table: "PersistedGrants",
                 columns: new[] { "SubjectId", "ClientId", "Type" });
         }
@@ -66,10 +75,12 @@ namespace Identity.API.Migrations.PersistedGrantDb
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "DeviceCodes");
+                name: "DeviceCodes",
+                schema: "identity");
 
             migrationBuilder.DropTable(
-                name: "PersistedGrants");
+                name: "PersistedGrants",
+                schema: "identity");
         }
     }
 }

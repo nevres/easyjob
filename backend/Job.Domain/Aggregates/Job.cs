@@ -22,7 +22,8 @@ namespace JobProcessing.Domain.Entities
         public JobStatus JobStatus { get; private set; }
         public int CategoryId { get; private set; }
         public Category Category { get; private set; }
-        
+        public Employer Employer { get; private set; }
+        public string EmployerId { get; private set; }
         private Job()
         {
             // for ef core
@@ -37,9 +38,11 @@ namespace JobProcessing.Domain.Entities
                    Price price,
                    JobUrgency urgency,
                    int userId,
-                   int categoryId) {
+                   int categoryId,
+                   Employer employer) {
             Guard.Against.NullOrWhiteSpace(name, nameof(name));
             Guard.Against.NullOrWhiteSpace(description, nameof(description));
+            Guard.Against.Null(employer, nameof(employer));
             this.Name = name;
             this.Description = description;
             this.HighlightedDescription = highlightedDescription;
@@ -52,6 +55,7 @@ namespace JobProcessing.Domain.Entities
             this.UserId = userId;
             this.JobStatus = JobStatus.Active;
             this.CategoryId = categoryId;
+            this.Employer = employer;
         }
     }
 }

@@ -62,12 +62,12 @@ namespace Identity.API
             .AddConfigurationStore(options =>
             {
                 options.ConfigureDbContext = builder => builder.UseNpgsql("Server=localhost;Port=5432;Uid=postgres;Pwd=Pin.1234;Database=postgres");
-                //options.DefaultSchema = "identity";
+                options.DefaultSchema = "identity";
             })
             .AddOperationalStore(options =>
             {
                 options.ConfigureDbContext = builder => builder.UseNpgsql("Server=localhost;Port=5432;Uid=postgres;Pwd=Pin.1234;Database=postgres");
-                //options.DefaultSchema = "identity";
+                options.DefaultSchema = "identity";
             })
             .Services.AddTransient<IProfileService, ProfileService>();
 

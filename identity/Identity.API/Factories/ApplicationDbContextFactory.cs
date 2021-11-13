@@ -19,7 +19,8 @@ namespace Identity.API.Factories
             var optionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>();
 
             optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Uid=postgres;Pwd=Pin.1234;Database=postgres", 
-                npgsqlOptionsAction: o => o.MigrationsAssembly("Identity.API"));
+                npgsqlOptionsAction: o => 
+                o.MigrationsAssembly("Identity.API"));
 
             return new ApplicationDbContext(optionsBuilder.Options);
         }
