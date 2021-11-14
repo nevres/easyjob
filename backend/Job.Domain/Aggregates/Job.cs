@@ -18,7 +18,6 @@ namespace JobProcessing.Domain.Entities
         public Price Price { get; private set; }
         public JobUrgency Urgency { get; private set; }
         public DateTimeOffset CreateDate { get; private set; }
-        public int UserId { get; private set; }
         public JobStatus JobStatus { get; private set; }
         public int CategoryId { get; private set; }
         public Category Category { get; private set; }
@@ -37,7 +36,6 @@ namespace JobProcessing.Domain.Entities
                    JobDurationType jobDurationType,
                    Price price,
                    JobUrgency urgency,
-                   int userId,
                    int categoryId,
                    Employer employer) {
             Guard.Against.NullOrWhiteSpace(name, nameof(name));
@@ -52,7 +50,6 @@ namespace JobProcessing.Domain.Entities
             this.Price = price;
             this.Urgency = urgency;
             CreateDate = DateTimeOffset.UtcNow;
-            this.UserId = userId;
             this.JobStatus = JobStatus.Active;
             this.CategoryId = categoryId;
             this.Employer = employer;

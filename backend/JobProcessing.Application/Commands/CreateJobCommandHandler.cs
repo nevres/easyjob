@@ -28,7 +28,7 @@ namespace JobProcessing.Application.Commands
             var price = new Domain.ValueTypes.Price(request.Price.CurrencyCode, request.Price.MinPrice, request.Price.MaxPrice, request.Price.PriceType);
             var employer = new Employer(currentUserId);
             var job = new Job(request.Name, request.Description, request.HighlightedDescription, jobLocation, request.NumberOfEmployeesRequired,
-                request.JobDurationType, price, request.Urgency, request.UserId, request.CategoryId, employer);
+                request.JobDurationType, price, request.Urgency, request.CategoryId, employer);
 
             await _jobRepository.AddAsync(job);
             return job.Id;

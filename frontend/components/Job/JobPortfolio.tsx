@@ -4,7 +4,7 @@ import { Grid } from "@mui/material";
 import JobFilter, { JobFilterModel } from "./Filter/Filter";
 import React, { useCallback, useState } from "react";
 import { useJobApi } from "../../common/customHooks/api/useJobApi";
-import { JobResponse } from "../../api/Models/JobResponse";
+import { ResolvedJobResponse } from "../../api/Models/ResolvedJobResponse";
 import { SHOP_CURRENCY } from "../../domain/constants";
 import JobPreview from "./JobPreview";
 import { isNullOrUndefined } from "../../common/utils/jsHelper";
@@ -12,7 +12,7 @@ import useLoader from "../../common/useLoader/useLoader";
 
 export default function JobPortfolio() {
   const [filter, setFilter] = useState<JobFilterModel>();
-  const [selectedJob, setSelectedJob] = useState<JobResponse>();
+  const [selectedJob, setSelectedJob] = useState<ResolvedJobResponse>();
   const jobApi = useJobApi();
   const { addLoader, removeLoader } = useLoader();
 
@@ -40,7 +40,7 @@ export default function JobPortfolio() {
     }
   };
 
-  var fetchResult = useAsync<JobResponse[]>(getJobs, [filter]);
+  var fetchResult = useAsync<ResolvedJobResponse[]>(getJobs, [filter]);
 
   if (isNullOrUndefined(selectedJob) && fetchResult.result) {
     setSelectedJob(fetchResult.result[0]);

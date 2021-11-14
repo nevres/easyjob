@@ -28,17 +28,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/JobResponse"
+                  "$ref": "#/components/schemas/ResolvedJobResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/JobResponse"
+                  "$ref": "#/components/schemas/ResolvedJobResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/JobResponse"
+                  "$ref": "#/components/schemas/ResolvedJobResponse"
                 }
               }
             }
@@ -161,7 +161,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/JobResponse"
+                    "$ref": "#/components/schemas/ResolvedJobResponse"
                   }
                 }
               },
@@ -169,7 +169,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/JobResponse"
+                    "$ref": "#/components/schemas/ResolvedJobResponse"
                   }
                 }
               },
@@ -177,7 +177,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/JobResponse"
+                    "$ref": "#/components/schemas/ResolvedJobResponse"
                   }
                 }
               }
@@ -476,6 +476,50 @@
         },
         "additionalProperties": false
       },
+      "ApplicationUser": {
+        "required": [
+          "lastName",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "userName": {
+            "type": "string",
+            "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "street": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "zipCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
       "CategoryResponse": {
         "type": "object",
         "properties": {
@@ -500,7 +544,43 @@
         ],
         "type": "string"
       },
-      "JobResponse": {
+      "JobUrgency": {
+        "enum": [
+          "Normal",
+          "Hight",
+          "Urgent"
+        ],
+        "type": "string"
+      },
+      "Price": {
+        "type": "object",
+        "properties": {
+          "currencyCode": {
+            "type": "string",
+            "nullable": true
+          },
+          "priceType": {
+            "$ref": "#/components/schemas/PriceType"
+          },
+          "minPrice": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxPrice": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PriceType": {
+        "enum": [
+          "Hourly",
+          "FixedPrice"
+        ],
+        "type": "string"
+      },
+      "ResolvedJobResponse": {
         "type": "object",
         "properties": {
           "id": {
@@ -545,45 +625,12 @@
           "categoryName": {
             "type": "string",
             "nullable": true
+          },
+          "employer": {
+            "$ref": "#/components/schemas/ApplicationUser"
           }
         },
         "additionalProperties": false
-      },
-      "JobUrgency": {
-        "enum": [
-          "Normal",
-          "Hight",
-          "Urgent"
-        ],
-        "type": "string"
-      },
-      "Price": {
-        "type": "object",
-        "properties": {
-          "currencyCode": {
-            "type": "string",
-            "nullable": true
-          },
-          "priceType": {
-            "$ref": "#/components/schemas/PriceType"
-          },
-          "minPrice": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "maxPrice": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "PriceType": {
-        "enum": [
-          "Hourly",
-          "FixedPrice"
-        ],
-        "type": "string"
       },
       "Timestamp": {
         "type": "object",

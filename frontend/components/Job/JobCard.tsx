@@ -13,7 +13,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { JobResponse } from "../../api/Models/JobResponse";
+import { ResolvedJobResponse } from "../../api/Models/ResolvedJobResponse";
 import {
   getJobDurationTypeTranslation,
   getUserFriendlyLocation,
@@ -29,8 +29,8 @@ import { isNullOrUndefined } from "../../common/utils/jsHelper";
 import Chip from "@mui/material/Chip";
 
 interface JobCardProps {
-  job: JobResponse;
-  handleCardClick?(job: JobResponse): void;
+  job: ResolvedJobResponse;
+  handleCardClick?(job: ResolvedJobResponse): void;
 }
 
 interface ExpandMoreProps {

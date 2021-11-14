@@ -19,7 +19,6 @@ namespace JobProcessing.Application.Commands
         public JobPriceRequest Price { get; private set; }
         public Domain.Enums.JobUrgency Urgency { get; private set; }
         public int CategoryId { get; private set; }
-        public int UserId { get; private set; }
     }
 
     public class JobAddressRequest {

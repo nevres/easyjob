@@ -50,7 +50,26 @@ namespace Identity.API.Configuration
                         "jobProcessing",
                         "easyJobAggregate"
                     },
-                }
+                },
+                new Client
+                {
+                    ClientId = "easyJobAggregateApiSwaggerUi",
+                    ClientName = "Easy Job Aggregate API swagger UI",
+                    ClientSecrets =  {new Secret("easyJobAggregateApiSwaggerUiClientSecret".Sha256())},
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowAccessTokensViaBrowser = true,
+
+                    RedirectUris = { $"{clientsUrl["EasyJobAggregateApiSwaggerUI"]}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{clientsUrl["EasyJobAggregateApiSwaggerUI"]}/swagger/" },
+                    
+                    AllowedCorsOrigins = {clientsUrl["EasyJobAggregateApiSwaggerUI"]},
+
+                    AllowedScopes =
+                    {
+                        "jobProcessing",
+                        "easyJobAggregate"
+                    }
+                },
             };
         }
     }
