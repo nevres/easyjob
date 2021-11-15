@@ -1,29 +1,22 @@
 import { Box, Button, Modal } from "@mui/material";
 import * as React from "react";
 import useI18n from "../../i18n/useI18n";
+import { ActiveStepModel, StepModel } from "./Step";
 import { Stepper } from "./Stepper";
 import { StepperActionButtons } from "./StepperActionButtons";
 
-export class ModalStep {
-  label: string;
-  hideLabel: boolean;
-  body: JSX.Element;
-
-  constructor(label: string, body: JSX.Element, hideLabel: boolean = false) {
-    this.label = label;
-    this.body = body;
-    this.hideLabel = hideLabel;
-  }
-}
-
-interface Props {
-  activeStep: number;
-  steps: Array<ModalStep>;
+interface Props<T> {
+  activeStep: ActiveStepModel<T>;
+  steps: Array<StepModel<T>>;
+  setPreviousActiveStep: () => void;
+  setNextActiveStep: () => void;
+  isFirstStep: boolean;
+  isLastStep: boolean;
   lastStepLabel: string;
-  onStepChange: (activeStep: number) => void;
+  style?: React.CSSProperties;
 }
 
-export function StepBasedModal(props: Props) {
+export function StepBasedModal<T>(props: Props<T>) {
   const [open, setOpen] = React.useState(true);
   const handleClose = () => setOpen(false);
   const t = useI18n();
@@ -34,20 +27,20 @@ export function StepBasedModal(props: Props) {
       onClose={handleClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
+      style={props.style}
     >
       <Box sx={style as any}>
         <Stepper activeStep={props.activeStep} steps={props.steps} />
-        <div style={{ padding: "10px 0px" }}>
-          {props.activeStep < props.steps.length ? props.steps[props.activeStep].body : null}
-        </div>
         <div style={{ display: "flex", justifyContent: "end" }}>
           <Button onClick={handleClose} variant="outlined" style={{ marginRight: "5px" }}>
             {t("close")}
           </Button>
           <StepperActionButtons
             activeStep={props.activeStep}
-            onStepChange={props.onStepChange}
-            numberOfSteps={props.steps.length}
+            setPreviousActiveStep={props.setPreviousActiveStep}
+            setNextActiveStep={props.setNextActiveStep}
+            isFirstStep={props.isFirstStep}
+            isLastStep={props.isLastStep}
             lastStepLabel={props.lastStepLabel}
           />
         </div>

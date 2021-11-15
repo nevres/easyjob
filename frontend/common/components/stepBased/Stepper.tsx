@@ -1,26 +1,23 @@
-import { Step, StepLabel, Stepper as MuiStepper } from "@mui/material";
+import { Box, Step, StepLabel, Stepper as MuiStepper } from "@mui/material";
+import React from "react";
+import { ActiveStepModel, StepModel } from "./Step";
 
-export class StepModel {
-    label: string;
-    hideLabel: boolean;
-
-    constructor(label: string, hideLabel: boolean = false) {
-        this.label = label;
-        this.hideLabel = hideLabel
-    }
+interface Props<T> {
+  activeStep: ActiveStepModel<T>;
+  steps: Array<StepModel<T>>;
 }
 
-interface Props {
-    activeStep: number;
-    steps: StepModel[];
-}
-
-export function Stepper(props: Props) {
-    return <MuiStepper activeStep={props.activeStep} alternativeLabel>
-        {props.steps.map((step, index) =>
-            <Step id={index.toString()} key={index}>
-                <StepLabel >{step.hideLabel ? "" : step.label}</StepLabel>
-            </Step>
-        )}
-    </MuiStepper>;
+export function Stepper<T>(props: Props<T>) {
+  return (
+    <Box>
+      <MuiStepper activeStep={props.activeStep.index} alternativeLabel>
+        {props.steps.map((step, index) => (
+          <Step id={index.toString()} key={index}>
+            <StepLabel>{step.hideLabel ? "" : step.label}</StepLabel>
+          </Step>
+        ))}
+      </MuiStepper>
+      <Box padding={2}>{props.activeStep.renderBody()}</Box>
+    </Box>
+  );
 }

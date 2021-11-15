@@ -6,7 +6,6 @@ import React, { useCallback, useState } from "react";
 import { useJobApi } from "../../common/customHooks/api/useJobApi";
 import { JobResponse } from "../../api/Models/JobResponse";
 import { SHOP_CURRENCY } from "../../domain/constants";
-import { JobNewModal } from "./New/JobNewModal";
 import JobPreview from "./JobPreview";
 import { isNullOrUndefined } from "../../common/utils/jsHelper";
 import useLoader from "../../common/useLoader/useLoader";
@@ -52,7 +51,6 @@ export default function JobPortfolio() {
     <Grid container spacing={6}>
       <Grid item md={2}>
         <JobFilter handleOnSubmit={handleFilterSubmit} />
-        <JobNewModal />
       </Grid>
       <Grid item md={4}>
         <Grid container spacing={2}>

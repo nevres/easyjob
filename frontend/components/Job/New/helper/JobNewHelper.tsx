@@ -1,12 +1,19 @@
-import { PriceModel } from "../../../../common/components/PriceGroup";
 import * as yup from "yup";
-import { ModalStep } from "../../../../common/components/stepBased/StepBasedModal";
 import React from "react";
 import { JobNewTitleForm } from "../JobNewTitleForm";
 import { JobNewSkillsForm } from "../JobNewSkillsForm";
 import { JobNewScopeForm } from "../JobNewScopeForm";
 import { JobNewBudgetForm } from "../JobNewBudgetForm";
 import { Control } from "react-hook-form";
+import { PriceModel } from "../../../../api/Models/PriceTypeModel";
+import { StepModel } from "../../../../common/components/stepBased/Step";
+
+export enum JobNewStep {
+  Title,
+  Skills,
+  Scope,
+  Budget
+}
 
 export type JobNewModel = {
   name: string;
@@ -31,11 +38,31 @@ export function GetJobNewValidationSchemas() {
   return [TitleStepValidationSchema, SkillsStepValidationSchema, ScopeStepValidationSchema, BudgetStepValidationSchema];
 }
 
-export function GetJobNewSteps(control: Control<JobNewModel, object>) {
+export function GetJobNewSteps(control: Control<JobNewModel, object>): Array<StepModel<JobNewStep>> {
   return [
-    new ModalStep("Title", <JobNewTitleForm control={control} />, true),
-    new ModalStep("Skills", <JobNewSkillsForm control={control} />, true),
-    new ModalStep("Scope", <JobNewScopeForm />, true),
-    new ModalStep("Budget", <JobNewBudgetForm control={control} />, true)
+    {
+      stepId: JobNewStep.Title,
+      label: "Title",
+      hideLabel: true,
+      renderBody: () => <JobNewTitleForm control={control} />
+    },
+    {
+      stepId: JobNewStep.Skills,
+      label: "Skills",
+      hideLabel: true,
+      renderBody: () => <JobNewSkillsForm control={control} />
+    },
+    {
+      stepId: JobNewStep.Scope,
+      label: "Scope",
+      hideLabel: true,
+      renderBody: () => <JobNewScopeForm />
+    },
+    {
+      stepId: JobNewStep.Budget,
+      label: "Budget",
+      hideLabel: true,
+      renderBody: () => <JobNewBudgetForm control={control} />
+    }
   ];
 }

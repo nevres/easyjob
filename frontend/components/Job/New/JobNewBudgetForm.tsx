@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Control } from "react-hook-form";
-import PriceGroup from "../../../common/components/PriceGroup";
+import PriceGroup from "../../../common/components/price/PriceGroup";
 import { JobNewModel } from "./helper/JobNewHelper";
 
 interface Props {
