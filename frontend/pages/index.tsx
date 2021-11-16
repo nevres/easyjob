@@ -12,7 +12,7 @@ import JobNewPage from "../components/Job/New/JobNewPage";
 const Home: NextPage = () => {
   return (
     <Layout>
-      <JobNewPage />
+      <JobPortfolio />
     </Layout>
   );
 };

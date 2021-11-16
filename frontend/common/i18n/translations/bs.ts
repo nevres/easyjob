@@ -29,7 +29,8 @@ const ba: ITranslation = {
     addressLine: "Ulica i broj",
     city: "Grad",
     zip: "ZIP",
-    country: "Država"
+    country: "Država",
+    addNewJob: "Novi posao"
   }
 };
 

@@ -28,5 +28,6 @@ export default interface ITranslation {
     city: string;
     zip: string;
     country: string;
+    addNewJob: string;
   };
 }

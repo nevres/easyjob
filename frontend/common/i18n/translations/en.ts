@@ -29,7 +29,8 @@ const en: ITranslation = {
     addressLine: "Street",
     city: "City",
     zip: "ZIP",
-    country: "Country"
+    country: "Country",
+    addNewJob: "New Job"
   }
 };
 

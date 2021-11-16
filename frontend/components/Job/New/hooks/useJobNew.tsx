@@ -4,9 +4,10 @@ import { PriceType } from "../../../../api/Models/PriceType";
 import { useJobApi } from "../../../../common/customHooks/api/useJobApi";
 import { useSteps } from "../../../../common/customHooks/stepper/useSteps";
 import { useYupValidationResolver } from "../../../../common/utils/yupValidationHelper";
+import { SHOP_CURRENCY } from "../../../../domain/constants";
 import { GetJobNewSteps, GetJobNewValidationSchemas, JobNewModel } from "../helper/JobNewHelper";
 
-export function useJobNew() {
+export function useJobNew(onSubmit?: () => void) {
   const [schemaContext, setSchemaContext] = useState({ validationSchemaId: 0 });
   const jobApi = useJobApi();
 
@@ -26,9 +27,9 @@ export function useJobNew() {
   );
 
   const handleSetNextActiveStep = () => {
-    handleSubmit((data) => {
+    handleSubmit(async (data) => {
       if (isLastStep) {
-        jobApi.createJob(
+        await jobApi.createJob(
           data.name,
           data.description,
           data.description,
@@ -40,7 +41,7 @@ export function useJobNew() {
           data.address.addressLine,
           data.address.zip,
           undefined,
-          undefined,
+          SHOP_CURRENCY,
           data.price.type,
           data.price.minAmount,
           data.price.maxAmount,
@@ -48,6 +49,9 @@ export function useJobNew() {
           data.category,
           undefined
         );
+        if (onSubmit) {
+          onSubmit();
+        }
         return;
       }
       setNextActiveStep();

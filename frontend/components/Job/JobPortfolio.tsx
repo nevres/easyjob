@@ -1,6 +1,6 @@
 import JobCard from "./JobCard";
 import { useAsync } from "react-async-hook";
-import { Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import JobFilter, { JobFilterModel } from "./Filter/Filter";
 import React, { useCallback, useState } from "react";
 import { useJobApi } from "../../common/customHooks/api/useJobApi";
@@ -9,12 +9,15 @@ import { SHOP_CURRENCY } from "../../domain/constants";
 import JobPreview from "./JobPreview";
 import { isNullOrUndefined } from "../../common/utils/jsHelper";
 import useLoader from "../../common/useLoader/useLoader";
+import useI18n from "../../common/i18n/useI18n";
+import Link from "next/link";
 
 export default function JobPortfolio() {
   const [filter, setFilter] = useState<JobFilterModel>();
   const [selectedJob, setSelectedJob] = useState<ResolvedJobResponse>();
   const jobApi = useJobApi();
   const { addLoader, removeLoader } = useLoader();
+  const t = useI18n();
 
   const getJobs = async (filter: JobFilterModel) => {
     addLoader();
@@ -69,6 +72,9 @@ export default function JobPortfolio() {
       </Grid>
       {selectedJob && (
         <Grid item xs={6}>
+          <Link href="/job/new">
+            <Button variant="contained">{t("addNewJob")}</Button>
+          </Link>
           <JobPreview job={selectedJob} />
         </Grid>
       )}
