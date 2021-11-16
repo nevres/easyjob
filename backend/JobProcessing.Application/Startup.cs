@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using JobProcessing.Application.Misc.MappingConfigurations;
+using JobProcessing.Application.Services.Identity;
 using JobProcessing.Infrastructure;
 using JobProcessing.Infrastructure.Repositories;
 using MediatR;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -11,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace JobProcessing.Application
 {
@@ -31,8 +34,14 @@ namespace JobProcessing.Application
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
+            services.AddCustomAuthentication(Configuration);
+            services.AddAuthorization();
             AddJobContext<JobContext>(services);
             AddAutoMapper(services);
+            
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IIdentityService, IdentityService>();
+
             services.AddScoped<IJobRepository, JobRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<ILocationRepository, LocationRepository>();
@@ -48,6 +57,9 @@ namespace JobProcessing.Application
             }
 
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints((Action<Microsoft.AspNetCore.Routing.IEndpointRouteBuilder>)(endpoints =>
             {
@@ -85,6 +97,31 @@ namespace JobProcessing.Application
             
             services.AddSingleton(mapper);
         }
+    }
 
+    static class CustomExtensionsMethods
+    {
+
+        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
+        {
+            // prevent from mapping "sub" claim to nameidentifier.
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
+
+            var identityUrl = configuration.GetValue<string>("IdentityUrl");
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = identityUrl;
+                options.RequireHttpsMetadata = false;
+                options.Audience = "jobProcessing";
+            });
+
+            return services;
+        }
     }
 }

@@ -4,7 +4,7 @@ import { Grid } from "@mui/material";
 import JobFilter, { JobFilterModel } from "./Filter/Filter";
 import React, { useCallback, useState } from "react";
 import { useJobApi } from "../../common/customHooks/api/useJobApi";
-import { JobResponse } from "../../api/Models/JobResponse";
+import { ResolvedJobResponse } from "../../api/Models/ResolvedJobResponse";
 import { SHOP_CURRENCY } from "../../domain/constants";
 import JobPreview from "./JobPreview";
 import { isNullOrUndefined } from "../../common/utils/jsHelper";
@@ -12,32 +12,35 @@ import useLoader from "../../common/useLoader/useLoader";
 
 export default function JobPortfolio() {
   const [filter, setFilter] = useState<JobFilterModel>();
-  const [selectedJob, setSelectedJob] = useState<JobResponse>();
+  const [selectedJob, setSelectedJob] = useState<ResolvedJobResponse>();
   const jobApi = useJobApi();
   const { addLoader, removeLoader } = useLoader();
 
   const getJobs = async (filter: JobFilterModel) => {
     addLoader();
-    const jobs = await jobApi.getjobs(
-      filter?.name,
-      filter?.name,
-      SHOP_CURRENCY,
-      filter?.price.type,
-      filter?.price.minAmount,
-      filter?.price.maxAmount,
-      1,
-      10,
-      undefined,
-      filter?.categories,
-      filter?.jobDurationType,
-      !isNullOrUndefined(filter?.jobDurationType),
-      filter?.location
-    );
-    removeLoader();
-    return jobs;
+    try {
+      const jobs = await jobApi.getjobs(
+        filter?.name,
+        filter?.name,
+        SHOP_CURRENCY,
+        filter?.price.type,
+        filter?.price.minAmount,
+        filter?.price.maxAmount,
+        1,
+        10,
+        undefined,
+        filter?.categories,
+        filter?.jobDurationType,
+        !isNullOrUndefined(filter?.jobDurationType),
+        filter?.location
+      );
+      return jobs;
+    } finally {
+      removeLoader();
+    }
   };
 
-  var fetchResult = useAsync<JobResponse[]>(getJobs, [filter]);
+  var fetchResult = useAsync<ResolvedJobResponse[]>(getJobs, [filter]);
 
   if (isNullOrUndefined(selectedJob) && fetchResult.result) {
     setSelectedJob(fetchResult.result[0]);

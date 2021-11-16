@@ -18,11 +18,11 @@ namespace JobProcessing.Domain.Entities
         public Price Price { get; private set; }
         public JobUrgency Urgency { get; private set; }
         public DateTimeOffset CreateDate { get; private set; }
-        public int UserId { get; private set; }
         public JobStatus JobStatus { get; private set; }
         public int CategoryId { get; private set; }
         public Category Category { get; private set; }
-        
+        public Employer Employer { get; private set; }
+        public string EmployerId { get; private set; }
         private Job()
         {
             // for ef core
@@ -36,10 +36,11 @@ namespace JobProcessing.Domain.Entities
                    JobDurationType jobDurationType,
                    Price price,
                    JobUrgency urgency,
-                   int userId,
-                   int categoryId) {
+                   int categoryId,
+                   Employer employer) {
             Guard.Against.NullOrWhiteSpace(name, nameof(name));
             Guard.Against.NullOrWhiteSpace(description, nameof(description));
+            Guard.Against.Null(employer, nameof(employer));
             this.Name = name;
             this.Description = description;
             this.HighlightedDescription = highlightedDescription;
@@ -49,9 +50,9 @@ namespace JobProcessing.Domain.Entities
             this.Price = price;
             this.Urgency = urgency;
             CreateDate = DateTimeOffset.UtcNow;
-            this.UserId = userId;
             this.JobStatus = JobStatus.Active;
             this.CategoryId = categoryId;
+            this.Employer = employer;
         }
     }
 }
