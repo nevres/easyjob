@@ -77,7 +77,7 @@ namespace EasyJob
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "EasyJob v1");
                     c.OAuthClientId("easyJobAggregateApiSwaggerUi");
-                    c.OAuthClientSecret("zPf+1yPirnn6robmuRhct9Z1eblTUX+/PlCLVeFbA4E="); //"zPf+1yPirnn6robmuRhct9Z1eblTUX+/PlCLVeFbA4E="
+                    c.OAuthClientSecret("easyJobAggregateApiSwaggerUiClientSecret");
                     c.OAuthRealm(string.Empty);
                     c.OAuthAppName("web shopping bff Swagger UI");
                 });
@@ -154,7 +154,8 @@ namespace EasyJob
 
                             Scopes = new Dictionary<string, string>()
                             {
-                                { "easyJobAggregate", "Web Easy Job Aggregate" }
+                                { "easyJobAggregate", "Web Easy Job Aggregate" },
+                                { "jobProcessing", "Job Processing Service" }
                             }
                         }
                     }
@@ -172,7 +173,7 @@ namespace EasyJob
                                 Id = "oauth2"
                             }
                         }
-                    ] = new[] { "easyJobAggregate" }
+                    ] = new[] { "easyJobAggregate", "jobProcessing" }
                 };
 
                 options.AddSecurityRequirement(securityRequirement);
