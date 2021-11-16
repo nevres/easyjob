@@ -2,17 +2,19 @@ import * as yup from "yup";
 import React from "react";
 import { JobNewTitleForm } from "../JobNewTitleForm";
 import { JobNewSkillsForm } from "../JobNewSkillsForm";
-import { JobNewScopeForm } from "../JobNewScopeForm";
 import { JobNewBudgetForm } from "../JobNewBudgetForm";
 import { Control } from "react-hook-form";
 import { PriceModel } from "../../../../api/Models/PriceTypeModel";
 import { StepModel } from "../../../../common/components/stepBased/Step";
+import { Address } from "../../../../api/Models/Address";
+import { JobNewAddressForm } from "../JobNewAddress";
+import { PriceType } from "../../../../api/Models/PriceType";
 
 export enum JobNewStep {
   Title,
   Skills,
-  Scope,
-  Budget
+  Budget,
+  Address
 }
 
 export type JobNewModel = {
@@ -21,6 +23,7 @@ export type JobNewModel = {
   category: number;
   skills: string[];
   price: PriceModel;
+  address: Address;
 };
 
 const TitleStepValidationSchema = yup.object().shape({
@@ -30,12 +33,30 @@ const TitleStepValidationSchema = yup.object().shape({
 
 const SkillsStepValidationSchema = yup.object();
 
-const ScopeStepValidationSchema = yup.object();
+const AddressStepValidationSchema = yup.object({
+  address: yup.object().shape({
+    city: yup.string().required(),
+    country: yup.string().required(),
+    addressLine: yup.string().required(),
+    zip: yup.string().required()
+  })
+});
 
-const BudgetStepValidationSchema = yup.object();
+const BudgetStepValidationSchema = yup.object({
+  price: yup.object().shape({
+    type: yup.mixed<PriceType>().oneOf(Object.values(PriceType)),
+    minAmount: yup.number().required(),
+    maxAmount: yup.number().required()
+  })
+});
 
 export function GetJobNewValidationSchemas() {
-  return [TitleStepValidationSchema, SkillsStepValidationSchema, ScopeStepValidationSchema, BudgetStepValidationSchema];
+  return [
+    TitleStepValidationSchema,
+    SkillsStepValidationSchema,
+    AddressStepValidationSchema,
+    BudgetStepValidationSchema
+  ];
 }
 
 export function GetJobNewSteps(control: Control<JobNewModel, object>): Array<StepModel<JobNewStep>> {
@@ -53,10 +74,10 @@ export function GetJobNewSteps(control: Control<JobNewModel, object>): Array<Ste
       renderBody: () => <JobNewSkillsForm control={control} />
     },
     {
-      stepId: JobNewStep.Scope,
-      label: "Scope",
+      stepId: JobNewStep.Address,
+      label: "Address",
       hideLabel: true,
-      renderBody: () => <JobNewScopeForm />
+      renderBody: () => <JobNewAddressForm control={control} />
     },
     {
       stepId: JobNewStep.Budget,

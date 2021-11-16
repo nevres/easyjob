@@ -24,5 +24,9 @@ export default interface ITranslation {
     moreThanSixMonths: string;
     jobSkills: string;
     close: string;
+    addressLine: string;
+    city: string;
+    zip: string;
+    country: string;
   };
 }

@@ -4,9 +4,9 @@ import { PriceType } from "../../../api/Models/PriceType";
 import RadioButtonGroup, { RadioButtonOption } from "../../react-hook-mui/RadioButtonGroup";
 import { PriceTypeModel } from "../../../api/Models/PriceTypeModel";
 
-export const PRICE_OPTIONS: Array<RadioButtonOption> = [
-  { label: PriceType.FixedPrice, value: 0 },
-  { label: PriceType.Hourly, value: 1 }
+export const PRICE_OPTIONS: Array<RadioButtonOption<PriceType>> = [
+  { label: PriceType.FixedPrice, value: PriceType.FixedPrice },
+  { label: PriceType.Hourly, value: PriceType.Hourly }
 ];
 
 interface Props<T extends { price: PriceTypeModel }> {

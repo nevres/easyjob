@@ -25,7 +25,11 @@ const en: ITranslation = {
     oneToSixMonths: "1 to 6 months",
     moreThanSixMonths: "More than 6 months",
     jobSkills: "Skills",
-    close: "Close"
+    close: "Close",
+    addressLine: "Street",
+    city: "City",
+    zip: "ZIP",
+    country: "Country"
   }
 };
 

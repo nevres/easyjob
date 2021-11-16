@@ -4,13 +4,13 @@ import { FieldError, Control, useController, FieldPath } from "react-hook-form";
 
 type ValueType = number;
 
-export type RadioButtonOption = {
-  value: ValueType;
+export type RadioButtonOption<T> = {
+  value: T;
   label: string;
 };
 
-export type RadioButtonGroupProps<T> = {
-  options: RadioButtonOption[];
+export type RadioButtonGroupProps<T, Q> = {
+  options: RadioButtonOption<Q>[];
   control: Control<T, object>;
   name: FieldPath<T>;
 
@@ -23,7 +23,7 @@ export type RadioButtonGroupProps<T> = {
   row?: boolean;
 };
 
-export default function RadioButtonGroup<T>({
+export default function RadioButtonGroup<T, Q>({
   helperText,
   options,
   label,
@@ -34,7 +34,7 @@ export default function RadioButtonGroup<T>({
   control,
   row,
   ...rest
-}: RadioButtonGroupProps<T>): JSX.Element {
+}: RadioButtonGroupProps<T, Q>): JSX.Element {
   const {
     field: { value, onChange },
     fieldState: { invalid, error }
@@ -49,7 +49,7 @@ export default function RadioButtonGroup<T>({
     <FormControl error={invalid} required={required}>
       {label && <FormLabel error={invalid}>{label}</FormLabel>}
       <FormGroup row={row}>
-        {options.map((option: RadioButtonOption) => {
+        {options.map((option: RadioButtonOption<Q>, index) => {
           const isSelected = option.value === value;
           return (
             <FormControlLabel
@@ -63,7 +63,7 @@ export default function RadioButtonGroup<T>({
                 />
               }
               label={option.label}
-              key={option.value}
+              key={index}
             />
           );
         })}

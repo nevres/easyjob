@@ -25,7 +25,11 @@ const ba: ITranslation = {
     oneToSixMonths: "1 do 6 mjeseci",
     moreThanSixMonths: "Vise od 6 mjeseci",
     jobSkills: "Vještine",
-    close: "Zatvori"
+    close: "Zatvori",
+    addressLine: "Ulica i broj",
+    city: "Grad",
+    zip: "ZIP",
+    country: "Država"
   }
 };
 
