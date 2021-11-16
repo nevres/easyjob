@@ -1,4 +1,5 @@
 import { useContext, useRef } from "react";
+import authService from "../../auth/AuthorizeService";
 // import AuthenticationContext, {
 //   IAuthenticationContext,
 // } from "../../../contexts/authentication/AuthenticationContext";
@@ -14,7 +15,7 @@ interface IClientClass<T> {
 function createFetch(): IHttp["fetch"] {
   return async (url: RequestInfo, init?: RequestInit): Promise<Response> => {
     let { headers, ...rest } = init ? init : { headers: null };
-    // const token = await auth.getToken();
+    const token = await authService.getAccessToken();
 
     const initParams: RequestInit = {
       ...rest,
@@ -22,11 +23,11 @@ function createFetch(): IHttp["fetch"] {
       headers: {
         // "Content-Type": "application/json",
         "Accept-Language": "en",
-        // Authorization: `Bearer ${token.id_token || token.access_token}`,
-        ...headers,
+        Authorization: `Bearer ${token}`,
+        ...headers
       },
       redirect: "follow",
-      referrerPolicy: "no-referrer",
+      referrerPolicy: "no-referrer"
     };
 
     return window.fetch(url, initParams);
@@ -36,8 +37,8 @@ function createFetch(): IHttp["fetch"] {
 export default function useApi<T>(clientClass: IClientClass<T>) {
   //   const auth = useContext(AuthenticationContext);
 
-  const client = new clientClass("https://localhost:5001", {
-    fetch: createFetch(), //(auth),
+  const client = new clientClass("https://localhost:7001", {
+    fetch: createFetch() //(auth),
   });
   const api = useRef(client);
   return api.current;

@@ -65,6 +65,16 @@ namespace JobProcessing.Infrastructure.Migrations
                     b.ToTable("Category");
                 });
 
+            modelBuilder.Entity("JobProcessing.Domain.Entities.Employer", b =>
+                {
+                    b.Property<string>("Identity")
+                        .HasColumnType("text");
+
+                    b.HasKey("Identity");
+
+                    b.ToTable("Employer");
+                });
+
             modelBuilder.Entity("JobProcessing.Domain.Entities.Job", b =>
                 {
                     b.Property<int>("Id")
@@ -79,6 +89,10 @@ namespace JobProcessing.Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
+                        .HasColumnType("text");
+
+                    b.Property<string>("EmployerId")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("HighlightedDescription")
@@ -109,6 +123,8 @@ namespace JobProcessing.Infrastructure.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("EmployerId");
+
                     b.HasIndex("LocationId");
 
                     b.ToTable("Jobs");
@@ -119,6 +135,12 @@ namespace JobProcessing.Infrastructure.Migrations
                     b.HasOne("JobProcessing.Domain.Entities.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JobProcessing.Domain.Entities.Employer", "Employer")
+                        .WithMany()
+                        .HasForeignKey("EmployerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -156,6 +178,8 @@ namespace JobProcessing.Infrastructure.Migrations
                         });
 
                     b.Navigation("Category");
+
+                    b.Navigation("Employer");
 
                     b.Navigation("Location");
 

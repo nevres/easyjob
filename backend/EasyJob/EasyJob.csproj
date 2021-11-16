@@ -9,6 +9,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.12" />
 		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
 		<PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
 		<PackageReference Include="Serilog.Sinks.PostgreSQL" Version="2.3.0" />
@@ -29,6 +30,6 @@
 		3. build FrontendClientGenerator
 		Note: last command argument is name of swagger doc from Startup.cs (won't run if name mismatch)-->
 		<Exec Command="swagger tofile --output swagger.json $(OutDir)EasyJob.dll v1" />
-		<Exec Command="$(SolutionDir)FrontendClientGenerator\bin\Debug\net5.0\FrontendClientGenerator.exe $(ProjectDir)swagger.json C:\Users\lnjahic\Desktop\Projects\EasyJob\easyjob\frontend\api" />
-	</Target>
+		<Exec Command="$(SolutionDir)FrontendClientGenerator\bin\Debug\net5.0\FrontendClientGenerator.exe $(ProjectDir)swagger.json C:\Users\njahic\Desktop\Projects\EasyJob\easyjob\frontend\api" />
+  </Target>
 </Project>

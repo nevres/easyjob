@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {throwException} from '../throwException'
-import {JobResponse} from '../Models/JobResponse'
+import {ResolvedJobResponse} from '../Models/ResolvedJobResponse'
 import {CategoryResponse} from '../Models/CategoryResponse'
 import {Address} from '../Models/Address'
 export class JobClient {
@@ -17,7 +17,7 @@ export class JobClient {
     /**
      * @return Success
      */
-    async get(id: number): Promise<JobResponse> {
+    async get(id: number): Promise<ResolvedJobResponse> {
         let url_ = this.baseUrl + "/Job/{id}";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -36,13 +36,13 @@ export class JobClient {
         });
     }
 
-    protected async processGet(response: Response): Promise<JobResponse> {
+    protected async processGet(response: Response): Promise<ResolvedJobResponse> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <JobResponse>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <ResolvedJobResponse>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -50,7 +50,7 @@ export class JobClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<JobResponse>(<any>null);
+        return Promise.resolve<ResolvedJobResponse>(<any>null);
     }
 
     /**
@@ -69,7 +69,7 @@ export class JobClient {
      * @param city (optional) 
      * @return Success
      */
-    async getjobs(name: string | undefined, description: string | undefined, price_CurrencyCode: string | undefined, price_PriceType: PriceType | undefined, price_MinPrice: number | undefined, price_MaxPrice: number | undefined, page: number | undefined, pageSize: number | undefined, orderBy: string | undefined, categoryIds: number[] | undefined, jobDurationType: JobDurationType | undefined, hasJobDurationType: boolean | undefined, city: string | undefined): Promise<JobResponse[]> {
+    async getjobs(name: string | undefined, description: string | undefined, price_CurrencyCode: string | undefined, price_PriceType: PriceType | undefined, price_MinPrice: number | undefined, price_MaxPrice: number | undefined, page: number | undefined, pageSize: number | undefined, orderBy: string | undefined, categoryIds: number[] | undefined, jobDurationType: JobDurationType | undefined, hasJobDurationType: boolean | undefined, city: string | undefined): Promise<ResolvedJobResponse[]> {
         let url_ = this.baseUrl + "/Job?";
         if (name === null)
             throw new Error("The parameter 'name' cannot be null.");
@@ -137,13 +137,13 @@ export class JobClient {
         });
     }
 
-    protected async processGetjobs(response: Response): Promise<JobResponse[]> {
+    protected async processGetjobs(response: Response): Promise<ResolvedJobResponse[]> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
             let result200: any = null;
-            result200 = _responseText === "" ? null : <JobResponse[]>JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = _responseText === "" ? null : <ResolvedJobResponse[]>JSON.parse(_responseText, this.jsonParseReviver);
             return result200;
             });
         } else if (status !== 200 && status !== 204) {
@@ -151,7 +151,7 @@ export class JobClient {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<JobResponse[]>(<any>null);
+        return Promise.resolve<ResolvedJobResponse[]>(<any>null);
     }
 
     /**

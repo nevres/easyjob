@@ -3,7 +3,7 @@ import { Chip, Stack, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
 import { styled } from "@mui/system";
 import React from "react";
-import { JobResponse } from "../../api/Models/JobResponse";
+import { ResolvedJobResponse } from "../../api/Models/ResolvedJobResponse";
 import useI18n from "../../common/i18n/useI18n";
 import {
   getJobDurationTypeTranslation,
@@ -12,7 +12,7 @@ import {
 } from "../../domain/job/jobHelper";
 
 export type JobPreviewProps = {
-  job: JobResponse;
+  job: ResolvedJobResponse;
 };
 
 const BorderLessIFrame = styled("iframe")({

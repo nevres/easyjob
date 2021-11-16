@@ -13,11 +13,12 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { JobResponse } from "../../api/Models/JobResponse";
+import { ResolvedJobResponse } from "../../api/Models/ResolvedJobResponse";
 import {
   getJobDurationTypeTranslation,
   getUserFriendlyLocation,
-  getUserFriendlyPrice
+  getUserFriendlyPrice,
+  getUserInitials
 } from "../../domain/job/jobHelper";
 import useI18n from "../../common/i18n/useI18n";
 import LocationOnOutlined from "@mui/icons-material/LocationOnOutlined";
@@ -27,10 +28,11 @@ import formatDistance from "date-fns/formatDistance";
 import { getUserFriendlyDate } from "../../common/utils/dateTimeHelper";
 import { isNullOrUndefined } from "../../common/utils/jsHelper";
 import Chip from "@mui/material/Chip";
+import { Person } from "@mui/icons-material";
 
 interface JobCardProps {
-  job: JobResponse;
-  handleCardClick?(job: JobResponse): void;
+  job: ResolvedJobResponse;
+  handleCardClick?(job: ResolvedJobResponse): void;
 }
 
 interface ExpandMoreProps {
@@ -66,7 +68,7 @@ export default function JobCard(props: JobCardProps) {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
+            {props.job.employer && getUserInitials(props.job.employer.name, props.job.employer.lastName)}
           </Avatar>
         }
         action={
@@ -78,13 +80,14 @@ export default function JobCard(props: JobCardProps) {
         subheader={getUserFriendlyDate(fromUnixTime(job.createDate?.seconds!), "bs")}
       />
       <CardContent>
-        <Stack direction="row" spacing={2}>
-          <Chip label={job.categoryName} />
-          {job.jobDurationType && <Chip label={getJobDurationTypeTranslation(job.jobDurationType, t)} />}
-        </Stack>
-        <Typography variant="body1" color="text.secondary">
-          {job.highlightedDescription}
-        </Typography>
+        {job.employer && (
+          <Stack direction="row" alignItems="center">
+            <Person />
+            <Typography variant="body2" color="text.secondary">
+              {job.employer?.userName || `${job.employer.name} ${job.employer.lastName}`}
+            </Typography>
+          </Stack>
+        )}
         {job.location && (
           <Stack direction="row" alignItems="center">
             <LocationOnOutlined />
@@ -98,6 +101,13 @@ export default function JobCard(props: JobCardProps) {
             {getUserFriendlyPrice(job.price, t)}
           </Typography>
         )}
+        <Typography variant="body1" color="text.secondary">
+          {job.highlightedDescription}
+        </Typography>
+        <Stack direction="row" spacing={2}>
+          <Chip label={job.categoryName} />
+          {job.jobDurationType && <Chip label={getJobDurationTypeTranslation(job.jobDurationType, t)} />}
+        </Stack>
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
