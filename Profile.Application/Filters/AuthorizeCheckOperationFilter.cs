@@ -4,7 +4,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EasyJob.Filters
+namespace Profile.Application.Filters
 {
     public class AuthorizeCheckOperationFilter : IOperationFilter
     {
@@ -29,7 +29,7 @@ namespace EasyJob.Filters
                             Type = ReferenceType.SecurityScheme,
                             Id = "oauth2"}
                         }
-                    ] = new[] { "easyJobAggregate", "jobProcessing", "profileApi" }
+                    ] = new[] { "profileApi"}
                 }
             };
         }

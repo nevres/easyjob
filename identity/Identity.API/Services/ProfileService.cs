@@ -69,8 +69,8 @@ namespace Identity.API.Services
             var claims = new List<Claim>
             {
                 new Claim(JwtClaimTypes.Subject, user.Id),
-                new Claim(JwtClaimTypes.PreferredUserName, user.UserName),
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName)
+                //new Claim(JwtClaimTypes.PreferredUserName, user.UserName),
+                //new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName)
             };
 
             if (_userManager.SupportsUserEmail)
@@ -82,14 +82,14 @@ namespace Identity.API.Services
                 });
             }
 
-            if (_userManager.SupportsUserPhoneNumber && !string.IsNullOrWhiteSpace(user.PhoneNumber))
-            {
-                claims.AddRange(new[]
-                {
-                    new Claim(JwtClaimTypes.PhoneNumber, user.PhoneNumber),
-                    new Claim(JwtClaimTypes.PhoneNumberVerified, user.PhoneNumberConfirmed ? "true" : "false", ClaimValueTypes.Boolean)
-                });
-            }
+            //if (_userManager.SupportsUserPhoneNumber && !string.IsNullOrWhiteSpace(user.PhoneNumber))
+            //{
+            //    claims.AddRange(new[]
+            //    {
+            //        new Claim(JwtClaimTypes.PhoneNumber, user.PhoneNumber),
+            //        new Claim(JwtClaimTypes.PhoneNumberVerified, user.PhoneNumberConfirmed ? "true" : "false", ClaimValueTypes.Boolean)
+            //    });
+            //}
 
             return claims;
         }

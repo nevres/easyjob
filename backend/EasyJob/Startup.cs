@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Profile;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -47,7 +48,7 @@ namespace EasyJob
 
             AddGrpcServices(services);
 
-            services.AddTransient<IIdentityParser<ApplicationUser>, IdentityParser>();
+            //services.AddTransient<IIdentityParser<ApplicationUser>, IdentityParser>();
 
             services.AddControllers(opt =>
             {
@@ -107,6 +108,8 @@ namespace EasyJob
             services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            AddHttpClients(services);
+
             services.AddGrpcClient<JobServiceClient>((services, options) =>
             {
                 var grpcUrl = Configuration.GetValue<string>("urls:grpcJob");
@@ -155,7 +158,8 @@ namespace EasyJob
                             Scopes = new Dictionary<string, string>()
                             {
                                 { "easyJobAggregate", "Web Easy Job Aggregate" },
-                                { "jobProcessing", "Job Processing Service" }
+                                { "jobProcessing", "Job Processing Service" },
+                                { "profileApi", "Profile API" }
                             }
                         }
                     }
@@ -173,13 +177,20 @@ namespace EasyJob
                                 Id = "oauth2"
                             }
                         }
-                    ] = new[] { "easyJobAggregate", "jobProcessing" }
+                    ] = new[] { "easyJobAggregate", "jobProcessing", "profileApi" }
                 };
 
                 options.AddSecurityRequirement(securityRequirement);
 
                 options.OperationFilter<AuthorizeCheckOperationFilter>();
             });
+        }
+        private void AddHttpClients(IServiceCollection services)
+        {
+            services.AddHttpClient<IProfileApi, ProfileApi>((config)=> {
+                var profileApiUrl = Configuration.GetValue<string>("urls:profileApi");
+                config.BaseAddress = new Uri(profileApiUrl);
+            }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
         }
     }
 }

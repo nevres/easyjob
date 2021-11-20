@@ -1,8 +1,8 @@
+import {User} from './User'
 import {Timestamp} from './Timestamp'
 import {Price} from './Price'
 import {JobUrgency} from './JobUrgency'
 import {JobDurationType} from './JobDurationType'
-import {ApplicationUser} from './ApplicationUser'
 import {Address} from './Address'
 export interface ResolvedJobResponse {
     id?: string | undefined;
@@ -17,6 +17,6 @@ export interface ResolvedJobResponse {
     createDate?: Timestamp;
     categoryId?: number;
     categoryName?: string | undefined;
-    employer?: ApplicationUser;
+    employer?: User;
 }
 

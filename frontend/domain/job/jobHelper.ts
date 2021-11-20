@@ -48,5 +48,8 @@ export function getJobDurationTypeTranslation(type: JobDurationType, translation
 }
 
 export function getUserInitials(firstName: string, lastName: string): string {
-  return firstName[0]+lastName[0];
+  if (firstName && firstName.length > 0 && lastName && lastName.length > 0) {
+    return firstName[0] + lastName[0];
+  }
+  return firstName || "" + lastName || "";
 }
