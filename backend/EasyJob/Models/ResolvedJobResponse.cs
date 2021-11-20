@@ -1,5 +1,6 @@
 ﻿using Google.Protobuf.WellKnownTypes;
 using JobProcessing.Application;
+using Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,6 +23,6 @@ namespace EasyJob.Models
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
 
-        public ApplicationUser Employer { get; set; }
+        public User Employer { get; set; }
     }
 }

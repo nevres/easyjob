@@ -13,6 +13,9 @@ const en: ITranslation = {
     fixedPrice: "Fixed Price",
     min: "Min",
     max: "Max",
+    back: "Back",
+    next: "Next",
+    save: "Save",
     category: "Category",
     clear: "Clear",
     jobDescription: "Job Description",
@@ -20,7 +23,14 @@ const en: ITranslation = {
     lessThanAWeek: "Less than a week",
     lessThanAMonth: "Less than a month",
     oneToSixMonths: "1 to 6 months",
-    moreThanSixMonths: "More than 6 months"
+    moreThanSixMonths: "More than 6 months",
+    jobSkills: "Skills",
+    close: "Close",
+    addressLine: "Street",
+    city: "City",
+    zip: "ZIP",
+    country: "Country",
+    addNewJob: "New Job"
   }
 };
 

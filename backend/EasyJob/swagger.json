@@ -476,50 +476,6 @@
         },
         "additionalProperties": false
       },
-      "ApplicationUser": {
-        "required": [
-          "lastName",
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "userName": {
-            "type": "string",
-            "nullable": true
-          },
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "street": {
-            "type": "string",
-            "nullable": true
-          },
-          "city": {
-            "type": "string",
-            "nullable": true
-          },
-          "country": {
-            "type": "string",
-            "nullable": true
-          },
-          "zipCode": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string"
-          },
-          "lastName": {
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
       "CategoryResponse": {
         "type": "object",
         "properties": {
@@ -627,7 +583,7 @@
             "nullable": true
           },
           "employer": {
-            "$ref": "#/components/schemas/ApplicationUser"
+            "$ref": "#/components/schemas/User"
           }
         },
         "additionalProperties": false
@@ -645,7 +601,58 @@
           }
         },
         "additionalProperties": false
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "firstName": {
+            "type": "string",
+            "nullable": true
+          },
+          "lastName": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "oauth2": {
+        "type": "oauth2",
+        "flows": {
+          "authorizationCode": {
+            "authorizationUrl": "https://localhost:5001/connect/authorize",
+            "tokenUrl": "https://localhost:5001/connect/token",
+            "scopes": {
+              "easyJobAggregate": "Web Easy Job Aggregate",
+              "jobProcessing": "Job Processing Service",
+              "profileApi": "Profile API"
+            }
+          }
+        }
       }
     }
-  }
+  },
+  "security": [
+    {
+      "oauth2": [
+        "easyJobAggregate",
+        "jobProcessing",
+        "profileApi"
+      ]
+    }
+  ]
 }

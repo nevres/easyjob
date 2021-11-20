@@ -29,7 +29,7 @@ namespace EasyJob.Filters
                             Type = ReferenceType.SecurityScheme,
                             Id = "oauth2"}
                         }
-                    ] = new[] { "easyJobAggregate", "jobProcessing" }
+                    ] = new[] { "easyJobAggregate", "jobProcessing", "profileApi" }
                 }
             };
         }

@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Identity.API.Migrations.ConfigurationDb
 {
     [DbContext(typeof(ConfigurationDbContext))]
-    [Migration("20211113110049_InitialIdentityConfigurationMigration")]
-    partial class InitialIdentityConfigurationMigration
+    [Migration("20211117195749_initialIdentityConfigurationContext")]
+    partial class initialIdentityConfigurationContext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

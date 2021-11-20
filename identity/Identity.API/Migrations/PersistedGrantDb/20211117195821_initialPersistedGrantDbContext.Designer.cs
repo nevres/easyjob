@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Identity.API.Migrations.PersistedGrantDb
 {
     [DbContext(typeof(PersistedGrantDbContext))]
-    [Migration("20211113110034_InitialPersistedGrantMigration")]
-    partial class InitialPersistedGrantMigration
+    [Migration("20211117195821_initialPersistedGrantDbContext")]
+    partial class initialPersistedGrantDbContext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -1,32 +1,25 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import useI18n from "../../../common/i18n/useI18n";
 import TextFieldElement from "../../../common/react-hook-mui/TextFieldElement";
-import MultiSelectElement from "../../../common/react-hook-mui/MultiSelectElement";
 import { Button, Divider, Stack } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import { JobUrgency } from "../../../api/Models/JobUrgency";
-import PriceFilter from "./PriceFilter";
-import { PriceType } from "../../../api/Models/PriceType";
 import { CategoriesSelect } from "../../../common/components/CategoriesSelect";
 import { JobDurationType } from "../../../api/Models/JobDurationType";
 import { JobDurationSelect } from "../../../common/components/JobDurationSelect";
 import { LocationSelect } from "../../../common/components/LocationSelect";
+import PriceGroupFilter from "../../../common/components/price/PriceGroupFilter";
+import { PriceModel } from "../../../api/Models/PriceTypeModel";
 
 export type JobFilterModel = {
   name: string;
   location: string;
   durationInHours: number;
   urgency: JobUrgency;
-  price: PriceFilterModel;
+  price: PriceModel;
   categories: Array<number>;
   jobDurationType?: JobDurationType;
-};
-
-type PriceFilterModel = {
-  type: PriceType;
-  minAmount: number;
-  maxAmount: number;
 };
 
 interface JobFilterProps {
@@ -57,7 +50,7 @@ export default function JobFilter(props: JobFilterProps) {
       <Divider />
       <LocationSelect name="location" control={control} />
       <Divider />
-      <PriceFilter control={control} />
+      <PriceGroupFilter control={control} />
       <CategoriesSelect control={control} name="categories" />
       <Stack spacing={2} direction={"row"} justifyContent="center">
         <Button variant="contained" endIcon={<SearchIcon />} onClick={handleSubmit(onSubmit)}>

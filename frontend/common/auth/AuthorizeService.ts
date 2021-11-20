@@ -196,7 +196,7 @@ export class AuthorizeService {
     settings.client_id = "js";
     settings.authority = ApplicationPaths.IdentityProviderUrl;
     settings.response_type = "id_token token";
-    settings.scope = "openid profile jobProcessing easyJobAggregate";
+    settings.scope = "openid profile jobProcessing easyJobAggregate profileApi";
     settings.redirect_uri = ApplicationPaths.LoginCallback;
     // settings.stateStore =
     settings.automaticSilentRenew = true;

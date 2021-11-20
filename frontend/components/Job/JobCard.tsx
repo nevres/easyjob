@@ -68,7 +68,7 @@ export default function JobCard(props: JobCardProps) {
       <CardHeader
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            {props.job.employer && getUserInitials(props.job.employer.name, props.job.employer.lastName)}
+            {props.job.employer && getUserInitials(props.job.employer?.firstName, props.job.employer?.lastName)}
           </Avatar>
         }
         action={

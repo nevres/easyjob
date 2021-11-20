@@ -20,6 +20,7 @@ namespace Identity.API.Data
 
             clientUrls.Add("Spa", configuration.GetValue<string>("SpaClient"));
             clientUrls.Add("EasyJobAggregateApiSwaggerUI", configuration.GetValue<string>("EasyJobAggregateApiSwaggerUI"));
+            clientUrls.Add("profileApiSwaggerUi", configuration.GetValue<string>("profileApiSwaggerUi"));
 
             if (!context.Clients.Any())
             {

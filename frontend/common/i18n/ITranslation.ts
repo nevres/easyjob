@@ -11,6 +11,9 @@ export default interface ITranslation {
     fixedPrice: string;
     min: string;
     max: string;
+    back: string;
+    next: string;
+    save: string;
     category: string;
     clear: string;
     jobDescription: string;
@@ -19,5 +22,12 @@ export default interface ITranslation {
     lessThanAMonth: string;
     oneToSixMonths: string;
     moreThanSixMonths: string;
+    jobSkills: string;
+    close: string;
+    addressLine: string;
+    city: string;
+    zip: string;
+    country: string;
+    addNewJob: string;
   };
 }

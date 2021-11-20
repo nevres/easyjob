@@ -52,6 +52,7 @@ message JobResponse {
   google.protobuf.Timestamp CreateDate = 10;
   int32 CategoryId = 11;
   string CategoryName = 12;
+  string EmployerId = 13;
 }
 
 message JobResponses {

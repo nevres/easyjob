@@ -32,5 +32,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Job.Infrastructure\JobProcessing.Infrastructure.csproj" />
   </ItemGroup>
-
+  
 </Project>

@@ -52,7 +52,8 @@ namespace JobProcessing.Domain.Entities
             CreateDate = DateTimeOffset.UtcNow;
             this.JobStatus = JobStatus.Active;
             this.CategoryId = categoryId;
-            this.Employer = employer;
+            //this.Employer = employer; //throws exception, will handle later
+            this.EmployerId = employer.Identity;
         }
     }
 }

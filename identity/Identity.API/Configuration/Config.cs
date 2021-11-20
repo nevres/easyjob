@@ -12,7 +12,8 @@ namespace Identity.API.Configuration
             return new List<ApiResource>
             {
                 new ApiResource("jobProcessing", "Job Processing Service"),
-                new ApiResource("easyJobAggregate", "Web Easy Job Aggregate")
+                new ApiResource("easyJobAggregate", "Web Easy Job Aggregate"),
+                new ApiResource("profileApi", "Profile API")
             };
         }
 
@@ -48,7 +49,8 @@ namespace Identity.API.Configuration
                         IdentityServerConstants.StandardScopes.OpenId,
                         IdentityServerConstants.StandardScopes.Profile,
                         "jobProcessing",
-                        "easyJobAggregate"
+                        "easyJobAggregate",
+                        "profileApi"
                     },
                 },
                 new Client
@@ -67,7 +69,26 @@ namespace Identity.API.Configuration
                     AllowedScopes =
                     {
                         "jobProcessing",
-                        "easyJobAggregate"
+                        "easyJobAggregate",
+                        "profileApi"
+                    }
+                },
+                new Client
+                {
+                    ClientId = "profileApiSwaggerUi",
+                    ClientName = "Profile Api Client",
+                    ClientSecrets =  {new Secret("profileApiClientSecret".Sha256())},
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowAccessTokensViaBrowser = true,
+
+                    RedirectUris = { $"{clientsUrl["profileApiSwaggerUi"]}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{clientsUrl["profileApiSwaggerUi"]}/swagger/" },
+
+                    AllowedCorsOrigins = {clientsUrl["profileApiSwaggerUi"] },
+
+                    AllowedScopes =
+                    {
+                        "profileApi"
                     }
                 },
             };

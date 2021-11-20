@@ -13,6 +13,9 @@ const ba: ITranslation = {
     fixedPrice: "Fixna cijena",
     min: "Min",
     max: "Max",
+    back: "Nazad",
+    next: "Dalje",
+    save: "Sačuvaj",
     category: "Kategorija",
     clear: "Ocisti",
     jobDescription: "Opis posla",
@@ -20,7 +23,14 @@ const ba: ITranslation = {
     lessThanAWeek: "Manje od jedne sedmice",
     lessThanAMonth: "Manje od jednog mjeseca",
     oneToSixMonths: "1 do 6 mjeseci",
-    moreThanSixMonths: "Vise od 6 mjeseci"
+    moreThanSixMonths: "Vise od 6 mjeseci",
+    jobSkills: "Vještine",
+    close: "Zatvori",
+    addressLine: "Ulica i broj",
+    city: "Grad",
+    zip: "ZIP",
+    country: "Država",
+    addNewJob: "Novi posao"
   }
 };
 
