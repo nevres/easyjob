@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Document.Application.Migrations
 {
     [DbContext(typeof(DocumentContext))]
-    [Migration("20211123185812_initial")]
-    partial class initial
+    [Migration("20211123205654_initialDocumentContextMigration")]
+    partial class initialDocumentContextMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,10 +24,9 @@ namespace Document.Application.Migrations
 
             modelBuilder.Entity("Document.Application.Models.Document", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("uuid");
 
                     b.Property<string>("ContentType")
                         .HasColumnType("text");

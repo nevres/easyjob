@@ -1,10 +1,9 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Document.Application.Migrations
 {
-    public partial class initial : Migration
+    public partial class initialDocumentContextMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,8 +15,7 @@ namespace Document.Application.Migrations
                 schema: "Document",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     CreateDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     ModifyDate = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false),
                     CreateUserId = table.Column<string>(type: "text", nullable: true),

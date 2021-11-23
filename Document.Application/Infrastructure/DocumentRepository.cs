@@ -30,7 +30,7 @@ namespace Document.Application.Infrastructure
             await _documentContext.SaveChangesAsync();
         }
 
-        public async Task<Models.Document> GetByIdAsync(int id, params ISpecification<Models.Document>[] specs)
+        public async Task<Models.Document> GetByIdAsync(Guid id, params ISpecification<Models.Document>[] specs)
         {
             var query = specs.CreateQuery(_documentContext);
             return await query.SingleOrDefaultAsync(q => q.Id == id);

@@ -22,10 +22,9 @@ namespace Document.Application.Migrations
 
             modelBuilder.Entity("Document.Application.Models.Document", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .HasColumnType("uuid");
 
                     b.Property<string>("ContentType")
                         .HasColumnType("text");

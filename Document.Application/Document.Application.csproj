@@ -16,6 +16,10 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
     <Exec Command="swagger tofile --output swagger.json $(OutDir)Document.Application.dll v1" />
   </Target>

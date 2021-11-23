@@ -41,5 +41,14 @@ namespace Document.Application.Controllers
                 await _documentService.CreateDocumentAsync(request, cancellationToken);
             }
         }
+
+        [HttpGet("{id}/documentContent")]
+        public async Task<IActionResult> GetDocumentContentAsync(Guid id, CancellationToken cancellationToken)
+        {
+            var documentWithContent = await _documentService.GetDocumentContent(id, cancellationToken);
+            var result = new FileStreamResult(documentWithContent.Content, documentWithContent.ContentType);
+
+            return result;
+        }
     }
 }

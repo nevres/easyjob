@@ -9,7 +9,7 @@ namespace Document.Application.Models
         {
             // For EF Core
         }
-        public int Id { get; private set; }
+        public Guid Id { get; private set; }
 
         public DateTimeOffset CreateDate { get; private set; }
         public DateTimeOffset ModifyDate { get; private set; }
@@ -23,6 +23,7 @@ namespace Document.Application.Models
 
         public Document(string createUserId, string fileName, long lengthInBytes, string contentType)
         {
+            Id = Guid.NewGuid();
             FileName = fileName;
             Extension = Path.GetFileName(fileName);
             LengthInBytes = lengthInBytes;

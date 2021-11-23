@@ -7,7 +7,7 @@ namespace Document.Application.Infrastructure
 {
     public interface IDocumentRepository : IUnitOfWork
     {
-        public Task<Models.Document> GetByIdAsync(int id, params ISpecification<Models.Document>[] specs);
+        public Task<Models.Document> GetByIdAsync(Guid id, params ISpecification<Models.Document>[] specs);
         public Task Add(Models.Document document);
     }
 }

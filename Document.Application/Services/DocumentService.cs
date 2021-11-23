@@ -5,6 +5,7 @@ using Document.Application.Services.Identity;
 using Storage.Net.Blobs;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,6 +37,25 @@ namespace Document.Application.Services
             await storageTransaction.CommitAsync();
             await _documentRepository.SaveChangesAsync();
             return newDocument;
+        }
+
+        public async Task<DocumentWithContentResponse> GetDocumentContent(Guid documentId, CancellationToken cancellationToken)
+        {
+            var documentInfo = await _documentRepository.GetByIdAsync(documentId);
+            var stream = await _storage.OpenReadAsync(documentId.ToString(), cancellationToken: cancellationToken);
+            return new DocumentWithContentResponse()
+            {
+                Content = stream,
+                ContentType = documentInfo.ContentType,
+                CreateDate = documentInfo.CreateDate,
+                ModifyDate = documentInfo.ModifyDate,
+                CreateUserId = documentInfo.CreateUserId,
+                ModifyUserId = documentInfo.ModifyUserId,
+                Extension = documentInfo.Extension,
+                FileName = documentInfo.FileName,
+                Id = documentInfo.Id,
+                LengthInBytes = documentInfo.LengthInBytes
+            };
         }
     }
 }
