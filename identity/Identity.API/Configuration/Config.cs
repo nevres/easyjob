@@ -13,7 +13,8 @@ namespace Identity.API.Configuration
             {
                 new ApiResource("jobProcessing", "Job Processing Service"),
                 new ApiResource("easyJobAggregate", "Web Easy Job Aggregate"),
-                new ApiResource("profileApi", "Profile API")
+                new ApiResource("profileApi", "Profile API"),
+                new ApiResource("documentApi", "Document API")
             };
         }
 
@@ -50,7 +51,7 @@ namespace Identity.API.Configuration
                         IdentityServerConstants.StandardScopes.Profile,
                         "jobProcessing",
                         "easyJobAggregate",
-                        "profileApi"
+                        "profileApi", "documentApi"
                     },
                 },
                 new Client
@@ -70,7 +71,8 @@ namespace Identity.API.Configuration
                     {
                         "jobProcessing",
                         "easyJobAggregate",
-                        "profileApi"
+                        "profileApi",
+                        "documentApi"
                     }
                 },
                 new Client
@@ -89,6 +91,24 @@ namespace Identity.API.Configuration
                     AllowedScopes =
                     {
                         "profileApi"
+                    }
+                },
+                new Client
+                {
+                    ClientId = "documentApiSwaggerUi",
+                    ClientName = "Document Api Client",
+                    ClientSecrets =  {new Secret("documentApiClientSecret".Sha256())},
+                    AllowedGrantTypes = GrantTypes.Code,
+                    AllowAccessTokensViaBrowser = true,
+
+                    RedirectUris = { $"{clientsUrl["documentApiSwaggerUi"]}/swagger/oauth2-redirect.html" },
+                    PostLogoutRedirectUris = { $"{clientsUrl["documentApiSwaggerUi"]}/swagger/" },
+
+                    AllowedCorsOrigins = {clientsUrl["documentApiSwaggerUi"] },
+
+                    AllowedScopes =
+                    {
+                        "documentApi"
                     }
                 },
             };

@@ -639,7 +639,8 @@
             "scopes": {
               "easyJobAggregate": "Web Easy Job Aggregate",
               "jobProcessing": "Job Processing Service",
-              "profileApi": "Profile API"
+              "profileApi": "Profile API",
+              "documentApi": "Document API"
             }
           }
         }
@@ -651,7 +652,8 @@
       "oauth2": [
         "easyJobAggregate",
         "jobProcessing",
-        "profileApi"
+        "profileApi",
+        "documentApi"
       ]
     }
   ]

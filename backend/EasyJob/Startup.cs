@@ -1,3 +1,5 @@
+//using DocumentProcessing;
+using DocumentProcessing;
 using EasyJob.Filters;
 using EasyJob.Infrastructure;
 using EasyJob.Models;
@@ -159,7 +161,8 @@ namespace EasyJob
                             {
                                 { "easyJobAggregate", "Web Easy Job Aggregate" },
                                 { "jobProcessing", "Job Processing Service" },
-                                { "profileApi", "Profile API" }
+                                { "profileApi", "Profile API" },
+                                { "documentApi", "Document API" }
                             }
                         }
                     }
@@ -177,7 +180,7 @@ namespace EasyJob
                                 Id = "oauth2"
                             }
                         }
-                    ] = new[] { "easyJobAggregate", "jobProcessing", "profileApi" }
+                    ] = new[] { "easyJobAggregate", "jobProcessing", "profileApi", "documentApi" }
                 };
 
                 options.AddSecurityRequirement(securityRequirement);
@@ -189,6 +192,11 @@ namespace EasyJob
         {
             services.AddHttpClient<IProfileApi, ProfileApi>((config)=> {
                 var profileApiUrl = Configuration.GetValue<string>("urls:profileApi");
+                config.BaseAddress = new Uri(profileApiUrl);
+            }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+
+            services.AddHttpClient<IDocumentService, DocumentService>((config) => {
+                var profileApiUrl = Configuration.GetValue<string>("urls:documentApi");
                 config.BaseAddress = new Uri(profileApiUrl);
             }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
         }

@@ -8,10 +8,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-    <OpenApiReference Include="..\..\Profile.Application\swagger.json" CodeGenerator="NSwagCSharp"
-                      Link="OpenAPIs\swagger.json" Namespace="Profile" ClassName="ProfileApi"
-                      >
-      <Options>/UseBaseUrl:false /GenerateClientInterfaces:true</Options>
+    <OpenApiReference Include="..\..\Document.Application\swagger.json" CodeGenerator="NSwagCSharp" Namespace="DocumentProcessing" ClassName="DocumentService" Link="OpenAPIs\swagger.json">
+      <Options>/UseBaseUrl:false /GenerateClientInterfaces:true /GenerateExceptionClasses:false</Options>
+      <OutputPath>Document/DocumentApi.cs</OutputPath>
+    </OpenApiReference>
+    <OpenApiReference Include="..\..\Profile.Application\swagger.json" CodeGenerator="NSwagCSharp" Link="OpenAPIs\swagger.json" Namespace="Profile" ClassName="ProfileApi">
+      <Options>/UseBaseUrl:false /GenerateClientInterfaces:true /GenerateExceptionClasses:false</Options>
+      <OutputPath>Profile/ProfileApi.cs</OutputPath>
     </OpenApiReference>
 	</ItemGroup>
 
