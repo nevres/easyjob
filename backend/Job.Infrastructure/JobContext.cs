@@ -18,7 +18,7 @@ namespace JobProcessing.Infrastructure
 
             modelBuilder.Entity<Category>().ToTable("Category");
 
-            modelBuilder.Entity<JobDocument>().HasKey(x => x.DocumentId);
+            modelBuilder.ApplyConfiguration(new JobDocumentEntityConfiguration());
 
             modelBuilder.Entity<Employer>().HasKey(x => x.Identity);
             modelBuilder.Entity<Job>()

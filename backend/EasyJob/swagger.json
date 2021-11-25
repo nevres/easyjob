@@ -218,7 +218,7 @@
             "in": "query",
             "schema": {
               "type": "number",
-              "format": "double"
+              "format": "float"
             }
           },
           {
@@ -226,7 +226,7 @@
             "in": "query",
             "schema": {
               "type": "number",
-              "format": "double"
+              "format": "float"
             }
           },
           {
@@ -424,12 +424,12 @@
         }
       }
     },
-    "/Job/profile/{id}": {
-      "get": {
+    "/Job/{id}/document": {
+      "post": {
         "tags": [
           "Job"
         ],
-        "operationId": "Job_GetProfile",
+        "operationId": "Job_UploadDocument",
         "parameters": [
           {
             "name": "id",
@@ -441,26 +441,41 @@
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  },
+                  "documentInfos": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/JobDocumentInfo"
+                    }
+                  }
                 }
               },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
+              "encoding": {
+                "files": {
+                  "style": "form"
+                },
+                "documentInfos": {
+                  "style": "form"
                 }
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
@@ -473,11 +488,11 @@
         "properties": {
           "latitude": {
             "type": "number",
-            "format": "double"
+            "format": "float"
           },
           "longitude": {
             "type": "number",
-            "format": "double"
+            "format": "float"
           },
           "country": {
             "type": "string",
@@ -508,6 +523,15 @@
           "categoryName": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "JobDocumentInfo": {
+        "type": "object",
+        "properties": {
+          "isPrimary": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false

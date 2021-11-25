@@ -1,8 +1,10 @@
+using AutoMapper;
 using Document.Application.Filters;
 using Document.Application.Infrastructure;
 using Document.Application.Models;
 using Document.Application.Services;
 using Document.Application.Services.Identity;
+using JobProcessing.Application.Misc.MappingConfigurations;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -17,6 +19,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Storage.Net;
 using Storage.Net.Blobs;
+using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -28,9 +31,12 @@ namespace Document.Application
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _environment;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
+            _environment = environment;
         }
 
         public IConfiguration Configuration { get; }
@@ -61,6 +67,10 @@ namespace Document.Application
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient<IDocumentService, DocumentService>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+
+            AddAutoMapper(services);
+
+            services.Configure<SwaggerOptions>(c => c.SerializeAsV2 = true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -70,7 +80,7 @@ namespace Document.Application
             {
                 app.UseDeveloperExceptionPage();
 
-                app.UseSwagger().UseSwaggerUI(c =>
+                app.UseSwagger(opt => opt.SerializeAsV2 = true).UseSwaggerUI(c =>
                 {
                     c.SwaggerEndpoint("/swagger/v1/swagger.json", "Document API v1");
                     c.OAuthClientId("documentApiSwaggerUi");
@@ -173,6 +183,24 @@ namespace Document.Application
                 options.RequireHttpsMetadata = false;
                 options.Audience = "documentApi";
             });
+        }
+
+        private void AddAutoMapper(IServiceCollection services)
+        {
+            // Auto Mapper Configurations
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            if (_environment.IsDevelopment())
+            {
+                mapperConfig.AssertConfigurationIsValid();
+            }
+
+            IMapper mapper = mapperConfig.CreateMapper();
+
+            services.AddSingleton(mapper);
         }
     }
 }

@@ -20,14 +20,12 @@ namespace Document.Application.Infrastructure
         public async Task<Models.Document> AddAsync(Models.Document entity)
         {
             _documentContext.Add(entity);
-            await _documentContext.SaveChangesAsync();
             return entity;
         }
 
         public async Task DeleteAsync(Models.Document entity)
         {
             _documentContext.Remove(entity);
-            await _documentContext.SaveChangesAsync();
         }
 
         public async Task<Models.Document> GetByIdAsync(Guid id, params ISpecification<Models.Document>[] specs)

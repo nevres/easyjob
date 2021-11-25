@@ -1,4 +1,5 @@
-﻿using JobProcessing.Application.Queries.GetCategories;
+﻿using JobProcessing.Application.Commands.CreateJob;
+using JobProcessing.Application.Queries.GetCategories;
 using JobProcessing.Application.Queries.GetJob;
 using JobProcessing.Application.Queries.GetJobLocations;
 using JobProcessing.Application.Shared.DTO;
@@ -30,7 +31,7 @@ namespace JobProcessing.Application.Controllers
 
 
         [HttpPost]
-        public async Task<int> CreateJob(Commands.CreateJobCommand request)
+        public async Task<int> CreateJob(CreateJobCommand request)
         {
             var id = await _mediator.Send(request);
             return id;
@@ -41,6 +42,13 @@ namespace JobProcessing.Application.Controllers
         {
             var jobs = await _mediator.Send(request);
             return jobs;
+        }
+
+        [HttpPost("{id}/document")]
+        public async Task<Guid> CreateJobDocument(int id, CreateJobDocumentCommand request)
+        {
+            var jobDocumentId = await _mediator.Send(request);
+            return jobDocumentId;
         }
 
         [HttpGet("GetJobCategories")]

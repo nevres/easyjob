@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {throwException} from '../throwException'
-import {User} from '../Models/User'
 import {ResolvedJobResponse} from '../Models/ResolvedJobResponse'
 import {CategoryResponse} from '../Models/CategoryResponse'
 import {Address} from '../Models/Address'
@@ -349,42 +348,52 @@ export class JobClient {
     }
 
     /**
+     * @param files (optional) 
+     * @param documentInfos (optional) 
      * @return Success
      */
-    async getProfile(id: number): Promise<User> {
-        let url_ = this.baseUrl + "/Job/profile/{id}";
+    async uploadDocument(id: number, files: FileParameter[] | undefined, documentInfos: JobDocumentInfo[] | undefined): Promise<void> {
+        let url_ = this.baseUrl + "/Job/{id}/document";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
         url_ = url_.replace("{id}", encodeURIComponent("" + id));
         url_ = url_.replace(/[?&]$/, "");
 
+        const content_ = new FormData();
+        if (files === null || files === undefined)
+            throw new Error("The parameter 'files' cannot be null.");
+        else
+            files.forEach(item_ => content_.append("files", item_.data, item_.fileName ? item_.fileName : "files") );
+        if (documentInfos === null || documentInfos === undefined)
+            throw new Error("The parameter 'documentInfos' cannot be null.");
+        else
+            documentInfos.forEach(item_ => content_.append("documentInfos", item_.toString()));
+
         let options_ = <RequestInit>{
-            method: "GET",
+            body: content_,
+            method: "POST",
             headers: {
-                "Accept": "text/plain"
             }
         };
 
         return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetProfile(_response);
+            return this.processUploadDocument(_response);
         });
     }
 
-    protected async processGetProfile(response: Response): Promise<User> {
+    protected async processUploadDocument(response: Response): Promise<void> {
         const status = response.status;
         let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
         if (status === 200) {
             return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : <User>JSON.parse(_responseText, this.jsonParseReviver);
-            return result200;
+            return;
             });
         } else if (status !== 200 && status !== 204) {
             return response.text().then((_responseText) => {
             return throwException("An unexpected server error occurred.", status, _responseText, _headers);
             });
         }
-        return Promise.resolve<User>(<any>null);
+        return Promise.resolve<void>(<any>null);
     }
 }
 

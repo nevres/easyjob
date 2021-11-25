@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace JobProcessing.Application.Commands
+namespace JobProcessing.Application.Commands.CreateJob
 {
     public class CreateJobCommandHandler : IRequestHandler<CreateJobCommand, int>
     {
@@ -24,7 +24,7 @@ namespace JobProcessing.Application.Commands
         public async Task<int> Handle(CreateJobCommand request, CancellationToken cancellationToken)
         {
             var currentUserId = _identityService.GetUserIdentity();
-            var jobLocation = new Domain.Entities.Address(request.Location.Latitude, request.Location.Longitude, request.Location.Country, request.Location.City, request.Location.AddressLine, request.Location.Zip);
+            var jobLocation = new Address(request.Location.Latitude, request.Location.Longitude, request.Location.Country, request.Location.City, request.Location.AddressLine, request.Location.Zip);
             var price = new Domain.ValueTypes.Price(request.Price.CurrencyCode, request.Price.MinPrice, request.Price.MaxPrice, request.Price.PriceType);
             var employer = new Employer(currentUserId);
             var job = new Job(request.Name, request.Description, request.HighlightedDescription, jobLocation, request.NumberOfEmployeesRequired,

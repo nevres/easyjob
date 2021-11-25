@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using JobProcessing.Application.Infrastructure.Filters;
 using JobProcessing.Application.Misc.MappingConfigurations;
 using JobProcessing.Application.Services.Identity;
 using JobProcessing.Infrastructure;
@@ -46,6 +47,7 @@ namespace JobProcessing.Application
             {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 opt.Filters.Add(new AuthorizeFilter(policy));
+                opt.Filters.Add(typeof(HttpGlobalExceptionFilter));
             }).AddJsonOptions(opt =>
                 // this is needed because of typescript client generation and nsag: https://github.com/RicoSuter/NJsonSchema/wiki/Enums
                 opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())

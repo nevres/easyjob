@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Shared.SeedWork
+namespace JobProcessing.Infrastructure.Repositories
 {
     public interface IUnitOfWork : IDisposable
     {
