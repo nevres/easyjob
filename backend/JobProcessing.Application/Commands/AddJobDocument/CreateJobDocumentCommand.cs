@@ -11,8 +11,8 @@ namespace JobProcessing.Application.Commands.CreateJob
     public class CreateJobDocumentCommand : IRequest<Guid>
     {
         public int JobId { get; set; }
-        public Guid DocumentId { get; private set; }
-        public string DocumentFileName { get; private set; }
-        public bool IsPrimary { get; private set; }
+        public Guid DocumentId { get; set; }
+        public string DocumentFileName { get; set; }
+        public bool IsPrimary { get; set; }
     }
 }

@@ -487,17 +487,14 @@
           },
           "documentId": {
             "type": "string",
-            "format": "uuid",
-            "readOnly": true
+            "format": "uuid"
           },
           "documentFileName": {
             "type": "string",
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
           },
           "isPrimary": {
-            "type": "boolean",
-            "readOnly": true
+            "type": "boolean"
           }
         },
         "additionalProperties": false

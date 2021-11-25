@@ -218,7 +218,7 @@
             "in": "query",
             "schema": {
               "type": "number",
-              "format": "double"
+              "format": "float"
             }
           },
           {
@@ -226,7 +226,7 @@
             "in": "query",
             "schema": {
               "type": "number",
-              "format": "double"
+              "format": "float"
             }
           },
           {
@@ -479,11 +479,11 @@
         "properties": {
           "latitude": {
             "type": "number",
-            "format": "double"
+            "format": "float"
           },
           "longitude": {
             "type": "number",
-            "format": "double"
+            "format": "float"
           },
           "country": {
             "type": "string",

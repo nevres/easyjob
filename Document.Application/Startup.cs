@@ -19,6 +19,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Storage.Net;
 using Storage.Net.Blobs;
+using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -68,6 +69,8 @@ namespace Document.Application
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
 
             AddAutoMapper(services);
+
+            services.Configure<SwaggerOptions>(c => c.SerializeAsV2 = true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

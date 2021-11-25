@@ -79,7 +79,9 @@ namespace EasyJob.Controllers
         {
             foreach (var file in files)
             {
-                var document = await _documentService.UploadDocumentAsync(file.OpenReadStream(), cancellationToken);
+                var headers = file.Headers.ToDictionary(x => x.Key, x => x.Value.AsEnumerable());
+                var fileParam = new FileParameter(file.OpenReadStream(), file.FileName, file.ContentType);
+                var document = await _documentService.UploadDocumentAsync(new FileParameter[] { fileParam }, cancellationToken);
                 await _jobProcessingApi.CreateJobDocumentAsync(id, new CreateJobDocumentCommand() { DocumentFileName = file.FileName, DocumentId = document.Id, IsPrimary = false, JobId = id });
             }
         }

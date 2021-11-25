@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,13 +23,13 @@ namespace Document.Application.Controllers
         }
 
         [HttpPost]
-        public async Task<DocumentResponse> UploadDocument([FromForm] IFormFile file, CancellationToken cancellationToken)
+        public async Task<DocumentResponse> UploadDocument([FromForm] IFormFile[] file, CancellationToken cancellationToken)
         {
             var docRequest = new NewDocumentRequest()
             {
-                Content = file.OpenReadStream(),
-                ContentType = file.ContentType,
-                FileName = file.FileName
+                Content = file.First().OpenReadStream(),
+                ContentType = file.First().ContentType,
+                FileName = file.First().FileName
             };
 
             return await _documentService.CreateDocumentAsync(docRequest, cancellationToken);
