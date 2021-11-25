@@ -6,5 +6,9 @@ using System.Threading.Tasks;
 
 namespace Shared.Pagging
 {
-    public record BaseFilter(int Page, int PageSize, string OrderBy);
+    public class BaseFilter {
+        public int Page { get; set; }
+        public int PageSize { get; set; }
+        public string OrderBy { get; set; }
+    }
 }

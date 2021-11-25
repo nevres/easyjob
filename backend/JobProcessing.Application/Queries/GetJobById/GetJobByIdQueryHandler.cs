@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using JobProcessing.Application.Shared.DTO;
 using JobProcessing.Infrastructure.Repositories;
 using MediatR;
 using System;

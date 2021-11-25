@@ -26,16 +26,15 @@ export default function JobPortfolio() {
         filter?.name,
         filter?.name,
         SHOP_CURRENCY,
-        filter?.price.type,
-        filter?.price.minAmount,
-        filter?.price.maxAmount,
-        1,
-        10,
-        undefined,
+        filter?.price.priceType,
+        filter?.price.minPrice,
+        filter?.price.maxPrice,
         filter?.categories,
         filter?.jobDurationType,
-        !isNullOrUndefined(filter?.jobDurationType),
-        filter?.location
+        filter?.location,
+        1,
+        10,
+        undefined
       );
       return jobs;
     } finally {

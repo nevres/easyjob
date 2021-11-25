@@ -17,7 +17,7 @@ export function useJobNew(onSubmit?: () => void) {
     resolver: useYupValidationResolver(GetJobNewValidationSchemas()),
     defaultValues: {
       price: {
-        type: PriceType.FixedPrice
+        priceType: PriceType.FixedPrice
       }
     }
   });
@@ -42,12 +42,11 @@ export function useJobNew(onSubmit?: () => void) {
           data.address.zip,
           undefined,
           SHOP_CURRENCY,
-          data.price.type,
-          data.price.minAmount,
-          data.price.maxAmount,
+          data.price.priceType,
+          data.price.minPrice,
+          data.price.maxPrice,
           undefined,
-          data.category,
-          undefined
+          data.category
         );
         if (onSubmit) {
           onSubmit();

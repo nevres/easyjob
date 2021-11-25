@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "EasyJob",
+    "title": "JobProcessingApi",
     "version": "v1"
   },
   "paths": {
@@ -10,7 +10,7 @@
         "tags": [
           "Job"
         ],
-        "operationId": "Job_Get",
+        "operationId": "Job_GetJobById",
         "parameters": [
           {
             "name": "id",
@@ -28,17 +28,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResolvedJobResponse"
+                  "$ref": "#/components/schemas/JobResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResolvedJobResponse"
+                  "$ref": "#/components/schemas/JobResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ResolvedJobResponse"
+                  "$ref": "#/components/schemas/JobResponse"
                 }
               }
             }
@@ -47,142 +47,61 @@
       }
     },
     "/Job": {
-      "get": {
+      "post": {
         "tags": [
           "Job"
         ],
-        "operationId": "Job_Getjobs",
-        "parameters": [
-          {
-            "name": "name",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "description",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "price_CurrencyCode",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "price_PriceType",
-            "in": "query",
-            "schema": {
-              "$ref": "#/components/schemas/PriceType"
-            }
-          },
-          {
-            "name": "price_MinPrice",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "price_MaxPrice",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "categoryIds",
-            "in": "query",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "integer",
-                "format": "int32"
+        "operationId": "Job_CreateJob",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateJobCommand"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateJobCommand"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateJobCommand"
               }
             }
-          },
-          {
-            "name": "jobDurationType",
-            "in": "query",
-            "schema": {
-              "$ref": "#/components/schemas/JobDurationType"
-            }
-          },
-          {
-            "name": "city",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "pageSize",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "orderBy",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ResolvedJobResponse"
-                  }
+                  "type": "integer",
+                  "format": "int32"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ResolvedJobResponse"
-                  }
+                  "type": "integer",
+                  "format": "int32"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ResolvedJobResponse"
-                  }
+                  "type": "integer",
+                  "format": "int32"
                 }
               }
             }
           }
         }
       },
-      "post": {
+      "get": {
         "tags": [
           "Job"
         ],
-        "operationId": "Job_CreateJob",
+        "operationId": "Job_GetJobs",
         "parameters": [
           {
             "name": "Name",
@@ -196,72 +115,6 @@
             "in": "query",
             "schema": {
               "type": "string"
-            }
-          },
-          {
-            "name": "HighlightedDescription",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "NumberOfEmployeesRequired",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "Location.Latitude",
-            "in": "query",
-            "schema": {
-              "type": "number",
-              "format": "double"
-            }
-          },
-          {
-            "name": "Location.Longitude",
-            "in": "query",
-            "schema": {
-              "type": "number",
-              "format": "double"
-            }
-          },
-          {
-            "name": "Location.Country",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Location.City",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Location.AddressLine",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "Location.Zip",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "JobDurationType",
-            "in": "query",
-            "schema": {
-              "$ref": "#/components/schemas/JobDurationType"
             }
           },
           {
@@ -295,19 +148,52 @@
             }
           },
           {
-            "name": "Urgency",
+            "name": "CategoryIds",
             "in": "query",
             "schema": {
-              "$ref": "#/components/schemas/JobUrgency"
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "format": "int32"
+              }
             }
           },
           {
-            "name": "CategoryId",
+            "name": "JobDurationType",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/JobDurationType"
+            }
+          },
+          {
+            "name": "City",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "Page",
             "in": "query",
             "schema": {
               "type": "integer",
               "format": "int32"
             }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "OrderBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -316,20 +202,26 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int32"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/JobResponse"
+                  }
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int32"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/JobResponse"
+                  }
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "integer",
-                  "format": "int32"
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/JobResponse"
+                  }
                 }
               }
             }
@@ -337,12 +229,21 @@
         }
       }
     },
-    "/Job/categories": {
+    "/Job/GetJobCategories": {
       "get": {
         "tags": [
           "Job"
         ],
         "operationId": "Job_GetJobCategories",
+        "parameters": [
+          {
+            "name": "getCategoriesQuery",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/GetCategoriesQuery"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -376,7 +277,7 @@
         }
       }
     },
-    "/Job/locations": {
+    "/Job/GetJobLocations": {
       "get": {
         "tags": [
           "Job"
@@ -384,7 +285,7 @@
         "operationId": "Job_GetJobLocations",
         "parameters": [
           {
-            "name": "location",
+            "name": "Location",
             "in": "query",
             "schema": {
               "type": "string"
@@ -423,47 +324,6 @@
           }
         }
       }
-    },
-    "/Job/profile/{id}": {
-      "get": {
-        "tags": [
-          "Job"
-        ],
-        "operationId": "Job_GetProfile",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          }
-        }
-      }
     }
   },
   "components": {
@@ -473,11 +333,11 @@
         "properties": {
           "latitude": {
             "type": "number",
-            "format": "double"
+            "format": "float"
           },
           "longitude": {
             "type": "number",
-            "format": "double"
+            "format": "float"
           },
           "country": {
             "type": "string",
@@ -512,6 +372,83 @@
         },
         "additionalProperties": false
       },
+      "CreateJobCommand": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "highlightedDescription": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "numberOfEmployeesRequired": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "location": {
+            "$ref": "#/components/schemas/JobAddressRequest"
+          },
+          "jobDurationType": {
+            "$ref": "#/components/schemas/JobDurationType"
+          },
+          "price": {
+            "$ref": "#/components/schemas/JobPriceRequest"
+          },
+          "urgency": {
+            "$ref": "#/components/schemas/JobUrgency"
+          },
+          "categoryId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "GetCategoriesQuery": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "JobAddressRequest": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "format": "float"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "float"
+          },
+          "country": {
+            "type": "string",
+            "nullable": true
+          },
+          "city": {
+            "type": "string",
+            "nullable": true
+          },
+          "addressLine": {
+            "type": "string",
+            "nullable": true
+          },
+          "zip": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "JobDurationType": {
         "enum": [
           "LessThanADay",
@@ -519,6 +456,104 @@
           "LessThanAMonth",
           "OneToSixMonths",
           "MoreThanSixMonths"
+        ],
+        "type": "string"
+      },
+      "JobPriceRequest": {
+        "type": "object",
+        "properties": {
+          "currencyCode": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "priceType": {
+            "$ref": "#/components/schemas/PriceType"
+          },
+          "minPrice": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "maxPrice": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "JobResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "highlightedDescription": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "numberOfEmployeesRequired": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "location": {
+            "$ref": "#/components/schemas/Address"
+          },
+          "jobDurationType": {
+            "$ref": "#/components/schemas/JobDurationType"
+          },
+          "price": {
+            "$ref": "#/components/schemas/Price"
+          },
+          "urgency": {
+            "$ref": "#/components/schemas/JobUrgency"
+          },
+          "createDate": {
+            "type": "string",
+            "format": "date-time",
+            "readOnly": true
+          },
+          "jobStatus": {
+            "$ref": "#/components/schemas/JobStatus"
+          },
+          "categoryId": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "categoryName": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "employerId": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "JobStatus": {
+        "enum": [
+          "Created",
+          "Active",
+          "Cancelled",
+          "Finished"
         ],
         "type": "string"
       },
@@ -535,18 +570,21 @@
         "properties": {
           "currencyCode": {
             "type": "string",
-            "nullable": true
+            "nullable": true,
+            "readOnly": true
           },
           "priceType": {
             "$ref": "#/components/schemas/PriceType"
           },
           "minPrice": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "readOnly": true
           },
           "maxPrice": {
             "type": "integer",
-            "format": "int32"
+            "format": "int32",
+            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -557,113 +595,7 @@
           "FixedPrice"
         ],
         "type": "string"
-      },
-      "ResolvedJobResponse": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          },
-          "highlightedDescription": {
-            "type": "string",
-            "nullable": true
-          },
-          "numberOfEmployeesRequired": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "location": {
-            "$ref": "#/components/schemas/Address"
-          },
-          "jobDurationType": {
-            "$ref": "#/components/schemas/JobDurationType"
-          },
-          "price": {
-            "$ref": "#/components/schemas/Price"
-          },
-          "urgency": {
-            "$ref": "#/components/schemas/JobUrgency"
-          },
-          "createDate": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "categoryId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "categoryName": {
-            "type": "string",
-            "nullable": true
-          },
-          "employer": {
-            "$ref": "#/components/schemas/User"
-          }
-        },
-        "additionalProperties": false
-      },
-      "User": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
-          "firstName": {
-            "type": "string",
-            "nullable": true
-          },
-          "lastName": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "description": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      }
-    },
-    "securitySchemes": {
-      "oauth2": {
-        "type": "oauth2",
-        "flows": {
-          "authorizationCode": {
-            "authorizationUrl": "https://localhost:5001/connect/authorize",
-            "tokenUrl": "https://localhost:5001/connect/token",
-            "scopes": {
-              "easyJobAggregate": "Web Easy Job Aggregate",
-              "jobProcessing": "Job Processing Service",
-              "profileApi": "Profile API",
-              "documentApi": "Document API"
-            }
-          }
-        }
       }
     }
-  },
-  "security": [
-    {
-      "oauth2": [
-        "easyJobAggregate",
-        "jobProcessing",
-        "profileApi",
-        "documentApi"
-      ]
-    }
-  ]
+  }
 }

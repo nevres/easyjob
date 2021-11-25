@@ -5,15 +5,19 @@ using JobProcessing.Infrastructure;
 using JobProcessing.Infrastructure.Repositories;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Text.Json.Serialization;
 
 namespace JobProcessing.Application
 {
@@ -22,7 +26,7 @@ namespace JobProcessing.Application
         private readonly IWebHostEnvironment _environment;
 
         public IConfiguration Configuration { get; }
-
+        
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
@@ -33,13 +37,25 @@ namespace JobProcessing.Application
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddGrpc();
             services.AddCustomAuthentication(Configuration);
             services.AddAuthorization();
+
             AddJobContext<JobContext>(services);
-            AddAutoMapper(services);
+
+            services.AddControllers(opt =>
+            {
+                var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+                opt.Filters.Add(new AuthorizeFilter(policy));
+            }).AddJsonOptions(opt =>
+                // this is needed because of typescript client generation and nsag: https://github.com/RicoSuter/NJsonSchema/wiki/Enums
+                opt.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())
+            );
+
+            services.AddCustomSwagger();
             
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            AddAutoMapper(services);
+
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IIdentityService, IdentityService>();
 
             services.AddScoped<IJobRepository, JobRepository>();
@@ -54,22 +70,33 @@ namespace JobProcessing.Application
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                app.UseSwagger().UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Profile API v1");
+                    c.OAuthAppName("Job Processing API Swagger UI");
+                });
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                app.UseHsts();
             }
 
+            app.UseHttpsRedirection();
+            app.UseStaticFiles();
+
             app.UseRouting();
+            
 
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints((Action<Microsoft.AspNetCore.Routing.IEndpointRouteBuilder>)(endpoints =>
+            app.UseEndpoints(endpoints =>
             {
-                GrpcEndpointRouteBuilderExtensions.MapGrpcService<JobProcessingService>(endpoints);
-
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Communication with gRPC endpoints must be made through a gRPC client. To learn how to create a client, visit: https://go.microsoft.com/fwlink/?linkid=2086909");
-                });
-            }));
+                endpoints.MapControllers();
+            });
         }
 
         private void AddJobContext<T>(IServiceCollection services) where T : DbContext
@@ -121,6 +148,17 @@ namespace JobProcessing.Application
                 options.Audience = "jobProcessing";
             });
 
+            return services;
+        }
+
+        public static IServiceCollection AddCustomSwagger(this IServiceCollection services)
+        {
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = "JobProcessingApi", Version = "v1" });
+                // Nswag.CodeGeneration.Typescript needs this for splitting controllers into client classes
+                options.CustomOperationIds(e => $"{e.ActionDescriptor.RouteValues["controller"]}_{e.ActionDescriptor.RouteValues["action"]}");
+            });
             return services;
         }
     }

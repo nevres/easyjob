@@ -16,10 +16,13 @@
       <Options>/UseBaseUrl:false /GenerateClientInterfaces:true /GenerateExceptionClasses:false</Options>
       <OutputPath>Profile/ProfileApi.cs</OutputPath>
     </OpenApiReference>
+    <OpenApiReference Include="..\JobProcessing.Application\swagger.json" CodeGenerator="NSwagCSharp" Namespace="JobProcessing" ClassName="JobProcessingApi" Link="OpenAPIs\swagger.json" >
+      <Options>/UseBaseUrl:false /GenerateClientInterfaces:true /GenerateExceptionClasses:false</Options>
+      <OutputPath>JobProcessing/JobProcessingApi.cs</OutputPath>
+    </OpenApiReference>
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.12" />
 		<PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="3.0.0">
 		  <PrivateAssets>all</PrivateAssets>
@@ -34,12 +37,6 @@
 		<PackageReference Include="Serilog.AspNetCore" Version="4.1.0" />
 		<PackageReference Include="Serilog.Sinks.PostgreSQL" Version="2.3.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Protobuf Include="..\JobProcessing.Application\Protos\jobProcessing.proto" GrpcServices="Client">
-	    <Link>Protos\jobProcessing.proto</Link>
-	  </Protobuf>
 	</ItemGroup>
     
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">

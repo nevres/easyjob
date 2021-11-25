@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using JobProcessing.Application.Shared.DTO;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.Linq;

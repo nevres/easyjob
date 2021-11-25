@@ -1,15 +1,11 @@
 ﻿using EasyJob.Models;
-using EasyJob.Services;
-using JobProcessing.Application;
+using JobProcessing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Profile;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
-using static JobProcessing.Application.JobService;
 
 namespace EasyJob.Controllers
 {
@@ -18,57 +14,70 @@ namespace EasyJob.Controllers
     public class JobController : ControllerBase
     {
         private readonly ILogger<JobController> _logger;
-        private readonly JobServiceClient _jobServiceClient;
         private readonly IProfileApi _profileApi;
+        private readonly IJobProcessingApi _jobProcessingApi;
 
         public JobController(ILogger<JobController> logger,
-                             JobServiceClient jobServiceClient,
-                             IProfileApi profileApi)
+                             IProfileApi profileApi, IJobProcessingApi jobProcessingApi)
         {
             _logger = logger;
-            _jobServiceClient = jobServiceClient;
             _profileApi = profileApi;
+            _jobProcessingApi = jobProcessingApi;
         }
 
         [HttpGet("{id}")]
-        public async Task<Models.ResolvedJobResponse> GetAsync(int id)
+        public async Task<ResolvedJobResponse> GetAsync(int id)
         {
-            var job = await _jobServiceClient.GetJobByIdAsync(new GetJobByIdRequest() { Id = 1 });
+            var job = await _jobProcessingApi.GetJobByIdAsync(id);
             return await CreateJobResponseAsync(job);
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Models.ResolvedJobResponse>> GetjobsAsync([FromQuery] GetJobsQuery query)
+        public async Task<IEnumerable<Models.ResolvedJobResponse>> GetjobsAsync([FromQuery] string name,
+            [FromQuery] string description,
+            [FromQuery] string price_CurrencyCode,
+            [FromQuery] PriceType? price_PriceType,
+            [FromQuery] int? price_MinPrice,
+            [FromQuery] int? price_MaxPrice,
+            [FromQuery] System.Collections.Generic.IEnumerable<int> categoryIds,
+            [FromQuery] JobDurationType? jobDurationType,
+            [FromQuery] string city,
+            [FromQuery] int? page,
+            [FromQuery] int? pageSize,
+            [FromQuery] string orderBy)
         {
-            var jobServiceResponse = await _jobServiceClient.GetJobsAsync(query);
-            return await Task.WhenAll(jobServiceResponse.Jobs.Select(async x => await CreateJobResponseAsync(x)));
+            var jobServiceResponse = await _jobProcessingApi.GetJobsAsync(name, description, price_CurrencyCode, price_PriceType, price_MinPrice, price_MaxPrice, categoryIds, jobDurationType, city, page, pageSize, orderBy);
+            return await Task.WhenAll(jobServiceResponse.Select(async x => await CreateJobResponseAsync(x)));
         }
 
         [HttpGet("categories")]
-        public async Task<List<CategoryResponse>> GetJobCategories()
+        public async Task<IEnumerable<CategoryResponse>> GetJobCategories()
         {
-            var jobServiceResponse = await _jobServiceClient.GetJobCategoriesAsync(new Empty());
-            return jobServiceResponse.Categories.ToList();
+            return await _jobProcessingApi.GetJobCategoriesAsync(new GetCategoriesQuery());
         }
 
         [HttpGet("locations")]
-        public async Task<List<Address>> GetJobLocations([FromQuery] GetJobLocationsQuery query)
+        public async Task<IEnumerable<Address>> GetJobLocations([FromQuery] string location)
         {
-            var jobServiceResponse = await _jobServiceClient.GetJobLocationsAsync(query);
-            return jobServiceResponse.Address.ToList();
+            return await _jobProcessingApi.GetJobLocationsAsync(location);
         }
 
         [HttpPost]
-        public async Task<int> CreateJob([FromQuery] CreateJobRequest query)
+        public async Task<int> CreateJob([FromQuery] CreateJobCommand query)
         {
-            var jobServiceResponse = await _jobServiceClient.CreateJobAsync(query);
-            return jobServiceResponse.Id_;
+            return await _jobProcessingApi.CreateJobAsync(query);
         }
 
-        private async Task<ResolvedJobResponse> CreateJobResponseAsync(JobProcessing.Application.JobResponse job)
+        [HttpGet("profile/{id}")]
+        public async Task<User> GetProfileAsync(int id)
+        {
+            return await _profileApi.GetAsync("1");
+        }
+
+        private async Task<ResolvedJobResponse> CreateJobResponseAsync(JobResponse job)
         {
             var employer = await _profileApi.GetAsync(job.EmployerId);
-            
+
             var resolvedJobResponse = new ResolvedJobResponse()
             {
                 CategoryId = job.CategoryId,

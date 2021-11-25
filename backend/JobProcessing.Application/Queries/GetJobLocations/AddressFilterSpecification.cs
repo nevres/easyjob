@@ -10,10 +10,13 @@ namespace JobProcessing.Application.Queries.GetJobLocations
     {
         public AddressFilterSpecification(GetJobLocationsQuery query)
         {
-            var sanitizedLocation = query.Location.ToLower();
-            Query.Where(x => x.Country.ToLower().Contains(sanitizedLocation) || 
-                             x.City.ToLower().Contains(sanitizedLocation)
-                );
+            if (!string.IsNullOrEmpty(query.Location))
+            {
+                var sanitizedLocation = query.Location.ToLower();
+                Query.Where(x => x.Country.ToLower().Contains(sanitizedLocation) ||
+                                 x.City.ToLower().Contains(sanitizedLocation)
+                    );
+            }
         }
     }
 }

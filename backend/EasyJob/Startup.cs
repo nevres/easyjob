@@ -4,6 +4,7 @@ using EasyJob.Filters;
 using EasyJob.Infrastructure;
 using EasyJob.Models;
 using EasyJob.Services;
+using JobProcessing;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -19,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text.Json.Serialization;
-using static JobProcessing.Application.JobService;
 
 namespace EasyJob
 {
@@ -48,7 +48,10 @@ namespace EasyJob
                                   });
             });
 
-            AddGrpcServices(services);
+            //register delegating handlers
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
+            AddHttpClients(services);
 
             //services.AddTransient<IIdentityParser<ApplicationUser>, IdentityParser>();
 
@@ -100,24 +103,6 @@ namespace EasyJob
             {
                 endpoints.MapControllers();
             });
-        }
-
-        private void AddGrpcServices(IServiceCollection services)
-        {
-            services.AddTransient<GrpcExceptionInterceptor>();
-
-            //register delegating handlers
-            services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-
-            AddHttpClients(services);
-
-            services.AddGrpcClient<JobServiceClient>((services, options) =>
-            {
-                var grpcUrl = Configuration.GetValue<string>("urls:grpcJob");
-                options.Address = new Uri(grpcUrl);
-            }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-            .AddInterceptor<GrpcExceptionInterceptor>();
         }
 
         private static void AddCustomAuthentication(IServiceCollection services, IConfiguration configuration)
@@ -197,6 +182,12 @@ namespace EasyJob
 
             services.AddHttpClient<IDocumentService, DocumentService>((config) => {
                 var profileApiUrl = Configuration.GetValue<string>("urls:documentApi");
+                config.BaseAddress = new Uri(profileApiUrl);
+            }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
+
+            services.AddHttpClient<IJobProcessingApi, JobProcessingApi>((config) =>
+            {
+                var profileApiUrl = Configuration.GetValue<string>("urls:jobService");
                 config.BaseAddress = new Uri(profileApiUrl);
             }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
         }

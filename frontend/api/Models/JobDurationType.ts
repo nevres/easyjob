@@ -1,7 +1,7 @@
 export enum JobDurationType {
-    LessThanAday = "LessThanAday",
-    LessThanAweek = "LessThanAweek",
-    LessThanAmonth = "LessThanAmonth",
+    LessThanADay = "LessThanADay",
+    LessThanAWeek = "LessThanAWeek",
+    LessThanAMonth = "LessThanAMonth",
     OneToSixMonths = "OneToSixMonths",
     MoreThanSixMonths = "MoreThanSixMonths",
 }

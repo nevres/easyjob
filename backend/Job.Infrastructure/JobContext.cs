@@ -18,6 +18,8 @@ namespace JobProcessing.Infrastructure
 
             modelBuilder.Entity<Category>().ToTable("Category");
 
+            modelBuilder.Entity<JobDocument>().HasKey(x => x.DocumentId);
+
             modelBuilder.Entity<Employer>().HasKey(x => x.Identity);
             modelBuilder.Entity<Job>()
                 .HasOne(x => x.Employer).WithMany().HasForeignKey(x => x.EmployerId).IsRequired();
