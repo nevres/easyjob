@@ -16,7 +16,7 @@
       <Options>/UseBaseUrl:false /GenerateClientInterfaces:true /GenerateExceptionClasses:false</Options>
       <OutputPath>Profile/ProfileApi.cs</OutputPath>
     </OpenApiReference>
-    <OpenApiReference Include="..\JobProcessing.Application\swagger.json" CodeGenerator="NSwagCSharp" Namespace="JobProcessing" ClassName="JobProcessingApi" Link="OpenAPIs\swagger.json" >
+    <OpenApiReference Include="..\JobProcessing.Application\swagger.json" CodeGenerator="NSwagCSharp" Namespace="JobProcessing" ClassName="JobProcessingApi" Link="OpenAPIs\swagger.json">
       <Options>/UseBaseUrl:false /GenerateClientInterfaces:true /GenerateExceptionClasses:false</Options>
       <OutputPath>JobProcessing/JobProcessingApi.cs</OutputPath>
     </OpenApiReference>

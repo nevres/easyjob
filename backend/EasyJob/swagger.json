@@ -424,12 +424,12 @@
         }
       }
     },
-    "/Job/profile/{id}": {
-      "get": {
+    "/Job/{id}/document": {
+      "post": {
         "tags": [
           "Job"
         ],
-        "operationId": "Job_GetProfile",
+        "operationId": "Job_UploadDocument",
         "parameters": [
           {
             "name": "id",
@@ -441,26 +441,32 @@
             }
           }
         ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  }
                 }
               },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/User"
+              "encoding": {
+                "files": {
+                  "style": "form"
                 }
               }
             }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }

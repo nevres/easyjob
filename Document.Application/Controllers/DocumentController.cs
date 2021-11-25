@@ -4,9 +4,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -25,21 +22,16 @@ namespace Document.Application.Controllers
         }
 
         [HttpPost]
-        public async Task UploadDocument([FromForm] IFormFile[] files, CancellationToken cancellationToken)
+        public async Task<DocumentResponse> UploadDocument([FromForm] IFormFile file, CancellationToken cancellationToken)
         {
-            var newDocumentRequests = files.Select(file =>
+            var docRequest = new NewDocumentRequest()
             {
-                return new NewDocumentRequest()
-                {
-                    Content = file.OpenReadStream(),
-                    ContentType = file.ContentType,
-                    FileName = file.FileName
-                };
-            });
+                Content = file.OpenReadStream(),
+                ContentType = file.ContentType,
+                FileName = file.FileName
+            };
 
-            foreach (var request in newDocumentRequests) {
-                await _documentService.CreateDocumentAsync(request, cancellationToken);
-            }
+            return await _documentService.CreateDocumentAsync(docRequest, cancellationToken);
         }
 
         [HttpGet("{id}/documentContent")]

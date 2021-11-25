@@ -1,10 +1,13 @@
-﻿using EasyJob.Models;
+﻿using DocumentProcessing;
+using EasyJob.Models;
 using JobProcessing;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Profile;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EasyJob.Controllers
@@ -16,13 +19,15 @@ namespace EasyJob.Controllers
         private readonly ILogger<JobController> _logger;
         private readonly IProfileApi _profileApi;
         private readonly IJobProcessingApi _jobProcessingApi;
+        private readonly IDocumentService _documentService;
 
         public JobController(ILogger<JobController> logger,
-                             IProfileApi profileApi, IJobProcessingApi jobProcessingApi)
+                             IProfileApi profileApi, IJobProcessingApi jobProcessingApi, IDocumentService documentService)
         {
             _logger = logger;
             _profileApi = profileApi;
             _jobProcessingApi = jobProcessingApi;
+            _documentService = documentService;
         }
 
         [HttpGet("{id}")]
@@ -68,10 +73,15 @@ namespace EasyJob.Controllers
             return await _jobProcessingApi.CreateJobAsync(query);
         }
 
-        [HttpGet("profile/{id}")]
-        public async Task<User> GetProfileAsync(int id)
+
+        [HttpPost("{id}/document")]
+        public async Task UploadDocument(int id, [FromForm] IFormFile[] files, CancellationToken cancellationToken)
         {
-            return await _profileApi.GetAsync("1");
+            foreach (var file in files)
+            {
+                var document = await _documentService.UploadDocumentAsync(file.OpenReadStream(), cancellationToken);
+                await _jobProcessingApi.CreateJobDocumentAsync(id, new CreateJobDocumentCommand() { DocumentFileName = file.FileName, DocumentId = document.Id, IsPrimary = false, JobId = id });
+            }
         }
 
         private async Task<ResolvedJobResponse> CreateJobResponseAsync(JobResponse job)

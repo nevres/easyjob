@@ -10,7 +10,7 @@ namespace Document.Application.Services
 {
     public interface IDocumentService
     {
-        Task<Models.Document> CreateDocumentAsync(NewDocumentRequest request, CancellationToken cancellationToken);
+        Task<DocumentResponse> CreateDocumentAsync(NewDocumentRequest request, CancellationToken cancellationToken);
         Task<DocumentWithContentResponse> GetDocumentContent(Guid documentId, CancellationToken cancellationToken);
     }
 }

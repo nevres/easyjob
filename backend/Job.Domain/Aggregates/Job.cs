@@ -65,7 +65,7 @@ namespace JobProcessing.Domain.Entities
         }
 
         public void AddDocument(JobDocument document) {
-            if (document.IsPrimary && _jobDocuments.Any(x => x.IsPrimary)) {
+            if (document.IsPrimary && _jobDocuments?.Any(x => x.IsPrimary) == true) {
                 throw new JobProcessingDomainException("There can be just single primary document");
             }
             _jobDocuments.Add(document);
