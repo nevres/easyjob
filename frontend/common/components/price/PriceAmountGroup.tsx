@@ -7,8 +7,8 @@ import { SHOP_CURRENCY } from "../../../domain/constants";
 import TextFieldElement from "../../react-hook-mui/TextFieldElement";
 
 export type PriceAmountModel = {
-  minAmount: number;
-  maxAmount: number;
+  minPrice: number;
+  maxPrice: number;
 };
 
 interface Props<T extends { price: PriceAmountModel }> {

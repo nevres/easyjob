@@ -34,11 +34,11 @@ function GetPriceAmount(minPrice: number | undefined, maxPrice: number | undefin
 
 export function getJobDurationTypeTranslation(type: JobDurationType, translation: TranslationFunc): string {
   switch (type) {
-    case JobDurationType.LessThanAday:
+    case JobDurationType.LessThanADay:
       return translation("lessThanADay");
-    case JobDurationType.LessThanAweek:
+    case JobDurationType.LessThanAWeek:
       return translation("lessThanAWeek");
-    case JobDurationType.LessThanAmonth:
+    case JobDurationType.LessThanAMonth:
       return translation("lessThanAMonth");
     case JobDurationType.OneToSixMonths:
       return translation("oneToSixMonths");
@@ -47,7 +47,7 @@ export function getJobDurationTypeTranslation(type: JobDurationType, translation
   }
 }
 
-export function getUserInitials(firstName: string, lastName: string): string {
+export function getUserInitials(firstName?: string, lastName?: string): string {
   if (firstName && firstName.length > 0 && lastName && lastName.length > 0) {
     return firstName[0] + lastName[0];
   }

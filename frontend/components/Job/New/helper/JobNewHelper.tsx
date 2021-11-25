@@ -4,11 +4,11 @@ import { JobNewTitleForm } from "../JobNewTitleForm";
 import { JobNewSkillsForm } from "../JobNewSkillsForm";
 import { JobNewBudgetForm } from "../JobNewBudgetForm";
 import { Control } from "react-hook-form";
-import { PriceModel } from "../../../../api/Models/PriceTypeModel";
 import { StepModel } from "../../../../common/components/stepBased/Step";
 import { Address } from "../../../../api/Models/Address";
 import { JobNewAddressForm } from "../JobNewAddress";
 import { PriceType } from "../../../../api/Models/PriceType";
+import { Price } from "../../../../api/Models/Price";
 
 export enum JobNewStep {
   Title,
@@ -22,7 +22,7 @@ export type JobNewModel = {
   description: string;
   category: number;
   skills: string[];
-  price: PriceModel;
+  price: Price;
   address: Address;
 };
 

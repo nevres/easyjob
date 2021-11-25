@@ -10,14 +10,14 @@ import { JobDurationType } from "../../../api/Models/JobDurationType";
 import { JobDurationSelect } from "../../../common/components/JobDurationSelect";
 import { LocationSelect } from "../../../common/components/LocationSelect";
 import PriceGroupFilter from "../../../common/components/price/PriceGroupFilter";
-import { PriceModel } from "../../../api/Models/PriceTypeModel";
+import { Price } from "../../../api/Models/Price";
 
 export type JobFilterModel = {
   name: string;
   location: string;
   durationInHours: number;
   urgency: JobUrgency;
-  price: PriceModel;
+  price: Price;
   categories: Array<number>;
   jobDurationType?: JobDurationType;
 };

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {throwException} from '../throwException'
+import {User} from '../Models/User'
 import {ResolvedJobResponse} from '../Models/ResolvedJobResponse'
 import {CategoryResponse} from '../Models/CategoryResponse'
 import {Address} from '../Models/Address'
@@ -60,69 +61,64 @@ export class JobClient {
      * @param price_PriceType (optional) 
      * @param price_MinPrice (optional) 
      * @param price_MaxPrice (optional) 
+     * @param categoryIds (optional) 
+     * @param jobDurationType (optional) 
+     * @param city (optional) 
      * @param page (optional) 
      * @param pageSize (optional) 
      * @param orderBy (optional) 
-     * @param categoryIds (optional) 
-     * @param jobDurationType (optional) 
-     * @param hasJobDurationType (optional) 
-     * @param city (optional) 
      * @return Success
      */
-    async getjobs(name: string | undefined, description: string | undefined, price_CurrencyCode: string | undefined, price_PriceType: PriceType | undefined, price_MinPrice: number | undefined, price_MaxPrice: number | undefined, page: number | undefined, pageSize: number | undefined, orderBy: string | undefined, categoryIds: number[] | undefined, jobDurationType: JobDurationType | undefined, hasJobDurationType: boolean | undefined, city: string | undefined): Promise<ResolvedJobResponse[]> {
+    async getjobs(name: string | undefined, description: string | undefined, price_CurrencyCode: string | undefined, price_PriceType: PriceType | undefined, price_MinPrice: number | undefined, price_MaxPrice: number | undefined, categoryIds: number[] | undefined, jobDurationType: JobDurationType | undefined, city: string | undefined, page: number | undefined, pageSize: number | undefined, orderBy: string | undefined): Promise<ResolvedJobResponse[]> {
         let url_ = this.baseUrl + "/Job?";
         if (name === null)
             throw new Error("The parameter 'name' cannot be null.");
         else if (name !== undefined)
-            url_ += "Name=" + encodeURIComponent("" + name) + "&";
+            url_ += "name=" + encodeURIComponent("" + name) + "&";
         if (description === null)
             throw new Error("The parameter 'description' cannot be null.");
         else if (description !== undefined)
-            url_ += "Description=" + encodeURIComponent("" + description) + "&";
+            url_ += "description=" + encodeURIComponent("" + description) + "&";
         if (price_CurrencyCode === null)
             throw new Error("The parameter 'price_CurrencyCode' cannot be null.");
         else if (price_CurrencyCode !== undefined)
-            url_ += "Price.CurrencyCode=" + encodeURIComponent("" + price_CurrencyCode) + "&";
+            url_ += "price_CurrencyCode=" + encodeURIComponent("" + price_CurrencyCode) + "&";
         if (price_PriceType === null)
             throw new Error("The parameter 'price_PriceType' cannot be null.");
         else if (price_PriceType !== undefined)
-            url_ += "Price.PriceType=" + encodeURIComponent("" + price_PriceType) + "&";
+            url_ += "price_PriceType=" + encodeURIComponent("" + price_PriceType) + "&";
         if (price_MinPrice === null)
             throw new Error("The parameter 'price_MinPrice' cannot be null.");
         else if (price_MinPrice !== undefined)
-            url_ += "Price.MinPrice=" + encodeURIComponent("" + price_MinPrice) + "&";
+            url_ += "price_MinPrice=" + encodeURIComponent("" + price_MinPrice) + "&";
         if (price_MaxPrice === null)
             throw new Error("The parameter 'price_MaxPrice' cannot be null.");
         else if (price_MaxPrice !== undefined)
-            url_ += "Price.MaxPrice=" + encodeURIComponent("" + price_MaxPrice) + "&";
-        if (page === null)
-            throw new Error("The parameter 'page' cannot be null.");
-        else if (page !== undefined)
-            url_ += "Page=" + encodeURIComponent("" + page) + "&";
-        if (pageSize === null)
-            throw new Error("The parameter 'pageSize' cannot be null.");
-        else if (pageSize !== undefined)
-            url_ += "PageSize=" + encodeURIComponent("" + pageSize) + "&";
-        if (orderBy === null)
-            throw new Error("The parameter 'orderBy' cannot be null.");
-        else if (orderBy !== undefined)
-            url_ += "OrderBy=" + encodeURIComponent("" + orderBy) + "&";
+            url_ += "price_MaxPrice=" + encodeURIComponent("" + price_MaxPrice) + "&";
         if (categoryIds === null)
             throw new Error("The parameter 'categoryIds' cannot be null.");
         else if (categoryIds !== undefined)
-            categoryIds && categoryIds.forEach(item => { url_ += "CategoryIds=" + encodeURIComponent("" + item) + "&"; });
+            categoryIds && categoryIds.forEach(item => { url_ += "categoryIds=" + encodeURIComponent("" + item) + "&"; });
         if (jobDurationType === null)
             throw new Error("The parameter 'jobDurationType' cannot be null.");
         else if (jobDurationType !== undefined)
-            url_ += "JobDurationType=" + encodeURIComponent("" + jobDurationType) + "&";
-        if (hasJobDurationType === null)
-            throw new Error("The parameter 'hasJobDurationType' cannot be null.");
-        else if (hasJobDurationType !== undefined)
-            url_ += "HasJobDurationType=" + encodeURIComponent("" + hasJobDurationType) + "&";
+            url_ += "jobDurationType=" + encodeURIComponent("" + jobDurationType) + "&";
         if (city === null)
             throw new Error("The parameter 'city' cannot be null.");
         else if (city !== undefined)
-            url_ += "City=" + encodeURIComponent("" + city) + "&";
+            url_ += "city=" + encodeURIComponent("" + city) + "&";
+        if (page === null)
+            throw new Error("The parameter 'page' cannot be null.");
+        else if (page !== undefined)
+            url_ += "page=" + encodeURIComponent("" + page) + "&";
+        if (pageSize === null)
+            throw new Error("The parameter 'pageSize' cannot be null.");
+        else if (pageSize !== undefined)
+            url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
+        if (orderBy === null)
+            throw new Error("The parameter 'orderBy' cannot be null.");
+        else if (orderBy !== undefined)
+            url_ += "orderBy=" + encodeURIComponent("" + orderBy) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -172,10 +168,9 @@ export class JobClient {
      * @param price_MaxPrice (optional) 
      * @param urgency (optional) 
      * @param categoryId (optional) 
-     * @param userId (optional) 
      * @return Success
      */
-    async createJob(name: string | undefined, description: string | undefined, highlightedDescription: string | undefined, numberOfEmployeesRequired: number | undefined, location_Latitude: number | undefined, location_Longitude: number | undefined, location_Country: string | undefined, location_City: string | undefined, location_AddressLine: string | undefined, location_Zip: string | undefined, jobDurationType: JobDurationType | undefined, price_CurrencyCode: string | undefined, price_PriceType: PriceType | undefined, price_MinPrice: number | undefined, price_MaxPrice: number | undefined, urgency: JobUrgency | undefined, categoryId: number | undefined, userId: number | undefined): Promise<number> {
+    async createJob(name: string | undefined, description: string | undefined, highlightedDescription: string | undefined, numberOfEmployeesRequired: number | undefined, location_Latitude: number | undefined, location_Longitude: number | undefined, location_Country: string | undefined, location_City: string | undefined, location_AddressLine: string | undefined, location_Zip: string | undefined, jobDurationType: JobDurationType | undefined, price_CurrencyCode: string | undefined, price_PriceType: PriceType | undefined, price_MinPrice: number | undefined, price_MaxPrice: number | undefined, urgency: JobUrgency | undefined, categoryId: number | undefined): Promise<number> {
         let url_ = this.baseUrl + "/Job?";
         if (name === null)
             throw new Error("The parameter 'name' cannot be null.");
@@ -245,10 +240,6 @@ export class JobClient {
             throw new Error("The parameter 'categoryId' cannot be null.");
         else if (categoryId !== undefined)
             url_ += "CategoryId=" + encodeURIComponent("" + categoryId) + "&";
-        if (userId === null)
-            throw new Error("The parameter 'userId' cannot be null.");
-        else if (userId !== undefined)
-            url_ += "UserId=" + encodeURIComponent("" + userId) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -325,7 +316,7 @@ export class JobClient {
         if (location === null)
             throw new Error("The parameter 'location' cannot be null.");
         else if (location !== undefined)
-            url_ += "Location=" + encodeURIComponent("" + location) + "&";
+            url_ += "location=" + encodeURIComponent("" + location) + "&";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ = <RequestInit>{
@@ -355,6 +346,45 @@ export class JobClient {
             });
         }
         return Promise.resolve<Address[]>(<any>null);
+    }
+
+    /**
+     * @return Success
+     */
+    async getProfile(id: number): Promise<User> {
+        let url_ = this.baseUrl + "/Job/profile/{id}";
+        if (id === undefined || id === null)
+            throw new Error("The parameter 'id' must be defined.");
+        url_ = url_.replace("{id}", encodeURIComponent("" + id));
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ = <RequestInit>{
+            method: "GET",
+            headers: {
+                "Accept": "text/plain"
+            }
+        };
+
+        return this.http.fetch(url_, options_).then((_response: Response) => {
+            return this.processGetProfile(_response);
+        });
+    }
+
+    protected async processGetProfile(response: Response): Promise<User> {
+        const status = response.status;
+        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
+        if (status === 200) {
+            return response.text().then((_responseText) => {
+            let result200: any = null;
+            result200 = _responseText === "" ? null : <User>JSON.parse(_responseText, this.jsonParseReviver);
+            return result200;
+            });
+        } else if (status !== 200 && status !== 204) {
+            return response.text().then((_responseText) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            });
+        }
+        return Promise.resolve<User>(<any>null);
     }
 }
 

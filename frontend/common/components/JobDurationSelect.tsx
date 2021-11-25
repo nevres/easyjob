@@ -18,9 +18,9 @@ export function JobDurationSelect<T>(props: JobDurationSelectProps<T>) {
   const t = useI18n();
 
   const jobDurationOptions: Array<SelectItem> = [
-    { label: getJobDurationTypeTranslation(JobDurationType.LessThanAday, t), value: JobDurationType.LessThanAday },
-    { label: getJobDurationTypeTranslation(JobDurationType.LessThanAweek, t), value: JobDurationType.LessThanAweek },
-    { label: getJobDurationTypeTranslation(JobDurationType.LessThanAmonth, t), value: JobDurationType.LessThanAmonth },
+    { label: getJobDurationTypeTranslation(JobDurationType.LessThanADay, t), value: JobDurationType.LessThanADay },
+    { label: getJobDurationTypeTranslation(JobDurationType.LessThanAWeek, t), value: JobDurationType.LessThanAWeek },
+    { label: getJobDurationTypeTranslation(JobDurationType.LessThanAMonth, t), value: JobDurationType.LessThanAMonth },
     { label: getJobDurationTypeTranslation(JobDurationType.OneToSixMonths, t), value: JobDurationType.OneToSixMonths },
     {
       label: getJobDurationTypeTranslation(JobDurationType.MoreThanSixMonths, t),
