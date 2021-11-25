@@ -1,10 +1,12 @@
 ﻿using DocumentProcessing;
 using EasyJob.Models;
+using EasyJob.Models.Job.JobDocument;
 using JobProcessing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Profile;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -75,14 +77,19 @@ namespace EasyJob.Controllers
 
 
         [HttpPost("{id}/document")]
-        public async Task UploadDocument(int id, [FromForm] IFormFile[] files, CancellationToken cancellationToken)
+        public async Task UploadDocument(int id, [FromForm] IFormFile[] files, [FromForm] JobDocumentInfo[] documentInfos, CancellationToken cancellationToken)
         {
-            foreach (var file in files)
+            if (files.Length != documentInfos.Length) {
+                throw new ArgumentException("Size of files parameter should equal to size of documentInfos parameter");
+            }
+            for (int i = 0; i < files.Length; i++)
             {
+                var file = files[i];
+                var documentInfo = documentInfos[i];
                 var headers = file.Headers.ToDictionary(x => x.Key, x => x.Value.AsEnumerable());
                 var fileParam = new FileParameter(file.OpenReadStream(), file.FileName, file.ContentType);
                 var document = await _documentService.UploadDocumentAsync(new FileParameter[] { fileParam }, cancellationToken);
-                await _jobProcessingApi.CreateJobDocumentAsync(id, new CreateJobDocumentCommand() { DocumentFileName = file.FileName, DocumentId = document.Id, IsPrimary = false, JobId = id });
+                await _jobProcessingApi.CreateJobDocumentAsync(id, new CreateJobDocumentCommand() { DocumentFileName = file.FileName, DocumentId = document.Id, IsPrimary = documentInfo.IsPrimary, JobId = id });
             }
         }
 

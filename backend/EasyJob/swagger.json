@@ -453,11 +453,20 @@
                       "type": "string",
                       "format": "binary"
                     }
+                  },
+                  "documentInfos": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/JobDocumentInfo"
+                    }
                   }
                 }
               },
               "encoding": {
                 "files": {
+                  "style": "form"
+                },
+                "documentInfos": {
                   "style": "form"
                 }
               }
@@ -514,6 +523,15 @@
           "categoryName": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "JobDocumentInfo": {
+        "type": "object",
+        "properties": {
+          "isPrimary": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false

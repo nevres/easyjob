@@ -349,9 +349,10 @@ export class JobClient {
 
     /**
      * @param files (optional) 
+     * @param documentInfos (optional) 
      * @return Success
      */
-    async uploadDocument(id: number, files: FileParameter[] | undefined): Promise<void> {
+    async uploadDocument(id: number, files: FileParameter[] | undefined, documentInfos: JobDocumentInfo[] | undefined): Promise<void> {
         let url_ = this.baseUrl + "/Job/{id}/document";
         if (id === undefined || id === null)
             throw new Error("The parameter 'id' must be defined.");
@@ -363,6 +364,10 @@ export class JobClient {
             throw new Error("The parameter 'files' cannot be null.");
         else
             files.forEach(item_ => content_.append("files", item_.data, item_.fileName ? item_.fileName : "files") );
+        if (documentInfos === null || documentInfos === undefined)
+            throw new Error("The parameter 'documentInfos' cannot be null.");
+        else
+            documentInfos.forEach(item_ => content_.append("documentInfos", item_.toString()));
 
         let options_ = <RequestInit>{
             body: content_,
