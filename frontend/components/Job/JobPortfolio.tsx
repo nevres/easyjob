@@ -14,13 +14,14 @@ import Link from "next/link";
 
 export default function JobPortfolio() {
   const [filter, setFilter] = useState<JobFilterModel>();
-  const [selectedJob, setSelectedJob] = useState<ResolvedJobResponse>();
+  const [selectedJob, setSelectedJob] = useState<ResolvedJobResponse | null>();
   const jobApi = useJobApi();
   const { addLoader, removeLoader } = useLoader();
   const t = useI18n();
 
   const getJobs = async (filter: JobFilterModel) => {
     addLoader();
+    setSelectedJob(null);
     try {
       const jobs = await jobApi.getjobs(
         filter?.name,
@@ -36,6 +37,9 @@ export default function JobPortfolio() {
         10,
         undefined
       );
+      if (jobs && jobs.length > 0) {
+        setSelectedJob(jobs[0]);
+      }
       return jobs;
     } finally {
       removeLoader();
@@ -43,10 +47,6 @@ export default function JobPortfolio() {
   };
 
   var fetchResult = useAsync<ResolvedJobResponse[]>(getJobs, [filter]);
-
-  if (isNullOrUndefined(selectedJob) && fetchResult.result) {
-    setSelectedJob(fetchResult.result[0]);
-  }
 
   var handleFilterSubmit = useCallback((data: JobFilterModel) => {
     setFilter(data);
