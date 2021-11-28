@@ -46,12 +46,12 @@ export default function JobFilter(props: JobFilterProps) {
         type="search"
         fullWidth
       />
-      <JobDurationSelect control={control} name={"jobDurationType"} />
+      <JobDurationSelect control={control} name={"jobDurationType"}/>
       <Divider />
       <LocationSelect name="location" control={control} />
       <Divider />
       <PriceGroupFilter control={control} />
-      <CategoriesSelect control={control} name="categories" />
+      <CategoriesSelect control={control} name="categories"/>
       <Stack spacing={2} direction={"row"} justifyContent="center">
         <Button variant="contained" endIcon={<SearchIcon />} onClick={handleSubmit(onSubmit)}>
           {t("search")}
