@@ -5,6 +5,7 @@ import { CategoryResponse } from "../../api/Models/CategoryResponse";
 import { JobFilterModel } from "../../components/Job/Filter/Filter";
 import { useJobApi } from "../customHooks/api/useJobApi";
 import useI18n from "../i18n/useI18n";
+import AutocompleteElement from "../react-hook-mui/AutocompleteElement";
 import MultiSelectElement, { SelectItem } from "../react-hook-mui/MultiSelectElement";
 
 export type CategoriesSelectProps<T> = {
@@ -24,12 +25,19 @@ export function CategoriesSelect<T>(props: CategoriesSelectProps<T>) {
   }, [categoriesPromise]);
 
   return (
-    <MultiSelectElement
+    <AutocompleteElement
       control={props.control}
       name={props.name}
-      menuItems={categoryMenuItems}
+      options={categoryMenuItems}
       label={t("category")}
       multiple
-    />
+    ></AutocompleteElement>
+    // <MultiSelectElement
+    //   control={props.control}
+    //   name={props.name}
+    //   menuItems={categoryMenuItems}
+    //   label={t("category")}
+    //   multiple
+    // />
   );
 }
