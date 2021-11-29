@@ -1,7 +1,17 @@
 import React from "react";
 import CloseIcon from "@mui/icons-material/Cancel";
+import ClearIcon from "@mui/icons-material/Clear";
 import { Controller, FieldError, Control, FieldPath } from "react-hook-form";
-import { Chip, FormControl, FormHelperText, InputLabel, MenuItem, Select, SelectProps } from "@mui/material";
+import {
+  Chip,
+  FormControl,
+  FormHelperText,
+  IconButton,
+  InputLabel,
+  MenuItem,
+  Select,
+  SelectProps
+} from "@mui/material";
 
 export type ValueType = number | string;
 
@@ -80,6 +90,11 @@ export default function MultiSelectElement<T>({
                   }
                 }
               }}
+              endAdornment={
+                <IconButton onClick={() => field.onChange("")} disabled={!field.value} style={{ order: 1 }}>
+                  <ClearIcon color="disabled" fontSize="small" />
+                </IconButton>
+              }
               renderValue={
                 showChips
                   ? (selected: Array<ValueType>) => (
