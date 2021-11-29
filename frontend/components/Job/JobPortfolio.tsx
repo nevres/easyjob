@@ -30,7 +30,7 @@ export default function JobPortfolio() {
         filter?.price.priceType,
         filter?.price.minPrice,
         filter?.price.maxPrice,
-        filter?.categories,
+        filter?.categories?.map((x) => x.value as number),
         filter?.jobDurationType,
         filter?.location,
         1,

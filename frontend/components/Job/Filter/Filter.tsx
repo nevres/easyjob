@@ -11,6 +11,7 @@ import { JobDurationSelect } from "../../../common/components/JobDurationSelect"
 import { LocationSelect } from "../../../common/components/LocationSelect";
 import PriceGroupFilter from "../../../common/components/price/PriceGroupFilter";
 import { Price } from "../../../api/Models/Price";
+import { SelectItem } from "../../../common/react-hook-mui/MultiSelectElement";
 
 export type JobFilterModel = {
   name: string;
@@ -18,7 +19,7 @@ export type JobFilterModel = {
   durationInHours: number;
   urgency: JobUrgency;
   price: Price;
-  categories: Array<number>;
+  categories: Array<SelectItem>;
   jobDurationType?: JobDurationType;
 };
 
@@ -27,7 +28,7 @@ interface JobFilterProps {
 }
 
 export default function JobFilter(props: JobFilterProps) {
-  const { handleSubmit, control, watch, reset } = useForm<JobFilterModel>();
+  const { handleSubmit, control, watch, reset } = useForm<JobFilterModel>({ defaultValues: { categories: [] } });
 
   const onSubmit: SubmitHandler<JobFilterModel> = (data) => {
     window.console.log(data);
@@ -46,12 +47,12 @@ export default function JobFilter(props: JobFilterProps) {
         type="search"
         fullWidth
       />
-      <JobDurationSelect control={control} name={"jobDurationType"}/>
+      <JobDurationSelect control={control} name={"jobDurationType"} />
       <Divider />
       <LocationSelect name="location" control={control} />
       <Divider />
       <PriceGroupFilter control={control} />
-      <CategoriesSelect control={control} name="categories"/>
+      <CategoriesSelect control={control} name="categories" />
       <Stack spacing={2} direction={"row"} justifyContent="center">
         <Button variant="contained" endIcon={<SearchIcon />} onClick={handleSubmit(onSubmit)}>
           {t("search")}
