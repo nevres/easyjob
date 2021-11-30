@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace JobProcessing.Infrastructure.Repositories
 {
-    public interface ICategoryRepository
+    public interface ICategoryRepository: IUnitOfWork
     {
         Task<IEnumerable<Category>> GetJobCategoriesAsync();
     }

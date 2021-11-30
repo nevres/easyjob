@@ -46,8 +46,7 @@ export function useJobNew(onSubmit?: () => void) {
           data.price.minPrice,
           data.price.maxPrice,
           undefined,
-          data.category,
-          undefined
+          data.category
         );
         if (onSubmit) {
           onSubmit();

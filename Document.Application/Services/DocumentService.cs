@@ -17,15 +17,18 @@ namespace Document.Application.Services
         private readonly IBlobStorage _storage;
         private readonly IDocumentRepository _documentRepository;
         private readonly IIdentityService _identityService;
+        private readonly IMapper _mapper;
 
-        public DocumentService(IBlobStorage storage, IDocumentRepository documentRepository, IIdentityService identityService)
+        public DocumentService(IBlobStorage storage, IDocumentRepository documentRepository, 
+            IIdentityService identityService, IMapper mapper)
         {
             _storage = storage;
             _documentRepository = documentRepository;
             _identityService = identityService;
+            _mapper = mapper;
         }
 
-        public async Task<Models.Document> CreateDocumentAsync(NewDocumentRequest request, CancellationToken cancellationToken)
+        public async Task<DocumentResponse> CreateDocumentAsync(NewDocumentRequest request, CancellationToken cancellationToken)
         {
             var userId = _identityService.GetUserIdentity();
             var newDocument = new Models.Document(userId, request.FileName, request.Content.Length, request.ContentType);
@@ -36,26 +39,16 @@ namespace Document.Application.Services
             
             await storageTransaction.CommitAsync();
             await _documentRepository.SaveChangesAsync();
-            return newDocument;
+            return _mapper.Map<DocumentResponse>(newDocument);
         }
 
         public async Task<DocumentWithContentResponse> GetDocumentContent(Guid documentId, CancellationToken cancellationToken)
         {
             var documentInfo = await _documentRepository.GetByIdAsync(documentId);
             var stream = await _storage.OpenReadAsync(documentId.ToString(), cancellationToken: cancellationToken);
-            return new DocumentWithContentResponse()
-            {
-                Content = stream,
-                ContentType = documentInfo.ContentType,
-                CreateDate = documentInfo.CreateDate,
-                ModifyDate = documentInfo.ModifyDate,
-                CreateUserId = documentInfo.CreateUserId,
-                ModifyUserId = documentInfo.ModifyUserId,
-                Extension = documentInfo.Extension,
-                FileName = documentInfo.FileName,
-                Id = documentInfo.Id,
-                LengthInBytes = documentInfo.LengthInBytes
-            };
+            var result = _mapper.Map<DocumentWithContentResponse>(documentInfo);
+            result.Content = stream;
+            return result;
         }
     }
 }

@@ -1,8 +1,12 @@
 ﻿using Ardalis.GuardClauses;
 using JobProcessing.Domain.Enums;
+using JobProcessing.Domain.Exceptions;
 using JobProcessing.Domain.ValueTypes;
+using Shared.Exceptions;
 using Shared.SeedWork;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace JobProcessing.Domain.Entities
 {
@@ -23,6 +27,10 @@ namespace JobProcessing.Domain.Entities
         public Category Category { get; private set; }
         public Employer Employer { get; private set; }
         public string EmployerId { get; private set; }
+
+        private List<JobDocument> _jobDocuments;
+        public IEnumerable<JobDocument> JobDocuments => _jobDocuments.AsReadOnly();
+
         private Job()
         {
             // for ef core
@@ -52,8 +60,15 @@ namespace JobProcessing.Domain.Entities
             CreateDate = DateTimeOffset.UtcNow;
             this.JobStatus = JobStatus.Active;
             this.CategoryId = categoryId;
-            //this.Employer = employer; //throws exception, will handle later
+            //TODO: this.Employer = employer; //throws exception, will handle later
             this.EmployerId = employer.Identity;
+        }
+
+        public void AddDocument(JobDocument document) {
+            if (document.IsPrimary && _jobDocuments?.Any(x => x.IsPrimary) == true) {
+                throw new JobProcessingDomainException("There can be just single primary document");
+            }
+            _jobDocuments.Add(document);
         }
     }
 }

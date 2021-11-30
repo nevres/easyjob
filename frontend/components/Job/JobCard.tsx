@@ -77,14 +77,14 @@ export default function JobCard(props: JobCardProps) {
           </IconButton>
         }
         title={job.name}
-        subheader={getUserFriendlyDate(fromUnixTime(job.createDate?.seconds!), "bs")}
+        subheader={job.createDate && getUserFriendlyDate(new Date(job.createDate), "bs")}
       />
       <CardContent>
         {job.employer && (
           <Stack direction="row" alignItems="center">
             <Person />
             <Typography variant="body2" color="text.secondary">
-              {job.employer?.userName || `${job.employer.name} ${job.employer.lastName}`}
+              {`${job.employer.firstName} ${job.employer.lastName}`}
             </Typography>
           </Stack>
         )}

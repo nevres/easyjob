@@ -7,7 +7,9 @@ namespace JobProcessing.Application.Misc.MappingConfigurations
     {
         public MappingProfile()
         {
-            CreateMap<NewDocumentRequest, Document.Application.Models.Document>();
+            CreateMap<Document.Application.Models.Document, DocumentResponse>();
+            CreateMap<Document.Application.Models.Document, DocumentWithContentResponse>()
+                .ForMember(x => x.Content, options => options.Ignore());
         }
     }
 

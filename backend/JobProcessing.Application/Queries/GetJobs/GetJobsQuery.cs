@@ -1,20 +1,25 @@
-﻿using MediatR;
+﻿using JobProcessing.Application.Shared.DTO;
+using MediatR;
 using Shared.Pagging;
 using System.Collections.Generic;
 
 namespace JobProcessing.Application.Queries.GetJobs
 {
-    public record GetJobsQuery(string Name,
-        string Description, 
-        Price Price,
-        IEnumerable<int> CategoryIds,
-        Domain.Enums.JobDurationType? JobDurationType,
-        string City,
-        int Page, 
-        int PageSize, 
-        string OrderBy) : BaseFilter(Page, PageSize, OrderBy), IRequest<IEnumerable<JobResponse>>;
+    public class GetJobsQuery: BaseFilter, IRequest<IEnumerable<JobResponse>> {
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public PriceQuery Price { get; set; }
+        public IEnumerable<int> CategoryIds { get; set; }
+        public Domain.Enums.JobDurationType? JobDurationType { get; set; }
+        public string City { get; set; }
+    }
 
-    public record Price(string CurrencyCode, Domain.Enums.PriceType PriceType, int MinPrice, int MaxPrice) {
+    public class PriceQuery {
+        public string CurrencyCode { get; set; }
+        public Domain.Enums.PriceType PriceType { get; set; }
+        public int MinPrice { get; set; }
+        public int MaxPrice { get; set; }
+
         public bool IsPriceValid()
         {
             var priceProvided = MaxPrice > 0 || MinPrice > 0;

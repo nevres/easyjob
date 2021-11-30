@@ -116,9 +116,6 @@ namespace JobProcessing.Infrastructure.Migrations
                     b.Property<int>("Urgency")
                         .HasColumnType("integer");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -128,6 +125,27 @@ namespace JobProcessing.Infrastructure.Migrations
                     b.HasIndex("LocationId");
 
                     b.ToTable("Jobs");
+                });
+
+            modelBuilder.Entity("JobProcessing.Domain.Entities.JobDocument", b =>
+                {
+                    b.Property<Guid>("DocumentId")
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("DocumentFileName")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsPrimary")
+                        .HasColumnType("boolean");
+
+                    b.Property<int?>("JobId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("DocumentId");
+
+                    b.HasIndex("JobId");
+
+                    b.ToTable("JobDocument");
                 });
 
             modelBuilder.Entity("JobProcessing.Domain.Entities.Job", b =>
@@ -184,6 +202,18 @@ namespace JobProcessing.Infrastructure.Migrations
                     b.Navigation("Location");
 
                     b.Navigation("Price");
+                });
+
+            modelBuilder.Entity("JobProcessing.Domain.Entities.JobDocument", b =>
+                {
+                    b.HasOne("JobProcessing.Domain.Entities.Job", null)
+                        .WithMany("JobDocuments")
+                        .HasForeignKey("JobId");
+                });
+
+            modelBuilder.Entity("JobProcessing.Domain.Entities.Job", b =>
+                {
+                    b.Navigation("JobDocuments");
                 });
 #pragma warning restore 612, 618
         }
