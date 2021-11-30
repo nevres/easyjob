@@ -10,6 +10,7 @@ interface Props<T> {
   isFirstStep: boolean;
   isLastStep: boolean;
   lastStepLabel: string;
+  hideBackButton?: boolean;
 }
 
 export function StepperActionButtons<T>(props: Props<T>) {
@@ -17,14 +18,16 @@ export function StepperActionButtons<T>(props: Props<T>) {
 
   return (
     <ButtonGroup size="small">
-      <Button
-        onClick={props.setPreviousActiveStep}
-        variant="contained"
-        disabled={props.isFirstStep}
-        style={{ marginRight: "5px" }}
-      >
-        {t("back")}
-      </Button>
+      {!props.hideBackButton && (
+        <Button
+          onClick={props.setPreviousActiveStep}
+          variant="contained"
+          disabled={props.isFirstStep}
+          style={{ marginRight: "5px" }}
+        >
+          {t("back")}
+        </Button>
+      )}
       <Button onClick={props.setNextActiveStep} variant="contained" style={{ marginLeft: "5px" }}>
         {props.isLastStep ? props.lastStepLabel : t("next")}
       </Button>

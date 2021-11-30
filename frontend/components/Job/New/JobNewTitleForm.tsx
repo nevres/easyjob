@@ -14,13 +14,21 @@ export function JobNewTitleForm(props: Props) {
   const t = useI18n();
   return (
     <Stack spacing={2}>
-      <TextFieldElement control={props.control} name={"name"} id="outlined" label={t("name")} fullWidth />
+      <TextFieldElement
+        control={props.control}
+        name={"name"}
+        id="outlined"
+        label={t("chooseNameForYourJob")}
+        placeholder={t("jobTitleExample")}
+        fullWidth
+      />
       <CategoriesSelect control={props.control} name="category" />
       <TextFieldElement
         control={props.control}
         name={"description"}
         id="outlined"
-        label={t("jobDescription")}
+        label={t("jobDescriptionLabel")}
+        placeholder={t("jobDescription")}
         multiline
         rows={3}
         fullWidth

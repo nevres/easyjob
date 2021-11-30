@@ -1,4 +1,4 @@
-import { TextField, TextFieldProps } from "@mui/material";
+import { TextField, TextFieldProps, Typography } from "@mui/material";
 import { Controller, FieldError, Control, FieldPath } from "react-hook-form";
 import React from "react";
 
@@ -14,33 +14,31 @@ export default function TextFieldElement<T>({
   required,
   name,
   control,
+  label,
   ...rest
 }: TextFieldElementProps<T>): JSX.Element {
   return (
     <Controller
       name={name}
       control={control}
-      render={({
-        field: { value, onChange, onBlur },
-        fieldState: { invalid, error },
-      }) => (
-        <TextField
-          {...rest}
-          name={name.toString()}
-          value={value || ""}
-          onChange={onChange}
-          onBlur={onBlur}
-          required={required}
-          type={type}
-          error={invalid}
-          helperText={
-            error
-              ? typeof parseError === "function"
-                ? parseError(error)
-                : error.message
-              : rest.helperText
-          }
-        />
+      render={({ field: { value, onChange, onBlur }, fieldState: { invalid, error } }) => (
+        <>
+          {label && <Typography variant="h5">{label}</Typography>}
+          <TextField
+            {...rest}
+            name={name.toString()}
+            value={value || ""}
+            onChange={onChange}
+            onBlur={onBlur}
+            required={required}
+            type={type}
+            error={invalid}
+            label={""}
+            helperText={
+              error ? (typeof parseError === "function" ? parseError(error) : error.message) : rest.helperText
+            }
+          />
+        </>
       )}
     />
   );

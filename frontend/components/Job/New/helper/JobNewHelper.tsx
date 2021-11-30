@@ -4,7 +4,7 @@ import { JobNewTitleForm } from "../JobNewTitleForm";
 import { JobNewSkillsForm } from "../JobNewSkillsForm";
 import { JobNewBudgetForm } from "../JobNewBudgetForm";
 import { Control } from "react-hook-form";
-import { PriceModel } from "../../../../api/Models/PriceTypeModel";
+import { Price } from "../../../../api/Models/Price";
 import { StepModel } from "../../../../common/components/stepBased/Step";
 import { Address } from "../../../../api/Models/Address";
 import { JobNewAddressForm } from "../JobNewAddress";
@@ -22,7 +22,7 @@ export type JobNewModel = {
   description: string;
   category: number;
   skills: string[];
-  price: PriceModel;
+  price: Price;
   address: Address;
 };
 

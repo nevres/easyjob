@@ -29,5 +29,8 @@ export default interface ITranslation {
     zip: string;
     country: string;
     addNewJob: string;
+    chooseNameForYourJob: string;
+    jobTitleExample: string;
+    jobDescriptionLabel: string;
   };
 }

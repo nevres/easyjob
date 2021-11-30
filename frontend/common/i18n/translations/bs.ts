@@ -18,7 +18,7 @@ const ba: ITranslation = {
     save: "Sačuvaj",
     category: "Kategorija",
     clear: "Ocisti",
-    jobDescription: "Opis posla",
+    jobDescription: "Opis posla...",
     lessThanADay: "Nekoliko sati do jedan dan",
     lessThanAWeek: "Manje od jedne sedmice",
     lessThanAMonth: "Manje od jednog mjeseca",
@@ -30,7 +30,10 @@ const ba: ITranslation = {
     city: "Grad",
     zip: "ZIP",
     country: "Država",
-    addNewJob: "Novi posao"
+    addNewJob: "Novi posao",
+    chooseNameForYourJob: "Unesite naziv posla",
+    jobTitleExample: "primjer: Čišćenje kuće",
+    jobDescriptionLabel: "Opišite posao koji nudite"
   }
 };
 

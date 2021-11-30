@@ -7,8 +7,8 @@ import { SHOP_CURRENCY } from "../../../domain/constants";
 import TextFieldElement from "../../react-hook-mui/TextFieldElement";
 
 export type PriceAmountModel = {
-  minAmount: number;
-  maxAmount: number;
+  minPrice?: number;
+  maxPrice?: number;
 };
 
 interface Props<T extends { price: PriceAmountModel }> {
@@ -22,7 +22,7 @@ export default function PriceAmountGroup<T extends { price: PriceAmountModel }>(
     <Stack direction="row" spacing={2}>
       <TextFieldElement
         control={props.control}
-        name={"price.minAmount" as any}
+        name={"price.minPrice" as any}
         id="outlined-search"
         type="number"
         placeholder={t("min")}
@@ -32,7 +32,7 @@ export default function PriceAmountGroup<T extends { price: PriceAmountModel }>(
       />
       <TextFieldElement
         control={props.control}
-        name={"price.maxAmount" as any}
+        name={"price.maxPrice" as any}
         id="outlined-search"
         type="number"
         placeholder={t("max")}

@@ -7,6 +7,7 @@ import { NextPage } from "next";
 import Layout from "../../layouts/Layout";
 import { useJobNew } from "../../components/Job/New/hooks/useJobNew";
 import Router from "next/router";
+import { StepperInline } from "../../common/components/stepBased/StepperInline";
 
 const JobNewPage: NextPage = () => {
   const onNewJobCreation = () => {
@@ -21,7 +22,7 @@ const JobNewPage: NextPage = () => {
   return (
     <Layout>
       <Box>
-        <Stepper activeStep={activeStep} steps={steps} />
+        <StepperInline currentStepIndex={activeStep.index} steps={steps} />
         <div style={{ display: "flex", justifyContent: "end" }}>
           <StepperActionButtons
             activeStep={activeStep}
@@ -29,6 +30,7 @@ const JobNewPage: NextPage = () => {
             setNextActiveStep={setNextActiveStep}
             isFirstStep={isFirstStep}
             isLastStep={isLastStep}
+            hideBackButton
             lastStepLabel={t("save")}
           />
         </div>

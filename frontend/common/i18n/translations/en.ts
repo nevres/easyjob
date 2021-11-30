@@ -18,7 +18,7 @@ const en: ITranslation = {
     save: "Save",
     category: "Category",
     clear: "Clear",
-    jobDescription: "Job Description",
+    jobDescription: "Describe your job here...",
     lessThanADay: "Couple hours less than a day",
     lessThanAWeek: "Less than a week",
     lessThanAMonth: "Less than a month",
@@ -30,7 +30,10 @@ const en: ITranslation = {
     city: "City",
     zip: "ZIP",
     country: "Country",
-    addNewJob: "New Job"
+    addNewJob: "New Job",
+    chooseNameForYourJob: "Choose title for job",
+    jobTitleExample: "e.g. House cleaning",
+    jobDescriptionLabel: "Tell us more about this job"
   }
 };
 
