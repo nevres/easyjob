@@ -1,7 +1,6 @@
 import { LocationOnOutlined } from "@mui/icons-material";
-import { Chip, Stack, Typography } from "@mui/material";
+import { Chip, Stack, styled, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
-import { styled } from "@mui/system";
 import React from "react";
 import { ResolvedJobResponse } from "../../api/Models/ResolvedJobResponse";
 import useI18n from "../../common/i18n/useI18n";

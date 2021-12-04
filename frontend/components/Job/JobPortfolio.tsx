@@ -1,5 +1,5 @@
 import JobCard from "./JobCard";
-import { Button, Grid } from "@mui/material";
+import { Box, Button, Grid } from "@mui/material";
 import JobFilter, { JobFilterModel } from "./Filter/Filter";
 import React, { useCallback, useEffect, useState } from "react";
 import { useJobApi } from "../../common/customHooks/api/useJobApi";
@@ -9,7 +9,6 @@ import JobPreview from "./JobPreview";
 import useI18n from "../../common/i18n/useI18n";
 import Link from "next/link";
 import InfiniteScroll from "react-infinite-scroll-component";
-import Box from "@mui/system/Box";
 
 export default function JobPortfolio() {
   const [filter, setFilter] = useState<JobFilterModel>();
@@ -48,6 +47,8 @@ export default function JobPortfolio() {
     setFilter(data);
   }, []);
 
+  console.log("Job portfolio render");
+
   return (
     <Grid container spacing={6}>
       <Grid item md={2}>
@@ -69,7 +70,14 @@ export default function JobPortfolio() {
           >
             {loadedItems?.map((x) => (
               <Box sx={{ marginBottom: 1 }}>
-                <JobCard job={x} handleCardClick={(job) => setSelectedJob(job)} key={x.id} />
+                <JobCard
+                  job={x}
+                  handleCardClick={(job) => setSelectedJob(job)}
+                  key={x.id}
+                  customStyle={
+                    selectedJob?.id == x.id ? { background: (theme) => theme.palette.primary.veryLight } : undefined
+                  }
+                />
               </Box>
             ))}
           </InfiniteScroll>
