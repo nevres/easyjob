@@ -87,5 +87,11 @@ namespace JobProcessing.Infrastructure.Repositories
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
+
+        public Task<int> CountAsync(params ISpecification<Job>[] specs)
+        {
+            var query = specs.CreateQuery(_db);
+            return query.CountAsync();
+        }
     }
 }

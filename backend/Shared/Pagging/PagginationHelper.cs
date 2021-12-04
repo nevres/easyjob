@@ -15,7 +15,7 @@ namespace Shared.Pagging
         {
             return pageSize <= 0 ? DefaultPageSize : pageSize;
         }
-        public static int CalculateTake(BaseFilter baseFilter)
+        public static int CalculateTake(PaggingParams baseFilter)
         {
             return CalculateTake(baseFilter.PageSize);
         }
@@ -25,7 +25,7 @@ namespace Shared.Pagging
 
             return CalculateTake(pageSize) * (page - 1);
         }
-        public static int CalculateSkip(BaseFilter baseFilter)
+        public static int CalculateSkip(PaggingParams baseFilter)
         {
             return CalculateSkip(baseFilter.PageSize, baseFilter.Page);
         }

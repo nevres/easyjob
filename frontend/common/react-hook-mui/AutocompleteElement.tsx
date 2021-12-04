@@ -26,7 +26,6 @@ export default function AutocompleteElement<T>({
       name={name}
       control={control}
       render={({ field: { value, onChange, onBlur }, fieldState: { invalid, error } }) => {
-        console.log(value);
         return (
           <Autocomplete
             disablePortal

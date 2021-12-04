@@ -11,40 +11,56 @@ namespace JobProcessing.Application.Queries.GetJobs
 {
     public class JobFilterSpecification : Specification<Job>
     {
-        public JobFilterSpecification(GetJobsQuery filter)
+        public JobFilterSpecification(GetJobsQuery filter, bool skipPaggination = false, bool skipIncludes = false)
         {
             if (!string.IsNullOrEmpty(filter.OrderBy))
             {
                 Query.OrderBy(x => EF.Property<object>(x, filter.OrderBy));
             }
-            else {
+            else
+            {
                 Query.OrderBy(x => x.Id);
             }
 
+            HandleFilters(filter);
+
+            if (skipPaggination != true)
+            {
+                Query.Skip(PaginationHelper.CalculateSkip(filter))
+                         .Take(PaginationHelper.CalculateTake(filter));
+            }
+
+            if (skipIncludes != true)
+            {
+                Query.Include(x => x.Location).Include(x => x.Category);
+            }
+        }
+
+        private void HandleFilters(GetJobsQuery filter)
+        {
             if (filter.Price?.IsPriceValid() == true)
             {
                 Query.Where(x => x.Price.CurrencyCode == filter.Price.CurrencyCode &&
-                            (filter.Price.MinPrice <=0 || x.Price.MinPrice >= filter.Price.MinPrice) &&
-                            (filter.Price.MaxPrice <=0 || x.Price.MaxPrice <= filter.Price.MaxPrice )&&
+                            (filter.Price.MinPrice <= 0 || x.Price.MinPrice >= filter.Price.MinPrice) &&
+                            (filter.Price.MaxPrice <= 0 || x.Price.MaxPrice <= filter.Price.MaxPrice) &&
                             (int)x.Price.PriceType == (int)filter.Price.PriceType
                     );
             }
 
-            if (filter.CategoryIds?.Any() == true) {
+            if (filter.CategoryIds?.Any() == true)
+            {
                 Query.Where(x => filter.CategoryIds.Contains(x.CategoryId));
             }
-
-            Query.Skip(PaginationHelper.CalculateSkip(filter))
-                     .Take(PaginationHelper.CalculateTake(filter));
-
             if (!string.IsNullOrEmpty(filter.Name))
                 Query.Where(x => x.Name.ToLower().Contains(filter.Name.ToLower()));
 
             if (!string.IsNullOrEmpty(filter.Description))
                 Query.Where(x => x.Description.ToLower().Contains(filter.Description.ToLower()) || x.HighlightedDescription.ToLower().Contains(filter.Description.ToLower()));
 
-            if (filter.JobDurationType.HasValue) {
-                switch (filter.JobDurationType) {
+            if (filter.JobDurationType.HasValue)
+            {
+                switch (filter.JobDurationType)
+                {
                     case Domain.Enums.JobDurationType.LessThanADay:
                         Query.Where(x => x.JobDurationType == Domain.Enums.JobDurationType.LessThanADay);
                         break;
@@ -63,11 +79,10 @@ namespace JobProcessing.Application.Queries.GetJobs
                 }
             }
 
-            if (!string.IsNullOrEmpty(filter.City)) {
+            if (!string.IsNullOrEmpty(filter.City))
+            {
                 Query.Where(x => x.Location.City.ToLower().Contains(filter.City.ToLower()));
             }
-
-            Query.Include(x => x.Location).Include(x => x.Category);
         }
     }
 }

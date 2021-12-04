@@ -64,6 +64,12 @@ export default function JobCard(props: JobCardProps) {
       onClick={() => {
         if (!isNullOrUndefined(props.handleCardClick)) props.handleCardClick(props.job);
       }}
+      sx={{
+        "&:hover": {
+          // todo use theme
+          background: "#00ffc40d"
+        }
+      }}
     >
       <CardHeader
         avatar={
