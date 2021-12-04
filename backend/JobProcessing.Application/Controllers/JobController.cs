@@ -5,6 +5,7 @@ using JobProcessing.Application.Queries.GetJobLocations;
 using JobProcessing.Application.Shared.DTO;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Pagging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +39,7 @@ namespace JobProcessing.Application.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<JobResponse>> GetJobs([FromQuery] Queries.GetJobs.GetJobsQuery request)
+        public async Task<FilteredResult<JobResponse>> GetJobs([FromQuery] Queries.GetJobs.GetJobsQuery request)
         {
             var jobs = await _mediator.Send(request);
             return jobs;

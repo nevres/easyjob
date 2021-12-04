@@ -82,5 +82,10 @@ namespace Profile.Infrastructure.Repositories
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
+
+        public Task<int> CountAsync(params ISpecification<User>[] specs)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

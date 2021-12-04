@@ -11,5 +11,6 @@ namespace Shared.SeedWork
         Task<IEnumerable<T>> ListAsync(params ISpecification<T>[] specs);
         Task<T> AddAsync(T entity);
         Task DeleteAsync(T entity);
+        Task<int> CountAsync(params ISpecification<T>[] specs);
     }
 }

@@ -1,54 +1,50 @@
 import JobCard from "./JobCard";
-import { useAsync } from "react-async-hook";
 import { Button, Grid } from "@mui/material";
 import JobFilter, { JobFilterModel } from "./Filter/Filter";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useJobApi } from "../../common/customHooks/api/useJobApi";
 import { ResolvedJobResponse } from "../../api/Models/ResolvedJobResponse";
 import { SHOP_CURRENCY } from "../../domain/constants";
 import JobPreview from "./JobPreview";
-import { isNullOrUndefined } from "../../common/utils/jsHelper";
-import useLoader from "../../common/useLoader/useLoader";
 import useI18n from "../../common/i18n/useI18n";
 import Link from "next/link";
+import InfiniteScroll from "react-infinite-scroll-component";
+import Box from "@mui/system/Box";
 
 export default function JobPortfolio() {
   const [filter, setFilter] = useState<JobFilterModel>();
   const [selectedJob, setSelectedJob] = useState<ResolvedJobResponse | null>();
+  const [loadedItems, setLoadedItems] = useState<ResolvedJobResponse[]>([]);
+  const [isLastPage, setIsLastPage] = useState<boolean>(false);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+
   const jobApi = useJobApi();
-  const { addLoader, removeLoader } = useLoader();
   const t = useI18n();
 
-  const getJobs = async (filter: JobFilterModel) => {
-    addLoader();
-    setSelectedJob(null);
-    try {
-      const jobs = await jobApi.getjobs(
-        filter?.name,
-        filter?.name,
-        SHOP_CURRENCY,
-        filter?.price.priceType,
-        filter?.price.minPrice,
-        filter?.price.maxPrice,
-        filter?.categories?.map((x) => x.value as number),
-        filter?.jobDurationType,
-        filter?.location,
-        1,
-        10,
-        undefined
-      );
-      if (jobs && jobs.length > 0) {
-        setSelectedJob(jobs[0]);
-      }
-      return jobs;
-    } finally {
-      removeLoader();
-    }
-  };
+  const NUMBER_OF_ITEMS_TO_LOAD = 5;
 
-  var fetchResult = useAsync<ResolvedJobResponse[]>(getJobs, [filter]);
+  useEffect(() => {
+    const getJobsPromise = getJobsFromApi();
+    getJobsPromise.then((getJobsResult) => {
+      if (getJobsResult && getJobsResult.data && getJobsResult.data.length > 0) {
+        setLoadedItems((prevLoadedItems) => {
+          return [...prevLoadedItems, ...getJobsResult.data!];
+        });
+        if (!selectedJob) {
+          setSelectedJob(getJobsResult.data[0]);
+        }
+
+        var pageCount = Math.ceil(getJobsResult?.count! / getJobsResult?.pageSize!);
+        var isLastPage = getJobsResult?.page! >= pageCount;
+        setIsLastPage(isLastPage);
+      }
+    });
+  }, [currentPage, filter]);
 
   var handleFilterSubmit = useCallback((data: JobFilterModel) => {
+    setSelectedJob(null);
+    setLoadedItems([]);
+    setCurrentPage(1);
     setFilter(data);
   }, []);
 
@@ -58,16 +54,26 @@ export default function JobPortfolio() {
         <JobFilter handleOnSubmit={handleFilterSubmit} />
       </Grid>
       <Grid item md={4}>
-        <Grid container spacing={2}>
-          {fetchResult.loading && <div>Loading</div>}
-          {fetchResult.error && <div>Error: {fetchResult.error.message}</div>}
-          {fetchResult.result &&
-            fetchResult.result.map((x) => (
-              <Grid item key={x.id} width={"100%"}>
-                <JobCard job={x} handleCardClick={(job) => setSelectedJob(job)} />
-              </Grid>
+        {loadedItems && (
+          <InfiniteScroll
+            dataLength={loadedItems.length}
+            hasMore={!isLastPage}
+            height={"calc(100vh - 84px)"}
+            loader={<h4>Loading...</h4>}
+            endMessage={
+              <p style={{ textAlign: "center" }}>
+                <b>Yay! You have seen it all</b>
+              </p>
+            }
+            next={() => setCurrentPage((prevValue) => (prevValue += 1))}
+          >
+            {loadedItems?.map((x) => (
+              <Box sx={{ marginBottom: 1 }}>
+                <JobCard job={x} handleCardClick={(job) => setSelectedJob(job)} key={x.id} />
+              </Box>
             ))}
-        </Grid>
+          </InfiniteScroll>
+        )}
       </Grid>
       {selectedJob && (
         <Grid item xs={6}>
@@ -79,4 +85,21 @@ export default function JobPortfolio() {
       )}
     </Grid>
   );
+
+  async function getJobsFromApi() {
+    return await jobApi.getjobs(
+      filter?.name,
+      filter?.name,
+      SHOP_CURRENCY,
+      filter?.price.priceType,
+      filter?.price.minPrice,
+      filter?.price.maxPrice,
+      filter?.categories?.map((x) => x.value as number),
+      filter?.jobDurationType,
+      filter?.location,
+      currentPage,
+      NUMBER_OF_ITEMS_TO_LOAD,
+      undefined
+    );
+  }
 }

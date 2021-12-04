@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace JobProcessing.Application.Queries.GetJobs
 {
-    public class GetJobsQuery: BaseFilter, IRequest<IEnumerable<JobResponse>> {
+    public class GetJobsQuery: PaggingParams, IRequest<FilteredResult<JobResponse>> {
         public string Name { get; set; }
         public string Description { get; set; }
         public PriceQuery Price { get; set; }

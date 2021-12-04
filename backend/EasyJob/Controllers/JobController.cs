@@ -1,11 +1,12 @@
 ﻿using DocumentProcessing;
-using EasyJob.Models;
+using EasyJob.Models.Job;
 using EasyJob.Models.Job.JobDocument;
 using JobProcessing;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Profile;
+using Shared.Pagging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,7 +41,7 @@ namespace EasyJob.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Models.ResolvedJobResponse>> GetjobsAsync([FromQuery] string name,
+        public async Task<FilteredResult<ResolvedJobResponse>> GetjobsAsync([FromQuery] string name,
             [FromQuery] string description,
             [FromQuery] string price_CurrencyCode,
             [FromQuery] PriceType? price_PriceType,
@@ -54,7 +55,8 @@ namespace EasyJob.Controllers
             [FromQuery] string orderBy)
         {
             var jobServiceResponse = await _jobProcessingApi.GetJobsAsync(name, description, price_CurrencyCode, price_PriceType, price_MinPrice, price_MaxPrice, categoryIds, jobDurationType, city, page, pageSize, orderBy);
-            return await Task.WhenAll(jobServiceResponse.Select(async x => await CreateJobResponseAsync(x)));
+            var resolvedJobResponses = await Task.WhenAll(jobServiceResponse.Data.Select(async x => await CreateJobResponseAsync(x)));
+            return new FilteredResult<ResolvedJobResponse>(jobServiceResponse.Page, jobServiceResponse.PageSize, jobServiceResponse.OrderBy, resolvedJobResponses, jobServiceResponse.Count);
         }
 
         [HttpGet("categories")]

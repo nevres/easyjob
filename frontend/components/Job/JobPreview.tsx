@@ -24,7 +24,7 @@ const BorderLessIFrame = styled("iframe")({
 export default function JobPreview({ job }: JobPreviewProps) {
   const t = useI18n();
   return (
-    <Paper sx={{ height: "100%", p: 1 }}>
+    <Paper sx={{ p: 1 }}>
       <Typography variant="h5">{job.name}</Typography>
       <Stack direction="row" spacing={2}>
         <Chip label={job.categoryName} />

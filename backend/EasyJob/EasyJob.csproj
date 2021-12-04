@@ -38,6 +38,10 @@
 		<PackageReference Include="Serilog.Sinks.PostgreSQL" Version="2.3.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Shared\Shared.csproj" />
+	</ItemGroup>
     
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Exec Command="dotnet build $(SolutionDir)FrontendClientGenerator\FrontendClientGenerator.csproj" />
