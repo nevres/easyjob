@@ -1,14 +1,16 @@
-import * as yup from "yup";
 import React from "react";
-import { JobNewTitleForm } from "../JobNewTitleForm";
-import { JobNewSkillsForm } from "../JobNewSkillsForm";
-import { JobNewBudgetForm } from "../JobNewBudgetForm";
 import { Control } from "react-hook-form";
-import { StepModel } from "../../../../common/components/stepBased/Step";
+import * as yup from "yup";
 import { Address } from "../../../../apis/jobProcessingApi/Models/Address";
-import { JobNewAddressForm } from "../JobNewAddress";
-import { PriceType } from "../../../../apis/jobProcessingApi/Models/PriceType";
 import { Price } from "../../../../apis/jobProcessingApi/Models/Price";
+import { PriceType } from "../../../../apis/jobProcessingApi/Models/PriceType";
+import { StepModel } from "../../../../common/components/stepBased/Step";
+import { TranslationFunc } from "../../../../common/i18n/useI18n";
+import { SelectItem } from "../../../../common/react-hook-mui/MultiSelectElement";
+import { JobNewAddressForm } from "../JobNewAddress";
+import { JobNewBudgetForm } from "../JobNewBudgetForm";
+import { JobNewSkillsForm } from "../JobNewSkillsForm";
+import { JobNewTitleForm } from "../JobNewTitleForm";
 
 export enum JobNewStep {
   Title,
@@ -20,42 +22,49 @@ export enum JobNewStep {
 export type JobNewModel = {
   name: string;
   description: string;
-  category: number;
+  category: SelectItem;
   skills: string[];
   price: Price;
   address: Address;
 };
 
-const TitleStepValidationSchema = yup.object().shape({
-  name: yup.string().required(),
-  description: yup.string().required()
-});
+function getTitleStepValidationSchema(t: TranslationFunc) {
+  return yup.object().shape({
+    name: yup.string().required(t("jobTitleIsRequired")),
+    description: yup.string().required(t("jobDescriptionIsRequired")),
+    category: yup.object().required(t("categoryIsRequired"))
+  });
+}
 
 const SkillsStepValidationSchema = yup.object();
 
-const AddressStepValidationSchema = yup.object({
-  address: yup.object().shape({
-    city: yup.string().required(),
-    country: yup.string().required(),
-    addressLine: yup.string().required(),
-    zip: yup.string().required()
-  })
-});
+function getAddressStepValidationSchema(t: TranslationFunc) {
+  return yup.object({
+    address: yup.object().shape({
+      city: yup.string().required(t("addressCityIsRequired")),
+      country: yup.string().required(t("addressCountryIsRequired")),
+      addressLine: yup.string().required(t("addressStreetIsRequired")),
+      zip: yup.string().required(t("addressZipIsRequired"))
+    })
+  });
+}
 
-const BudgetStepValidationSchema = yup.object({
-  price: yup.object().shape({
-    type: yup.mixed<PriceType>().oneOf(Object.values(PriceType)),
-    minAmount: yup.number().required(),
-    maxAmount: yup.number().required()
-  })
-});
+function getBudgetStepValidationSchema(t: TranslationFunc) {
+  return yup.object({
+    price: yup.object().shape({
+      type: yup.mixed<PriceType>().oneOf(Object.values(PriceType)),
+      minPrice: yup.number().typeError(t("minPriceIsRequired")).required(t("minPriceIsRequired")),
+      maxPrice: yup.number().typeError(t("maxPriceIsRequired")).required(t("maxPriceIsRequired"))
+    })
+  });
+}
 
-export function GetJobNewValidationSchemas() {
+export function GetJobNewValidationSchemas(t: TranslationFunc) {
   return [
-    TitleStepValidationSchema,
+    getTitleStepValidationSchema(t),
     SkillsStepValidationSchema,
-    AddressStepValidationSchema,
-    BudgetStepValidationSchema
+    getAddressStepValidationSchema(t),
+    getBudgetStepValidationSchema(t)
   ];
 }
 

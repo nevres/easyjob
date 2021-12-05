@@ -1,9 +1,9 @@
-import { Control } from "react-hook-form";
-import React from "react";
 import InputAdornment from "@mui/material/InputAdornment";
 import Stack from "@mui/material/Stack";
-import useI18n from "../../i18n/useI18n";
+import React from "react";
+import { Control } from "react-hook-form";
 import { SHOP_CURRENCY } from "../../../domain/constants";
+import useI18n from "../../i18n/useI18n";
 import TextFieldElement from "../../react-hook-mui/TextFieldElement";
 
 export type PriceAmountModel = {
@@ -22,7 +22,7 @@ export default function PriceAmountGroup<T extends { price: PriceAmountModel }>(
     <Stack direction="row" spacing={2}>
       <TextFieldElement
         control={props.control}
-        name={"price.minAmount" as any}
+        name={"price.minPrice" as any}
         id="outlined-search"
         type="number"
         placeholder={t("min")}
@@ -32,7 +32,7 @@ export default function PriceAmountGroup<T extends { price: PriceAmountModel }>(
       />
       <TextFieldElement
         control={props.control}
-        name={"price.maxAmount" as any}
+        name={"price.maxPrice" as any}
         id="outlined-search"
         type="number"
         placeholder={t("max")}

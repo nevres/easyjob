@@ -2,15 +2,15 @@ import { useMemo } from "react";
 import { useAsync } from "react-async-hook";
 import { Control, FieldPath } from "react-hook-form";
 import { CategoryResponse } from "../../apis/jobProcessingApi/Models/CategoryResponse";
-import { JobFilterModel } from "../../components/Job/Filter/Filter";
 import { useJobApi } from "../customHooks/api/useJobApi";
 import useI18n from "../i18n/useI18n";
 import AutocompleteElement from "../react-hook-mui/AutocompleteElement";
-import MultiSelectElement, { SelectItem } from "../react-hook-mui/MultiSelectElement";
+import { SelectItem } from "../react-hook-mui/MultiSelectElement";
 
 export type CategoriesSelectProps<T> = {
   name: FieldPath<T>;
   control: Control<T, object>;
+  disableMultiselect?: boolean;
 };
 
 export function CategoriesSelect<T>(props: CategoriesSelectProps<T>) {
@@ -30,8 +30,8 @@ export function CategoriesSelect<T>(props: CategoriesSelectProps<T>) {
       name={props.name}
       options={categoryMenuItems}
       label={t("category")}
-      multiple
-    ></AutocompleteElement>
+      multiple={!props.disableMultiselect}
+    />
     // <MultiSelectElement
     //   control={props.control}
     //   name={props.name}

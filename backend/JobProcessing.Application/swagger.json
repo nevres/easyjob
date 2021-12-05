@@ -499,11 +499,13 @@
         "properties": {
           "latitude": {
             "type": "number",
-            "format": "float"
+            "format": "float",
+            "nullable": true
           },
           "longitude": {
             "type": "number",
-            "format": "float"
+            "format": "float",
+            "nullable": true
           },
           "country": {
             "type": "string",

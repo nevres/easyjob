@@ -1,14 +1,14 @@
-import JobCard from "./JobCard";
 import { Box, Button, Grid } from "@mui/material";
-import JobFilter, { JobFilterModel } from "./Filter/Filter";
-import React, { useCallback, useEffect, useState } from "react";
-import { useJobApi } from "../../common/customHooks/api/useJobApi";
-import { ResolvedJobResponse } from "../../apis/jobProcessingApi/Models/ResolvedJobResponse";
-import { SHOP_CURRENCY } from "../../domain/constants";
-import JobPreview from "./JobPreview";
-import useI18n from "../../common/i18n/useI18n";
 import Link from "next/link";
+import React, { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { ResolvedJobResponse } from "../../apis/jobProcessingApi/Models/ResolvedJobResponse";
+import { useJobApi } from "../../common/customHooks/api/useJobApi";
+import useI18n from "../../common/i18n/useI18n";
+import { SHOP_CURRENCY } from "../../domain/constants";
+import JobFilter, { JobFilterModel } from "./Filter/Filter";
+import JobCard from "./JobCard";
+import JobPreview from "./JobPreview";
 
 export default function JobPortfolio() {
   const [filter, setFilter] = useState<JobFilterModel>();

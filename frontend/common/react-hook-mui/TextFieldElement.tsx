@@ -1,6 +1,6 @@
 import { TextField, TextFieldProps } from "@mui/material";
-import { Controller, FieldError, Control, FieldPath } from "react-hook-form";
 import React from "react";
+import { Control, Controller, FieldError, FieldPath } from "react-hook-form";
 
 export type TextFieldElementProps<T> = Omit<TextFieldProps, "name"> & {
   name: FieldPath<T>;
