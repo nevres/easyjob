@@ -48,6 +48,13 @@
   },
   "components": {
     "schemas": {
+      "BusinessType": {
+        "enum": [
+          "Individual",
+          "Company"
+        ],
+        "type": "string"
+      },
       "User": {
         "type": "object",
         "properties": {
@@ -69,6 +76,17 @@
             "nullable": true
           },
           "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "businessType": {
+            "$ref": "#/components/schemas/BusinessType"
+          },
+          "externalLink": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
             "type": "string",
             "nullable": true
           }

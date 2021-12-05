@@ -29,5 +29,12 @@ export default interface ITranslation {
     zip: string;
     country: string;
     addNewJob: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    description: string;
+    phoneNumber: string;
+    company: string;
+    person: string;
   };
 }

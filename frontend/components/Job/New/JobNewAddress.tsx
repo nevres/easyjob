@@ -3,7 +3,7 @@ import * as React from "react";
 import { Control } from "react-hook-form";
 import useI18n from "../../../common/i18n/useI18n";
 import TextFieldElement from "../../../common/react-hook-mui/TextFieldElement";
-import { Address } from "../../../api/Models/Address";
+import { Address } from "../../../apis/jobProcessingApi/Models/Address";
 
 interface Props<T extends { address: Address }> {
   control: Control<T, object>;

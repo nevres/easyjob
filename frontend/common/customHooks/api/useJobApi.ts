@@ -1,4 +1,4 @@
-import { JobClient } from "../../../api/Clients/JobClient";
+import { JobClient } from "../../../apis/jobProcessingApi//Clients/JobClient";
 import useApi from "./useApi";
 
 export function useJobApi() {

@@ -5,10 +5,10 @@ import { JobNewSkillsForm } from "../JobNewSkillsForm";
 import { JobNewBudgetForm } from "../JobNewBudgetForm";
 import { Control } from "react-hook-form";
 import { StepModel } from "../../../../common/components/stepBased/Step";
-import { Address } from "../../../../api/Models/Address";
+import { Address } from "../../../../apis/jobProcessingApi/Models/Address";
 import { JobNewAddressForm } from "../JobNewAddress";
-import { PriceType } from "../../../../api/Models/PriceType";
-import { Price } from "../../../../api/Models/Price";
+import { PriceType } from "../../../../apis/jobProcessingApi/Models/PriceType";
+import { Price } from "../../../../apis/jobProcessingApi/Models/Price";
 
 export enum JobNewStep {
   Title,

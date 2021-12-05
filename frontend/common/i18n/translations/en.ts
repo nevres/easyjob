@@ -30,7 +30,14 @@ const en: ITranslation = {
     city: "City",
     zip: "ZIP",
     country: "Country",
-    addNewJob: "New Job"
+    addNewJob: "New Job",
+    email: "Email",
+    firstName: "First Name",
+    lastName: "Last Name",
+    description: "Description",
+    phoneNumber: "Phone Number",
+    company: "Company",
+    person: "Person"
   }
 };
 

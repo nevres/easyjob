@@ -3,7 +3,7 @@ import { Box, Button, Grid } from "@mui/material";
 import JobFilter, { JobFilterModel } from "./Filter/Filter";
 import React, { useCallback, useEffect, useState } from "react";
 import { useJobApi } from "../../common/customHooks/api/useJobApi";
-import { ResolvedJobResponse } from "../../api/Models/ResolvedJobResponse";
+import { ResolvedJobResponse } from "../../apis/jobProcessingApi/Models/ResolvedJobResponse";
 import { SHOP_CURRENCY } from "../../domain/constants";
 import JobPreview from "./JobPreview";
 import useI18n from "../../common/i18n/useI18n";

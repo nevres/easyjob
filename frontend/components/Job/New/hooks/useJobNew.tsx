@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { PriceType } from "../../../../api/Models/PriceType";
+import { PriceType } from "../../../../apis/jobProcessingApi/Models/PriceType";
 import { useJobApi } from "../../../../common/customHooks/api/useJobApi";
 import { useSteps } from "../../../../common/customHooks/stepper/useSteps";
 import { useYupValidationResolver } from "../../../../common/utils/yupValidationHelper";

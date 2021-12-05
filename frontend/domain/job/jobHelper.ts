@@ -1,10 +1,10 @@
-import { Address } from "../../api/Models/Address";
+import { Address } from "../../apis/jobProcessingApi/Models/Address";
 import { TranslationFunc } from "../../common/i18n/useI18n";
-import { Price } from "../../api/Models/Price";
-import { PriceType } from "../../api/Models/PriceType";
+import { Price } from "../../apis/jobProcessingApi/Models/Price";
+import { PriceType } from "../../apis/jobProcessingApi/Models/PriceType";
 import { assertUnreachable } from "../../common/utils/tsHelper";
 import { isNullOrUndefined } from "../../common/utils/jsHelper";
-import { JobDurationType } from "../../api/Models/JobDurationType";
+import { JobDurationType } from "../../apis/jobProcessingApi/Models/JobDurationType";
 
 export function getUserFriendlyLocation(location: Address) {
   return location.city;

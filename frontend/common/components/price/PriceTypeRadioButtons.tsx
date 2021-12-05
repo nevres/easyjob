@@ -1,8 +1,8 @@
 import { Control } from "react-hook-form";
 import React from "react";
-import { PriceType } from "../../../api/Models/PriceType";
+import { PriceType } from "../../../apis/jobProcessingApi/Models/PriceType";
 import RadioButtonGroup, { RadioButtonOption } from "../../react-hook-mui/RadioButtonGroup";
-import { Price } from "../../../api/Models/Price";
+import { Price } from "../../../apis/jobProcessingApi/Models/Price";
 
 export const PRICE_OPTIONS: Array<RadioButtonOption<PriceType>> = [
   { label: PriceType.FixedPrice, value: PriceType.FixedPrice },

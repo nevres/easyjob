@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import { useAsync } from "react-async-hook";
 import { Control, FieldPath } from "react-hook-form";
-import { CategoryResponse } from "../../api/Models/CategoryResponse";
-import { JobDurationType } from "../../api/Models/JobDurationType";
+import { CategoryResponse } from "../../apis/jobProcessingApi/Models/CategoryResponse";
+import { JobDurationType } from "../../apis/jobProcessingApi/Models/JobDurationType";
 import { JobFilterModel } from "../../components/Job/Filter/Filter";
 import { getJobDurationTypeTranslation } from "../../domain/job/jobHelper";
 import { useJobApi } from "../customHooks/api/useJobApi";

@@ -20,10 +20,7 @@ export default function TextFieldElement<T>({
     <Controller
       name={name}
       control={control}
-      render={({
-        field: { value, onChange, onBlur },
-        fieldState: { invalid, error },
-      }) => (
+      render={({ field: { value, onChange, onBlur }, fieldState: { invalid, error } }) => (
         <TextField
           {...rest}
           name={name.toString()}
@@ -33,13 +30,7 @@ export default function TextFieldElement<T>({
           required={required}
           type={type}
           error={invalid}
-          helperText={
-            error
-              ? typeof parseError === "function"
-                ? parseError(error)
-                : error.message
-              : rest.helperText
-          }
+          helperText={error ? (typeof parseError === "function" ? parseError(error) : error.message) : rest.helperText}
         />
       )}
     />

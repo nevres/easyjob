@@ -7,6 +7,7 @@ import { NextPage } from "next";
 import Layout from "../../layouts/Layout";
 import { useJobNew } from "../../components/Job/New/hooks/useJobNew";
 import Router from "next/router";
+import "../../common/i18n/i18next";
 
 const JobNewPage: NextPage = () => {
   const onNewJobCreation = () => {

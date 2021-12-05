@@ -30,7 +30,14 @@ const ba: ITranslation = {
     city: "Grad",
     zip: "ZIP",
     country: "Država",
-    addNewJob: "Novi posao"
+    addNewJob: "Novi posao",
+    email: "Email",
+    firstName: "Ime",
+    lastName: "Prezime",
+    description: "Opis",
+    phoneNumber: "Broj telefona",
+    company: "Firma",
+    person: "Fizicko lice"
   }
 };
 

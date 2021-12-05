@@ -12,7 +12,7 @@ import { red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { ResolvedJobResponse } from "../../api/Models/ResolvedJobResponse";
+import { ResolvedJobResponse } from "../../apis/jobProcessingApi/Models/ResolvedJobResponse";
 import {
   getJobDurationTypeTranslation,
   getUserFriendlyLocation,

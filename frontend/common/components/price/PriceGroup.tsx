@@ -2,7 +2,7 @@ import { Control } from "react-hook-form";
 import React from "react";
 import PriceAmountGroup from "./PriceAmountGroup";
 import PriceTypeRadioButtons from "./PriceTypeRadioButtons";
-import { Price } from "../../../api/Models/Price";
+import { Price } from "../../../apis/jobProcessingApi/Models/Price";
 
 interface Props<T extends { price: Price }> {
   control: Control<T, object>;
