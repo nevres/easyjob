@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { PriceType } from "../../../../api/Models/PriceType";
 import { useJobApi } from "../../../../common/customHooks/api/useJobApi";
 import { useSteps } from "../../../../common/customHooks/stepper/useSteps";
+import useI18n from "../../../../common/i18n/useI18n";
 import { useYupValidationResolver } from "../../../../common/utils/yupValidationHelper";
 import { SHOP_CURRENCY } from "../../../../domain/constants";
 import { GetJobNewSteps, GetJobNewValidationSchemas, JobNewModel } from "../helper/JobNewHelper";
@@ -10,11 +11,12 @@ import { GetJobNewSteps, GetJobNewValidationSchemas, JobNewModel } from "../help
 export function useJobNew(onSubmit?: () => void) {
   const [schemaContext, setSchemaContext] = useState({ validationSchemaId: 0 });
   const jobApi = useJobApi();
+  const t = useI18n();
 
   const { handleSubmit, control } = useForm<JobNewModel>({
     context: schemaContext,
     mode: "onBlur",
-    resolver: useYupValidationResolver(GetJobNewValidationSchemas()),
+    resolver: useYupValidationResolver(GetJobNewValidationSchemas(t)),
     defaultValues: {
       price: {
         priceType: PriceType.FixedPrice
@@ -46,7 +48,7 @@ export function useJobNew(onSubmit?: () => void) {
           data.price.minPrice,
           data.price.maxPrice,
           undefined,
-          data.category
+          data.category.value as number
         );
         if (onSubmit) {
           onSubmit();
@@ -54,7 +56,7 @@ export function useJobNew(onSubmit?: () => void) {
         return;
       }
       setNextActiveStep();
-    }, undefined)();
+    })();
   };
 
   useEffect(() => {

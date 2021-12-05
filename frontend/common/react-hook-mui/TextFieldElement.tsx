@@ -1,6 +1,6 @@
-import { TextField, TextFieldProps, Typography } from "@mui/material";
-import { Controller, FieldError, Control, FieldPath } from "react-hook-form";
+import { TextField, TextFieldProps } from "@mui/material";
 import React from "react";
+import { Control, Controller, FieldError, FieldPath } from "react-hook-form";
 
 export type TextFieldElementProps<T> = Omit<TextFieldProps, "name"> & {
   name: FieldPath<T>;
@@ -14,7 +14,6 @@ export default function TextFieldElement<T>({
   required,
   name,
   control,
-  label,
   ...rest
 }: TextFieldElementProps<T>): JSX.Element {
   return (
@@ -22,23 +21,17 @@ export default function TextFieldElement<T>({
       name={name}
       control={control}
       render={({ field: { value, onChange, onBlur }, fieldState: { invalid, error } }) => (
-        <>
-          {label && <Typography variant="h5">{label}</Typography>}
-          <TextField
-            {...rest}
-            name={name.toString()}
-            value={value || ""}
-            onChange={onChange}
-            onBlur={onBlur}
-            required={required}
-            type={type}
-            error={invalid}
-            label={""}
-            helperText={
-              error ? (typeof parseError === "function" ? parseError(error) : error.message) : rest.helperText
-            }
-          />
-        </>
+        <TextField
+          {...rest}
+          name={name.toString()}
+          value={value || ""}
+          onChange={onChange}
+          onBlur={onBlur}
+          required={required}
+          type={type}
+          error={invalid}
+          helperText={error ? (typeof parseError === "function" ? parseError(error) : error.message) : rest.helperText}
+        />
       )}
     />
   );

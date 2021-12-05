@@ -32,5 +32,21 @@ export default interface ITranslation {
     chooseNameForYourJob: string;
     jobTitleExample: string;
     jobDescriptionLabel: string;
+    createNewJobTitle: string;
+    createNewJobDescription: string;
+    jobTitleIsRequired: string;
+    jobDescriptionIsRequired: string;
+    jobBasicInfo: string;
+    whichSkillsAreNeeded: string;
+    addSkillsWhichAreNeededToFinishJob: string;
+    enterAddressOfJob: string;
+    addressStreetIsRequired: string;
+    addressCityIsRequired: string;
+    addressZipIsRequired: string;
+    addressCountryIsRequired: string;
+    howDoYouWantToPay: string;
+    minPriceIsRequired: string;
+    maxPriceIsRequired: string;
+    categoryIsRequired: string;
   };
 }

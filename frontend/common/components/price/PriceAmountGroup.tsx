@@ -1,9 +1,9 @@
-import { Control } from "react-hook-form";
-import React from "react";
 import InputAdornment from "@mui/material/InputAdornment";
 import Stack from "@mui/material/Stack";
-import useI18n from "../../i18n/useI18n";
+import React from "react";
+import { Control } from "react-hook-form";
 import { SHOP_CURRENCY } from "../../../domain/constants";
+import useI18n from "../../i18n/useI18n";
 import TextFieldElement from "../../react-hook-mui/TextFieldElement";
 
 export type PriceAmountModel = {

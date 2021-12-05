@@ -33,7 +33,24 @@ const en: ITranslation = {
     addNewJob: "New Job",
     chooseNameForYourJob: "Choose title for job",
     jobTitleExample: "e.g. House cleaning",
-    jobDescriptionLabel: "Tell us more about this job"
+    jobDescriptionLabel: "Tell us more about this job",
+    createNewJobTitle: "Here you can create new job",
+    createNewJobDescription: "It is easy to create new job. Just populate next form and that's it",
+    jobTitleIsRequired: "Job title is required",
+    jobDescriptionIsRequired: "Job description is required",
+    jobBasicInfo: "Basic info",
+    whichSkillsAreNeeded: "Which skills are needed for this job?",
+    addSkillsWhichAreNeededToFinishJob:
+      "Enter skills which are needed for this job. (example: House cleaning, Website Design, ...)",
+    enterAddressOfJob: "Enter the address of the job",
+    addressStreetIsRequired: "Street is required",
+    addressCityIsRequired: "City is required",
+    addressZipIsRequired: "ZIP is required",
+    addressCountryIsRequired: "Country is required",
+    howDoYouWantToPay: "How do you want to pay?",
+    minPriceIsRequired: "Min price is required",
+    maxPriceIsRequired: "Max price is required",
+    categoryIsRequired: "Category is required"
   }
 };
 

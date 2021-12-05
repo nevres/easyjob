@@ -15,10 +15,10 @@ export function StepperInline<T>(props: Props<T>) {
         if (index > props.currentStepIndex) return null;
 
         return (
-          <>
+          <Box key={index}>
             {step.renderBody()}
             <FullWidthDivider />
-          </>
+          </Box>
         );
       })}
     </Box>
