@@ -1,400 +1,407 @@
 /* eslint-disable @typescript-eslint/consistent-type-assertions */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {throwException} from '../throwException'
-import {ResolvedJobResponseFilteredResult} from '../Models/ResolvedJobResponseFilteredResult'
-import {ResolvedJobResponse} from '../Models/ResolvedJobResponse'
-import {CategoryResponse} from '../Models/CategoryResponse'
-import {Address} from '../Models/Address'
+import { Address } from "../Models/Address";
+import { CategoryResponse } from "../Models/CategoryResponse";
+import { FileParameter } from "../Models/FileParameter";
+import { JobDocumentInfo } from "../Models/JobDocumentInfo";
+import { JobDurationType } from "../Models/JobDurationType";
+import { JobUrgency } from "../Models/JobUrgency";
+import { PriceType } from "../Models/PriceType";
+import { ResolvedJobResponse } from "../Models/ResolvedJobResponse";
+import { ResolvedJobResponseFilteredResult } from "../Models/ResolvedJobResponseFilteredResult";
+import { throwException } from "../throwException";
 export class JobClient {
-    private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
-    private baseUrl: string;
-    protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
+  private http: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> };
+  private baseUrl: string;
+  protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
-    constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
-        this.http = http ? http : <any>window;
-        this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+  constructor(baseUrl?: string, http?: { fetch(url: RequestInfo, init?: RequestInit): Promise<Response> }) {
+    this.http = http ? http : <any>window;
+    this.baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
+  }
+
+  /**
+   * @return Success
+   */
+  async get(id: number): Promise<ResolvedJobResponse> {
+    let url_ = this.baseUrl + "/Job/{id}";
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace("{id}", encodeURIComponent("" + id));
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ = <RequestInit>{
+      method: "GET",
+      headers: {
+        Accept: "text/plain"
+      }
+    };
+
+    return this.http.fetch(url_, options_).then((_response: Response) => {
+      return this.processGet(_response);
+    });
+  }
+
+  protected async processGet(response: Response): Promise<ResolvedJobResponse> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && response.headers.forEach) {
+      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
     }
+    if (status === 200) {
+      return response.text().then((_responseText) => {
+        let result200: any = null;
+        result200 = _responseText === "" ? null : <ResolvedJobResponse>JSON.parse(_responseText, this.jsonParseReviver);
+        return result200;
+      });
+    } else if (status !== 200 && status !== 204) {
+      return response.text().then((_responseText) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      });
+    }
+    return Promise.resolve<ResolvedJobResponse>(<any>null);
+  }
 
-    /**
-     * @return Success
-     */
-    async get(id: number): Promise<ResolvedJobResponse> {
-        let url_ = this.baseUrl + "/Job/{id}";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
-
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Accept": "text/plain"
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGet(_response);
+  /**
+   * @param name (optional)
+   * @param description (optional)
+   * @param price_CurrencyCode (optional)
+   * @param price_PriceType (optional)
+   * @param price_MinPrice (optional)
+   * @param price_MaxPrice (optional)
+   * @param categoryIds (optional)
+   * @param jobDurationType (optional)
+   * @param city (optional)
+   * @param page (optional)
+   * @param pageSize (optional)
+   * @param orderBy (optional)
+   * @return Success
+   */
+  async getjobs(
+    name: string | undefined,
+    description: string | undefined,
+    price_CurrencyCode: string | undefined,
+    price_PriceType: PriceType | undefined,
+    price_MinPrice: number | undefined,
+    price_MaxPrice: number | undefined,
+    categoryIds: number[] | undefined,
+    jobDurationType: JobDurationType | undefined,
+    city: string | undefined,
+    page: number | undefined,
+    pageSize: number | undefined,
+    orderBy: string | undefined
+  ): Promise<ResolvedJobResponseFilteredResult> {
+    let url_ = this.baseUrl + "/Job?";
+    if (name === null) throw new Error("The parameter 'name' cannot be null.");
+    else if (name !== undefined) url_ += "name=" + encodeURIComponent("" + name) + "&";
+    if (description === null) throw new Error("The parameter 'description' cannot be null.");
+    else if (description !== undefined) url_ += "description=" + encodeURIComponent("" + description) + "&";
+    if (price_CurrencyCode === null) throw new Error("The parameter 'price_CurrencyCode' cannot be null.");
+    else if (price_CurrencyCode !== undefined)
+      url_ += "price_CurrencyCode=" + encodeURIComponent("" + price_CurrencyCode) + "&";
+    if (price_PriceType === null) throw new Error("The parameter 'price_PriceType' cannot be null.");
+    else if (price_PriceType !== undefined) url_ += "price_PriceType=" + encodeURIComponent("" + price_PriceType) + "&";
+    if (price_MinPrice === null) throw new Error("The parameter 'price_MinPrice' cannot be null.");
+    else if (price_MinPrice !== undefined) url_ += "price_MinPrice=" + encodeURIComponent("" + price_MinPrice) + "&";
+    if (price_MaxPrice === null) throw new Error("The parameter 'price_MaxPrice' cannot be null.");
+    else if (price_MaxPrice !== undefined) url_ += "price_MaxPrice=" + encodeURIComponent("" + price_MaxPrice) + "&";
+    if (categoryIds === null) throw new Error("The parameter 'categoryIds' cannot be null.");
+    else if (categoryIds !== undefined)
+      categoryIds &&
+        categoryIds.forEach((item) => {
+          url_ += "categoryIds=" + encodeURIComponent("" + item) + "&";
         });
+    if (jobDurationType === null) throw new Error("The parameter 'jobDurationType' cannot be null.");
+    else if (jobDurationType !== undefined) url_ += "jobDurationType=" + encodeURIComponent("" + jobDurationType) + "&";
+    if (city === null) throw new Error("The parameter 'city' cannot be null.");
+    else if (city !== undefined) url_ += "city=" + encodeURIComponent("" + city) + "&";
+    if (page === null) throw new Error("The parameter 'page' cannot be null.");
+    else if (page !== undefined) url_ += "page=" + encodeURIComponent("" + page) + "&";
+    if (pageSize === null) throw new Error("The parameter 'pageSize' cannot be null.");
+    else if (pageSize !== undefined) url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
+    if (orderBy === null) throw new Error("The parameter 'orderBy' cannot be null.");
+    else if (orderBy !== undefined) url_ += "orderBy=" + encodeURIComponent("" + orderBy) + "&";
+    url_ = url_.replace(/[?&]$/, "");
+
+    let options_ = <RequestInit>{
+      method: "GET",
+      headers: {
+        Accept: "text/plain"
+      }
+    };
+
+    return this.http.fetch(url_, options_).then((_response: Response) => {
+      return this.processGetjobs(_response);
+    });
+  }
+
+  protected async processGetjobs(response: Response): Promise<ResolvedJobResponseFilteredResult> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && response.headers.forEach) {
+      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
     }
-
-    protected async processGet(response: Response): Promise<ResolvedJobResponse> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : <ResolvedJobResponse>JSON.parse(_responseText, this.jsonParseReviver);
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<ResolvedJobResponse>(<any>null);
+    if (status === 200) {
+      return response.text().then((_responseText) => {
+        let result200: any = null;
+        result200 =
+          _responseText === ""
+            ? null
+            : <ResolvedJobResponseFilteredResult>JSON.parse(_responseText, this.jsonParseReviver);
+        return result200;
+      });
+    } else if (status !== 200 && status !== 204) {
+      return response.text().then((_responseText) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      });
     }
+    return Promise.resolve<ResolvedJobResponseFilteredResult>(<any>null);
+  }
 
-    /**
-     * @param name (optional) 
-     * @param description (optional) 
-     * @param price_CurrencyCode (optional) 
-     * @param price_PriceType (optional) 
-     * @param price_MinPrice (optional) 
-     * @param price_MaxPrice (optional) 
-     * @param categoryIds (optional) 
-     * @param jobDurationType (optional) 
-     * @param city (optional) 
-     * @param page (optional) 
-     * @param pageSize (optional) 
-     * @param orderBy (optional) 
-     * @return Success
-     */
-    async getjobs(name: string | undefined, description: string | undefined, price_CurrencyCode: string | undefined, price_PriceType: PriceType | undefined, price_MinPrice: number | undefined, price_MaxPrice: number | undefined, categoryIds: number[] | undefined, jobDurationType: JobDurationType | undefined, city: string | undefined, page: number | undefined, pageSize: number | undefined, orderBy: string | undefined): Promise<ResolvedJobResponseFilteredResult> {
-        let url_ = this.baseUrl + "/Job?";
-        if (name === null)
-            throw new Error("The parameter 'name' cannot be null.");
-        else if (name !== undefined)
-            url_ += "name=" + encodeURIComponent("" + name) + "&";
-        if (description === null)
-            throw new Error("The parameter 'description' cannot be null.");
-        else if (description !== undefined)
-            url_ += "description=" + encodeURIComponent("" + description) + "&";
-        if (price_CurrencyCode === null)
-            throw new Error("The parameter 'price_CurrencyCode' cannot be null.");
-        else if (price_CurrencyCode !== undefined)
-            url_ += "price_CurrencyCode=" + encodeURIComponent("" + price_CurrencyCode) + "&";
-        if (price_PriceType === null)
-            throw new Error("The parameter 'price_PriceType' cannot be null.");
-        else if (price_PriceType !== undefined)
-            url_ += "price_PriceType=" + encodeURIComponent("" + price_PriceType) + "&";
-        if (price_MinPrice === null)
-            throw new Error("The parameter 'price_MinPrice' cannot be null.");
-        else if (price_MinPrice !== undefined)
-            url_ += "price_MinPrice=" + encodeURIComponent("" + price_MinPrice) + "&";
-        if (price_MaxPrice === null)
-            throw new Error("The parameter 'price_MaxPrice' cannot be null.");
-        else if (price_MaxPrice !== undefined)
-            url_ += "price_MaxPrice=" + encodeURIComponent("" + price_MaxPrice) + "&";
-        if (categoryIds === null)
-            throw new Error("The parameter 'categoryIds' cannot be null.");
-        else if (categoryIds !== undefined)
-            categoryIds && categoryIds.forEach(item => { url_ += "categoryIds=" + encodeURIComponent("" + item) + "&"; });
-        if (jobDurationType === null)
-            throw new Error("The parameter 'jobDurationType' cannot be null.");
-        else if (jobDurationType !== undefined)
-            url_ += "jobDurationType=" + encodeURIComponent("" + jobDurationType) + "&";
-        if (city === null)
-            throw new Error("The parameter 'city' cannot be null.");
-        else if (city !== undefined)
-            url_ += "city=" + encodeURIComponent("" + city) + "&";
-        if (page === null)
-            throw new Error("The parameter 'page' cannot be null.");
-        else if (page !== undefined)
-            url_ += "page=" + encodeURIComponent("" + page) + "&";
-        if (pageSize === null)
-            throw new Error("The parameter 'pageSize' cannot be null.");
-        else if (pageSize !== undefined)
-            url_ += "pageSize=" + encodeURIComponent("" + pageSize) + "&";
-        if (orderBy === null)
-            throw new Error("The parameter 'orderBy' cannot be null.");
-        else if (orderBy !== undefined)
-            url_ += "orderBy=" + encodeURIComponent("" + orderBy) + "&";
-        url_ = url_.replace(/[?&]$/, "");
+  /**
+   * @param name (optional)
+   * @param description (optional)
+   * @param highlightedDescription (optional)
+   * @param numberOfEmployeesRequired (optional)
+   * @param location_Latitude (optional)
+   * @param location_Longitude (optional)
+   * @param location_Country (optional)
+   * @param location_City (optional)
+   * @param location_AddressLine (optional)
+   * @param location_Zip (optional)
+   * @param jobDurationType (optional)
+   * @param price_CurrencyCode (optional)
+   * @param price_PriceType (optional)
+   * @param price_MinPrice (optional)
+   * @param price_MaxPrice (optional)
+   * @param urgency (optional)
+   * @param categoryId (optional)
+   * @return Success
+   */
+  async createJob(
+    name: string | undefined,
+    description: string | undefined,
+    highlightedDescription: string | undefined,
+    numberOfEmployeesRequired: number | undefined,
+    location_Latitude: number | undefined,
+    location_Longitude: number | undefined,
+    location_Country: string | undefined,
+    location_City: string | undefined,
+    location_AddressLine: string | undefined,
+    location_Zip: string | undefined,
+    jobDurationType: JobDurationType | undefined,
+    price_CurrencyCode: string | undefined,
+    price_PriceType: PriceType | undefined,
+    price_MinPrice: number | undefined,
+    price_MaxPrice: number | undefined,
+    urgency: JobUrgency | undefined,
+    categoryId: number | undefined
+  ): Promise<number> {
+    let url_ = this.baseUrl + "/Job?";
+    if (name === null) throw new Error("The parameter 'name' cannot be null.");
+    else if (name !== undefined) url_ += "Name=" + encodeURIComponent("" + name) + "&";
+    if (description === null) throw new Error("The parameter 'description' cannot be null.");
+    else if (description !== undefined) url_ += "Description=" + encodeURIComponent("" + description) + "&";
+    if (highlightedDescription === null) throw new Error("The parameter 'highlightedDescription' cannot be null.");
+    else if (highlightedDescription !== undefined)
+      url_ += "HighlightedDescription=" + encodeURIComponent("" + highlightedDescription) + "&";
+    if (numberOfEmployeesRequired === null)
+      throw new Error("The parameter 'numberOfEmployeesRequired' cannot be null.");
+    else if (numberOfEmployeesRequired !== undefined)
+      url_ += "NumberOfEmployeesRequired=" + encodeURIComponent("" + numberOfEmployeesRequired) + "&";
+    if (location_Latitude === null) throw new Error("The parameter 'location_Latitude' cannot be null.");
+    else if (location_Latitude !== undefined)
+      url_ += "Location.Latitude=" + encodeURIComponent("" + location_Latitude) + "&";
+    if (location_Longitude === null) throw new Error("The parameter 'location_Longitude' cannot be null.");
+    else if (location_Longitude !== undefined)
+      url_ += "Location.Longitude=" + encodeURIComponent("" + location_Longitude) + "&";
+    if (location_Country === null) throw new Error("The parameter 'location_Country' cannot be null.");
+    else if (location_Country !== undefined)
+      url_ += "Location.Country=" + encodeURIComponent("" + location_Country) + "&";
+    if (location_City === null) throw new Error("The parameter 'location_City' cannot be null.");
+    else if (location_City !== undefined) url_ += "Location.City=" + encodeURIComponent("" + location_City) + "&";
+    if (location_AddressLine === null) throw new Error("The parameter 'location_AddressLine' cannot be null.");
+    else if (location_AddressLine !== undefined)
+      url_ += "Location.AddressLine=" + encodeURIComponent("" + location_AddressLine) + "&";
+    if (location_Zip === null) throw new Error("The parameter 'location_Zip' cannot be null.");
+    else if (location_Zip !== undefined) url_ += "Location.Zip=" + encodeURIComponent("" + location_Zip) + "&";
+    if (jobDurationType === null) throw new Error("The parameter 'jobDurationType' cannot be null.");
+    else if (jobDurationType !== undefined) url_ += "JobDurationType=" + encodeURIComponent("" + jobDurationType) + "&";
+    if (price_CurrencyCode === null) throw new Error("The parameter 'price_CurrencyCode' cannot be null.");
+    else if (price_CurrencyCode !== undefined)
+      url_ += "Price.CurrencyCode=" + encodeURIComponent("" + price_CurrencyCode) + "&";
+    if (price_PriceType === null) throw new Error("The parameter 'price_PriceType' cannot be null.");
+    else if (price_PriceType !== undefined) url_ += "Price.PriceType=" + encodeURIComponent("" + price_PriceType) + "&";
+    if (price_MinPrice === null) throw new Error("The parameter 'price_MinPrice' cannot be null.");
+    else if (price_MinPrice !== undefined) url_ += "Price.MinPrice=" + encodeURIComponent("" + price_MinPrice) + "&";
+    if (price_MaxPrice === null) throw new Error("The parameter 'price_MaxPrice' cannot be null.");
+    else if (price_MaxPrice !== undefined) url_ += "Price.MaxPrice=" + encodeURIComponent("" + price_MaxPrice) + "&";
+    if (urgency === null) throw new Error("The parameter 'urgency' cannot be null.");
+    else if (urgency !== undefined) url_ += "Urgency=" + encodeURIComponent("" + urgency) + "&";
+    if (categoryId === null) throw new Error("The parameter 'categoryId' cannot be null.");
+    else if (categoryId !== undefined) url_ += "CategoryId=" + encodeURIComponent("" + categoryId) + "&";
+    url_ = url_.replace(/[?&]$/, "");
 
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Accept": "text/plain"
-            }
-        };
+    let options_ = <RequestInit>{
+      method: "POST",
+      headers: {
+        Accept: "text/plain"
+      }
+    };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetjobs(_response);
-        });
+    return this.http.fetch(url_, options_).then((_response: Response) => {
+      return this.processCreateJob(_response);
+    });
+  }
+
+  protected async processCreateJob(response: Response): Promise<number> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && response.headers.forEach) {
+      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
     }
-
-    protected async processGetjobs(response: Response): Promise<ResolvedJobResponseFilteredResult> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : <ResolvedJobResponseFilteredResult>JSON.parse(_responseText, this.jsonParseReviver);
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<ResolvedJobResponseFilteredResult>(<any>null);
+    if (status === 200) {
+      return response.text().then((_responseText) => {
+        let result200: any = null;
+        result200 = _responseText === "" ? null : <number>JSON.parse(_responseText, this.jsonParseReviver);
+        return result200;
+      });
+    } else if (status !== 200 && status !== 204) {
+      return response.text().then((_responseText) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      });
     }
+    return Promise.resolve<number>(<any>null);
+  }
 
-    /**
-     * @param name (optional) 
-     * @param description (optional) 
-     * @param highlightedDescription (optional) 
-     * @param numberOfEmployeesRequired (optional) 
-     * @param location_Latitude (optional) 
-     * @param location_Longitude (optional) 
-     * @param location_Country (optional) 
-     * @param location_City (optional) 
-     * @param location_AddressLine (optional) 
-     * @param location_Zip (optional) 
-     * @param jobDurationType (optional) 
-     * @param price_CurrencyCode (optional) 
-     * @param price_PriceType (optional) 
-     * @param price_MinPrice (optional) 
-     * @param price_MaxPrice (optional) 
-     * @param urgency (optional) 
-     * @param categoryId (optional) 
-     * @return Success
-     */
-    async createJob(name: string | undefined, description: string | undefined, highlightedDescription: string | undefined, numberOfEmployeesRequired: number | undefined, location_Latitude: number | undefined, location_Longitude: number | undefined, location_Country: string | undefined, location_City: string | undefined, location_AddressLine: string | undefined, location_Zip: string | undefined, jobDurationType: JobDurationType | undefined, price_CurrencyCode: string | undefined, price_PriceType: PriceType | undefined, price_MinPrice: number | undefined, price_MaxPrice: number | undefined, urgency: JobUrgency | undefined, categoryId: number | undefined): Promise<number> {
-        let url_ = this.baseUrl + "/Job?";
-        if (name === null)
-            throw new Error("The parameter 'name' cannot be null.");
-        else if (name !== undefined)
-            url_ += "Name=" + encodeURIComponent("" + name) + "&";
-        if (description === null)
-            throw new Error("The parameter 'description' cannot be null.");
-        else if (description !== undefined)
-            url_ += "Description=" + encodeURIComponent("" + description) + "&";
-        if (highlightedDescription === null)
-            throw new Error("The parameter 'highlightedDescription' cannot be null.");
-        else if (highlightedDescription !== undefined)
-            url_ += "HighlightedDescription=" + encodeURIComponent("" + highlightedDescription) + "&";
-        if (numberOfEmployeesRequired === null)
-            throw new Error("The parameter 'numberOfEmployeesRequired' cannot be null.");
-        else if (numberOfEmployeesRequired !== undefined)
-            url_ += "NumberOfEmployeesRequired=" + encodeURIComponent("" + numberOfEmployeesRequired) + "&";
-        if (location_Latitude === null)
-            throw new Error("The parameter 'location_Latitude' cannot be null.");
-        else if (location_Latitude !== undefined)
-            url_ += "Location.Latitude=" + encodeURIComponent("" + location_Latitude) + "&";
-        if (location_Longitude === null)
-            throw new Error("The parameter 'location_Longitude' cannot be null.");
-        else if (location_Longitude !== undefined)
-            url_ += "Location.Longitude=" + encodeURIComponent("" + location_Longitude) + "&";
-        if (location_Country === null)
-            throw new Error("The parameter 'location_Country' cannot be null.");
-        else if (location_Country !== undefined)
-            url_ += "Location.Country=" + encodeURIComponent("" + location_Country) + "&";
-        if (location_City === null)
-            throw new Error("The parameter 'location_City' cannot be null.");
-        else if (location_City !== undefined)
-            url_ += "Location.City=" + encodeURIComponent("" + location_City) + "&";
-        if (location_AddressLine === null)
-            throw new Error("The parameter 'location_AddressLine' cannot be null.");
-        else if (location_AddressLine !== undefined)
-            url_ += "Location.AddressLine=" + encodeURIComponent("" + location_AddressLine) + "&";
-        if (location_Zip === null)
-            throw new Error("The parameter 'location_Zip' cannot be null.");
-        else if (location_Zip !== undefined)
-            url_ += "Location.Zip=" + encodeURIComponent("" + location_Zip) + "&";
-        if (jobDurationType === null)
-            throw new Error("The parameter 'jobDurationType' cannot be null.");
-        else if (jobDurationType !== undefined)
-            url_ += "JobDurationType=" + encodeURIComponent("" + jobDurationType) + "&";
-        if (price_CurrencyCode === null)
-            throw new Error("The parameter 'price_CurrencyCode' cannot be null.");
-        else if (price_CurrencyCode !== undefined)
-            url_ += "Price.CurrencyCode=" + encodeURIComponent("" + price_CurrencyCode) + "&";
-        if (price_PriceType === null)
-            throw new Error("The parameter 'price_PriceType' cannot be null.");
-        else if (price_PriceType !== undefined)
-            url_ += "Price.PriceType=" + encodeURIComponent("" + price_PriceType) + "&";
-        if (price_MinPrice === null)
-            throw new Error("The parameter 'price_MinPrice' cannot be null.");
-        else if (price_MinPrice !== undefined)
-            url_ += "Price.MinPrice=" + encodeURIComponent("" + price_MinPrice) + "&";
-        if (price_MaxPrice === null)
-            throw new Error("The parameter 'price_MaxPrice' cannot be null.");
-        else if (price_MaxPrice !== undefined)
-            url_ += "Price.MaxPrice=" + encodeURIComponent("" + price_MaxPrice) + "&";
-        if (urgency === null)
-            throw new Error("The parameter 'urgency' cannot be null.");
-        else if (urgency !== undefined)
-            url_ += "Urgency=" + encodeURIComponent("" + urgency) + "&";
-        if (categoryId === null)
-            throw new Error("The parameter 'categoryId' cannot be null.");
-        else if (categoryId !== undefined)
-            url_ += "CategoryId=" + encodeURIComponent("" + categoryId) + "&";
-        url_ = url_.replace(/[?&]$/, "");
+  /**
+   * @return Success
+   */
+  async getJobCategories(): Promise<CategoryResponse[]> {
+    let url_ = this.baseUrl + "/Job/categories";
+    url_ = url_.replace(/[?&]$/, "");
 
-        let options_ = <RequestInit>{
-            method: "POST",
-            headers: {
-                "Accept": "text/plain"
-            }
-        };
+    let options_ = <RequestInit>{
+      method: "GET",
+      headers: {
+        Accept: "text/plain"
+      }
+    };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processCreateJob(_response);
-        });
+    return this.http.fetch(url_, options_).then((_response: Response) => {
+      return this.processGetJobCategories(_response);
+    });
+  }
+
+  protected async processGetJobCategories(response: Response): Promise<CategoryResponse[]> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && response.headers.forEach) {
+      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
     }
-
-    protected async processCreateJob(response: Response): Promise<number> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : <number>JSON.parse(_responseText, this.jsonParseReviver);
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<number>(<any>null);
+    if (status === 200) {
+      return response.text().then((_responseText) => {
+        let result200: any = null;
+        result200 = _responseText === "" ? null : <CategoryResponse[]>JSON.parse(_responseText, this.jsonParseReviver);
+        return result200;
+      });
+    } else if (status !== 200 && status !== 204) {
+      return response.text().then((_responseText) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      });
     }
+    return Promise.resolve<CategoryResponse[]>(<any>null);
+  }
 
-    /**
-     * @return Success
-     */
-    async getJobCategories(): Promise<CategoryResponse[]> {
-        let url_ = this.baseUrl + "/Job/categories";
-        url_ = url_.replace(/[?&]$/, "");
+  /**
+   * @param location (optional)
+   * @return Success
+   */
+  async getJobLocations(location: string | undefined): Promise<Address[]> {
+    let url_ = this.baseUrl + "/Job/locations?";
+    if (location === null) throw new Error("The parameter 'location' cannot be null.");
+    else if (location !== undefined) url_ += "location=" + encodeURIComponent("" + location) + "&";
+    url_ = url_.replace(/[?&]$/, "");
 
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Accept": "text/plain"
-            }
-        };
+    let options_ = <RequestInit>{
+      method: "GET",
+      headers: {
+        Accept: "text/plain"
+      }
+    };
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetJobCategories(_response);
-        });
+    return this.http.fetch(url_, options_).then((_response: Response) => {
+      return this.processGetJobLocations(_response);
+    });
+  }
+
+  protected async processGetJobLocations(response: Response): Promise<Address[]> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && response.headers.forEach) {
+      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
     }
-
-    protected async processGetJobCategories(response: Response): Promise<CategoryResponse[]> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : <CategoryResponse[]>JSON.parse(_responseText, this.jsonParseReviver);
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<CategoryResponse[]>(<any>null);
+    if (status === 200) {
+      return response.text().then((_responseText) => {
+        let result200: any = null;
+        result200 = _responseText === "" ? null : <Address[]>JSON.parse(_responseText, this.jsonParseReviver);
+        return result200;
+      });
+    } else if (status !== 200 && status !== 204) {
+      return response.text().then((_responseText) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      });
     }
+    return Promise.resolve<Address[]>(<any>null);
+  }
 
-    /**
-     * @param location (optional) 
-     * @return Success
-     */
-    async getJobLocations(location: string | undefined): Promise<Address[]> {
-        let url_ = this.baseUrl + "/Job/locations?";
-        if (location === null)
-            throw new Error("The parameter 'location' cannot be null.");
-        else if (location !== undefined)
-            url_ += "location=" + encodeURIComponent("" + location) + "&";
-        url_ = url_.replace(/[?&]$/, "");
+  /**
+   * @param files (optional)
+   * @param documentInfos (optional)
+   * @return Success
+   */
+  async uploadDocument(
+    id: number,
+    files: FileParameter[] | undefined,
+    documentInfos: JobDocumentInfo[] | undefined
+  ): Promise<void> {
+    let url_ = this.baseUrl + "/Job/{id}/document";
+    if (id === undefined || id === null) throw new Error("The parameter 'id' must be defined.");
+    url_ = url_.replace("{id}", encodeURIComponent("" + id));
+    url_ = url_.replace(/[?&]$/, "");
 
-        let options_ = <RequestInit>{
-            method: "GET",
-            headers: {
-                "Accept": "text/plain"
-            }
-        };
+    const content_ = new FormData();
+    if (files === null || files === undefined) throw new Error("The parameter 'files' cannot be null.");
+    else files.forEach((item_) => content_.append("files", item_.data, item_.fileName ? item_.fileName : "files"));
+    if (documentInfos === null || documentInfos === undefined)
+      throw new Error("The parameter 'documentInfos' cannot be null.");
+    else documentInfos.forEach((item_) => content_.append("documentInfos", item_.toString()));
 
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processGetJobLocations(_response);
-        });
+    let options_ = <RequestInit>{
+      body: content_,
+      method: "POST",
+      headers: {}
+    };
+
+    return this.http.fetch(url_, options_).then((_response: Response) => {
+      return this.processUploadDocument(_response);
+    });
+  }
+
+  protected async processUploadDocument(response: Response): Promise<void> {
+    const status = response.status;
+    let _headers: any = {};
+    if (response.headers && response.headers.forEach) {
+      response.headers.forEach((v: any, k: any) => (_headers[k] = v));
     }
-
-    protected async processGetJobLocations(response: Response): Promise<Address[]> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            let result200: any = null;
-            result200 = _responseText === "" ? null : <Address[]>JSON.parse(_responseText, this.jsonParseReviver);
-            return result200;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<Address[]>(<any>null);
+    if (status === 200) {
+      return response.text().then((_responseText) => {
+        return;
+      });
+    } else if (status !== 200 && status !== 204) {
+      return response.text().then((_responseText) => {
+        return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+      });
     }
-
-    /**
-     * @param files (optional) 
-     * @param documentInfos (optional) 
-     * @return Success
-     */
-    async uploadDocument(id: number, files: FileParameter[] | undefined, documentInfos: JobDocumentInfo[] | undefined): Promise<void> {
-        let url_ = this.baseUrl + "/Job/{id}/document";
-        if (id === undefined || id === null)
-            throw new Error("The parameter 'id' must be defined.");
-        url_ = url_.replace("{id}", encodeURIComponent("" + id));
-        url_ = url_.replace(/[?&]$/, "");
-
-        const content_ = new FormData();
-        if (files === null || files === undefined)
-            throw new Error("The parameter 'files' cannot be null.");
-        else
-            files.forEach(item_ => content_.append("files", item_.data, item_.fileName ? item_.fileName : "files") );
-        if (documentInfos === null || documentInfos === undefined)
-            throw new Error("The parameter 'documentInfos' cannot be null.");
-        else
-            documentInfos.forEach(item_ => content_.append("documentInfos", item_.toString()));
-
-        let options_ = <RequestInit>{
-            body: content_,
-            method: "POST",
-            headers: {
-            }
-        };
-
-        return this.http.fetch(url_, options_).then((_response: Response) => {
-            return this.processUploadDocument(_response);
-        });
-    }
-
-    protected async processUploadDocument(response: Response): Promise<void> {
-        const status = response.status;
-        let _headers: any = {}; if (response.headers && response.headers.forEach) { response.headers.forEach((v: any, k: any) => _headers[k] = v); };
-        if (status === 200) {
-            return response.text().then((_responseText) => {
-            return;
-            });
-        } else if (status !== 200 && status !== 204) {
-            return response.text().then((_responseText) => {
-            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
-            });
-        }
-        return Promise.resolve<void>(<any>null);
-    }
+    return Promise.resolve<void>(<any>null);
+  }
 }
-

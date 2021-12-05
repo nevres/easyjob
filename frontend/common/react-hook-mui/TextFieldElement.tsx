@@ -1,6 +1,6 @@
 import { TextField, TextFieldProps } from "@mui/material";
-import { Controller, FieldError, Control, FieldPath } from "react-hook-form";
 import React from "react";
+import { Control, Controller, FieldError, FieldPath } from "react-hook-form";
 
 export type TextFieldElementProps<T> = Omit<TextFieldProps, "name"> & {
   name: FieldPath<T>;
@@ -20,10 +20,7 @@ export default function TextFieldElement<T>({
     <Controller
       name={name}
       control={control}
-      render={({
-        field: { value, onChange, onBlur },
-        fieldState: { invalid, error },
-      }) => (
+      render={({ field: { value, onChange, onBlur }, fieldState: { invalid, error } }) => (
         <TextField
           {...rest}
           name={name.toString()}
@@ -33,13 +30,7 @@ export default function TextFieldElement<T>({
           required={required}
           type={type}
           error={invalid}
-          helperText={
-            error
-              ? typeof parseError === "function"
-                ? parseError(error)
-                : error.message
-              : rest.helperText
-          }
+          helperText={error ? (typeof parseError === "function" ? parseError(error) : error.message) : rest.helperText}
         />
       )}
     />

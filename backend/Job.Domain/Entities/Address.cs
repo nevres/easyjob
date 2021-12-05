@@ -1,13 +1,10 @@
 ﻿using Shared.SeedWork;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace JobProcessing.Domain.Entities
 {
-    public class Address: BaseEntity<int>
+    public class Address : BaseEntity<int>
     {
-        public Address(float latitude, float longitude, string country, string city, string addressLine, string zip)
+        public Address(float? latitude, float? longitude, string country, string city, string addressLine, string zip)
         {
             this.Latitude = latitude;
             this.Longitude = longitude;
@@ -17,8 +14,8 @@ namespace JobProcessing.Domain.Entities
             this.Zip = zip;
         }
 
-        public float Latitude { get; set; }
-        public float Longitude { get; set; }
+        public float? Latitude { get; set; }
+        public float? Longitude { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
         public string AddressLine { get; set; }

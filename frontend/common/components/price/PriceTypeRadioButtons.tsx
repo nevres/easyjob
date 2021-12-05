@@ -1,18 +1,58 @@
-import { Control } from "react-hook-form";
+import { AccessTime, Money } from "@mui/icons-material";
+import { Box } from "@mui/material";
 import React from "react";
-import { PriceType } from "../../../api/Models/PriceType";
-import RadioButtonGroup, { RadioButtonOption } from "../../react-hook-mui/RadioButtonGroup";
+import { Control } from "react-hook-form";
 import { Price } from "../../../api/Models/Price";
+import { PriceType } from "../../../api/Models/PriceType";
+import useI18n, { TranslationFunc } from "../../i18n/useI18n";
+import CustomRadioButtonGroup, { RadioButtonOption } from "../../react-hook-mui/CustomRadioButtonGroup";
 
-export const PRICE_OPTIONS: Array<RadioButtonOption<PriceType>> = [
-  { label: PriceType.FixedPrice, value: PriceType.FixedPrice },
-  { label: PriceType.Hourly, value: PriceType.Hourly }
-];
+export function getPriceOptions(translation: TranslationFunc) {
+  return [
+    { label: translation("fixedPrice"), value: PriceType.FixedPrice },
+    { label: translation("hourlyRate"), value: PriceType.Hourly }
+  ];
+}
 
 interface Props<T extends { price: Price }> {
   control: Control<T, object>;
 }
 
 export default function PriceTypeRadioButtons<T extends { price: Price }>(props: Props<T>) {
-  return <RadioButtonGroup name={"price.priceType" as any} control={props.control} options={PRICE_OPTIONS} row />;
+  const t = useI18n();
+  return (
+    <CustomRadioButtonGroup
+      name={"price.priceType" as any}
+      control={props.control}
+      options={getPriceOptions(t)}
+      row
+      renderCustomComponent={renderCustomPriceBox}
+    />
+  );
+
+  function renderCustomPriceBox(priceOption: RadioButtonOption<PriceType>, onSelect: () => void, isSelected: boolean) {
+    const icon =
+      priceOption.value === PriceType.Hourly ? (
+        <AccessTime sx={{ height: "50px", width: "50px" }} />
+      ) : (
+        <Money sx={{ height: "50px", width: "50px" }} />
+      );
+    return (
+      <Box
+        sx={{
+          border: (theme) => `1px solid ${theme.palette.primary.light}`,
+          borderRadius: "5px",
+          padding: (theme) => theme.spacing(),
+          backgroundColor: (theme) => (isSelected ? theme.palette.primary.veryLight : ""),
+          display: "flex",
+          alignItems: "center",
+          gap: (theme) => theme.spacing()
+        }}
+        onClick={onSelect}
+      >
+        {icon}
+        {priceOption.label}
+      </Box>
+    );
+  }
 }

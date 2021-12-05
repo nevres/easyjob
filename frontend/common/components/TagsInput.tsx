@@ -1,5 +1,4 @@
-import { ControlCamera } from "@mui/icons-material";
-import React, { useState } from "react";
+import React from "react";
 import { Control, Controller, FieldPath } from "react-hook-form";
 import { default as ReactTagsInput } from "react-tagsinput";
 import "react-tagsinput/react-tagsinput.css"; // If using WebPack and style-loader.
@@ -8,6 +7,7 @@ export type TagsInputProps<T> = {
   name: FieldPath<T>;
   control: Control<T, object>;
   placeholder: string;
+  label: string;
 };
 
 export function TagsInput<T>(props: TagsInputProps<T>) {
@@ -28,7 +28,7 @@ export function TagsInput<T>(props: TagsInputProps<T>) {
               inputValue={""}
               onlyUnique
               addOnBlur
-              inputProps={{ placeHolder: props.placeholder }}
+              inputProps={{ placeHolder: props.placeholder, label: props.label }}
             />
             {/* {helperText && <FormHelperText>{helperText}</FormHelperText>} */}
           </>
