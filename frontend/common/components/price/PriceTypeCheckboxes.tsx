@@ -14,5 +14,5 @@ interface Props<T extends { price: Price }> {
 }
 
 export default function PriceTypeCheckboxes<T extends { price: Price }>(props: Props<T>) {
-  return <CheckboxButtonGroup name={"price.priceType" as any} control={props.control} options={PRICE_OPTIONS} row />;
+  return <CheckboxButtonGroup name={"price.type" as any} control={props.control} options={PRICE_OPTIONS} row />;
 }

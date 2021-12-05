@@ -1,7 +1,6 @@
 import { LocationOnOutlined } from "@mui/icons-material";
-import { Chip, Stack, Typography } from "@mui/material";
+import { Chip, Stack, styled, Typography } from "@mui/material";
 import Paper from "@mui/material/Paper";
-import { styled } from "@mui/system";
 import React from "react";
 import { ResolvedJobResponse } from "../../api/Models/ResolvedJobResponse";
 import useI18n from "../../common/i18n/useI18n";
@@ -24,7 +23,7 @@ const BorderLessIFrame = styled("iframe")({
 export default function JobPreview({ job }: JobPreviewProps) {
   const t = useI18n();
   return (
-    <Paper sx={{ height: "100%", p: 1 }}>
+    <Paper sx={{ p: 1 }}>
       <Typography variant="h5">{job.name}</Typography>
       <Stack direction="row" spacing={2}>
         <Chip label={job.categoryName} />

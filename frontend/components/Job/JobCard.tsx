@@ -1,54 +1,41 @@
-import * as React from "react";
-import { styled } from "@mui/material/styles";
-import Card from "@mui/material/Card";
-import CardHeader from "@mui/material/CardHeader";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Collapse from "@mui/material/Collapse";
-import Avatar from "@mui/material/Avatar";
-import IconButton, { IconButtonProps } from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
+import { Person } from "@mui/icons-material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from "@mui/icons-material/Share";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import LocationOnOutlined from "@mui/icons-material/LocationOnOutlined";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import ShareIcon from "@mui/icons-material/Share";
+import Avatar from "@mui/material/Avatar";
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardHeader from "@mui/material/CardHeader";
+import Chip from "@mui/material/Chip";
+import Collapse from "@mui/material/Collapse";
+import { red } from "@mui/material/colors";
+import IconButton from "@mui/material/IconButton";
+import Stack from "@mui/material/Stack";
+import { SxProps, Theme } from "@mui/material/styles";
+import Typography from "@mui/material/Typography";
+import * as React from "react";
 import { ResolvedJobResponse } from "../../api/Models/ResolvedJobResponse";
+import useI18n from "../../common/i18n/useI18n";
+import { getUserFriendlyDate } from "../../common/utils/dateTimeHelper";
+import { isNullOrUndefined } from "../../common/utils/jsHelper";
 import {
   getJobDurationTypeTranslation,
   getUserFriendlyLocation,
   getUserFriendlyPrice,
   getUserInitials
 } from "../../domain/job/jobHelper";
-import useI18n from "../../common/i18n/useI18n";
-import LocationOnOutlined from "@mui/icons-material/LocationOnOutlined";
-import Stack from "@mui/material/Stack";
-import fromUnixTime from "date-fns/fromUnixTime";
-import formatDistance from "date-fns/formatDistance";
-import { getUserFriendlyDate } from "../../common/utils/dateTimeHelper";
-import { isNullOrUndefined } from "../../common/utils/jsHelper";
-import Chip from "@mui/material/Chip";
-import { Person } from "@mui/icons-material";
 
 interface JobCardProps {
   job: ResolvedJobResponse;
+  customStyle?: SxProps<Theme>;
   handleCardClick?(job: ResolvedJobResponse): void;
 }
 
 interface ExpandMoreProps {
   expand: boolean;
 }
-type ExpandMoreIconProps = ExpandMoreProps & IconButtonProps;
-const ExpandMore = styled((props: ExpandMoreIconProps) => {
-  const { expand, ...other } = props;
-  return <IconButton {...other} />;
-})(({ theme, expand }) => ({
-  transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-  marginLeft: "auto",
-  transition: theme.transitions.create("transform", {
-    duration: theme.transitions.duration.shortest
-  })
-}));
 
 export default function JobCard(props: JobCardProps) {
   const [expanded, setExpanded] = React.useState(false);
@@ -64,6 +51,14 @@ export default function JobCard(props: JobCardProps) {
       onClick={() => {
         if (!isNullOrUndefined(props.handleCardClick)) props.handleCardClick(props.job);
       }}
+      sx={[
+        {
+          "&:hover": (theme) => ({
+            background: theme.palette.primary.veryLight
+          })
+        },
+        ...(props.customStyle ? (Array.isArray(props.customStyle) ? props.customStyle : [props.customStyle]) : [])
+      ]}
     >
       <CardHeader
         avatar={
@@ -116,9 +111,6 @@ export default function JobCard(props: JobCardProps) {
         <IconButton aria-label="share">
           <ShareIcon />
         </IconButton>
-        <ExpandMore expand={expanded} onClick={handleExpandClick} aria-expanded={expanded} aria-label="show more">
-          <ExpandMoreIcon />
-        </ExpandMore>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>

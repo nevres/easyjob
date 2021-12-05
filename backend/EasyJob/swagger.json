@@ -152,26 +152,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ResolvedJobResponse"
-                  }
+                  "$ref": "#/components/schemas/ResolvedJobResponseFilteredResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ResolvedJobResponse"
-                  }
+                  "$ref": "#/components/schemas/ResolvedJobResponseFilteredResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/ResolvedJobResponse"
-                  }
+                  "$ref": "#/components/schemas/ResolvedJobResponseFilteredResult"
                 }
               }
             }
@@ -631,6 +622,35 @@
           },
           "employer": {
             "$ref": "#/components/schemas/User"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ResolvedJobResponseFilteredResult": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "pageSize": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "orderBy": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ResolvedJobResponse"
+            },
+            "nullable": true
+          },
+          "count": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

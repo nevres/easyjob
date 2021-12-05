@@ -10,7 +10,7 @@ using JobProcessing;
 using Profile;
 using System;
 
-namespace EasyJob.Models
+namespace EasyJob.Models.Job
 {
     public class ResolvedJobResponse
     {
