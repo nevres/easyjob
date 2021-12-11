@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { PriceType } from "../../../../api/Models/PriceType";
+import { PriceType } from "../../../../apis/jobProcessingApi/Models/PriceType";
 import { useJobApi } from "../../../../common/customHooks/api/useJobApi";
 import { useSteps } from "../../../../common/customHooks/stepper/useSteps";
 import useI18n from "../../../../common/i18n/useI18n";

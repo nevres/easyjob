@@ -57,7 +57,7 @@ namespace JobProcessing.Application
             
             AddAutoMapper(services);
 
-            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IIdentityService, IdentityService>();
 
             services.AddScoped<IJobRepository, JobRepository>();

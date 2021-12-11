@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useAsync } from "react-async-hook";
 import { Control, FieldPath } from "react-hook-form";
-import { Address } from "../../api/Models/Address";
+import { Address } from "../../apis/jobProcessingApi/Models/Address";
 import { useJobApi } from "../customHooks/api/useJobApi";
 import useI18n from "../i18n/useI18n";
 import MultiSelectElement, { SelectItem } from "../react-hook-mui/MultiSelectElement";

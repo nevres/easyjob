@@ -31,6 +31,15 @@ const ba: ITranslation = {
     zip: "ZIP",
     country: "Država",
     addNewJob: "Novi posao",
+    email: "Email",
+    firstName: "Ime",
+    firstNameIsRequired: "Morate unijeti ime",
+    lastName: "Prezime",
+    lastNameIsRequired: "Morate unijeti prezime",
+    description: "Opis",
+    phoneNumber: "Broj telefona",
+    company: "Firma",
+    person: "Fizicko lice",
     chooseNameForYourJob: "Unesite naziv posla",
     jobTitleExample: "primjer: Čišćenje kuće",
     jobDescriptionLabel: "Opišite posao koji nudite",
@@ -50,7 +59,9 @@ const ba: ITranslation = {
     howDoYouWantToPay: "Kako želite platiti?",
     minPriceIsRequired: "Morate unijeti minimalnu vrijednost",
     maxPriceIsRequired: "Morate unijeti maksimalnu vrijednost",
-    categoryIsRequired: "Morate unijeti kategoriju"
+    categoryIsRequired: "Morate unijeti kategoriju",
+    yourProfileSuccessfullyUpdated: "Vas profil je uspjesno sacuvan",
+    phoneNumberInWrongFormat: "Format broja telefona je pogresan"
   }
 };
 

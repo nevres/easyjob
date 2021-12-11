@@ -66,7 +66,7 @@ namespace Document.Application
             services.AddScoped<IDocumentRepository, DocumentRepository>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient<IDocumentService, DocumentService>();
-            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             AddAutoMapper(services);
 

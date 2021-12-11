@@ -1,9 +1,9 @@
 import React from "react";
 import { Control } from "react-hook-form";
 import * as yup from "yup";
-import { Address } from "../../../../api/Models/Address";
-import { Price } from "../../../../api/Models/Price";
-import { PriceType } from "../../../../api/Models/PriceType";
+import { Address } from "../../../../apis/jobProcessingApi/Models/Address";
+import { Price } from "../../../../apis/jobProcessingApi/Models/Price";
+import { PriceType } from "../../../../apis/jobProcessingApi/Models/PriceType";
 import { StepModel } from "../../../../common/components/stepBased/Step";
 import { TranslationFunc } from "../../../../common/i18n/useI18n";
 import { SelectItem } from "../../../../common/react-hook-mui/MultiSelectElement";

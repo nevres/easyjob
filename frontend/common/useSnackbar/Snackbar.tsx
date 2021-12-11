@@ -1,6 +1,6 @@
 import { Alert, Snackbar } from "@mui/material";
-import React, { useState, Fragment } from "react";
-import ConfirmContext, { Severity, SnackbarProviderValue } from "./snackbarContext";
+import React, { Fragment, useCallback, useState } from "react";
+import SnackbarContext, { Severity, SnackbarProviderValue } from "./snackbarContext";
 
 export interface ConfirmProviderProps {}
 
@@ -9,24 +9,18 @@ type SnackbarMessage = {
   severity: Severity;
 };
 
-const SnackbarErrorProvider: React.FC = ({ children }) => {
+const SnackbarMessageProvider: React.ComponentType = ({ children }) => {
   const [messages, setMessages] = useState<Array<SnackbarMessage>>([]);
 
-  const showMessage: SnackbarProviderValue = (
-    message: string,
-    severity: Severity,
-    actionLabel?: string,
-    handleActionHandler?: () => void,
-    handleHideWithoutAction?: () => void
-  ) => {
+  const showMessage: SnackbarProviderValue = useCallback((message: string, severity: Severity) => {
     setMessages((prevValue) => {
       return [...prevValue, { message, severity }];
     });
-  };
+  }, []);
 
   return (
     <Fragment>
-      <ConfirmContext.Provider value={showMessage}>{children}</ConfirmContext.Provider>
+      <SnackbarContext.Provider value={showMessage}>{children}</SnackbarContext.Provider>
 
       {messages.map((message) => {
         return (
@@ -51,4 +45,4 @@ const SnackbarErrorProvider: React.FC = ({ children }) => {
   );
 };
 
-export default SnackbarErrorProvider;
+export default SnackbarMessageProvider;

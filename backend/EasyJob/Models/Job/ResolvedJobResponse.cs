@@ -26,6 +26,6 @@ namespace EasyJob.Models.Job
         public DateTimeOffset CreateDate { get; set; }
         public int CategoryId { get; set; }
         public string CategoryName { get; set; }
-        public User Employer { get; set; }
+        public UserResponse Employer { get; set; }
     }
 }

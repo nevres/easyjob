@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useAsync } from "react-async-hook";
 import { Control, FieldPath } from "react-hook-form";
-import { CategoryResponse } from "../../api/Models/CategoryResponse";
+import { CategoryResponse } from "../../apis/jobProcessingApi/Models/CategoryResponse";
 import { useJobApi } from "../customHooks/api/useJobApi";
 import useI18n from "../i18n/useI18n";
 import AutocompleteElement from "../react-hook-mui/AutocompleteElement";

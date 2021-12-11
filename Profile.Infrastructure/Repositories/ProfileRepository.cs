@@ -19,9 +19,10 @@ namespace Profile.Infrastructure.Repositories
         {
             _context = context;
         }
-        public Task<User> AddAsync(User entity)
+        public async Task<User> AddAsync(User entity)
         {
-            throw new NotImplementedException();
+            await _context.Users.AddAsync(entity);
+            return entity;
         }
 
         public Task DeleteAsync(User entity)
@@ -44,9 +45,9 @@ namespace Profile.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            return await _context.SaveChangesAsync(cancellationToken);
         }
 
         public Task UpdateAsync(User entity)

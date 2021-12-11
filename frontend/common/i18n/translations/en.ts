@@ -31,6 +31,15 @@ const en: ITranslation = {
     zip: "ZIP",
     country: "Country",
     addNewJob: "New Job",
+    email: "Email",
+    firstName: "First Name",
+    firstNameIsRequired: "First Name is required",
+    lastName: "Last Name",
+    lastNameIsRequired: "Last Name is required",
+    description: "Description",
+    phoneNumber: "Phone Number",
+    company: "Company",
+    person: "Person",
     chooseNameForYourJob: "Choose title for job",
     jobTitleExample: "e.g. House cleaning",
     jobDescriptionLabel: "Tell us more about this job",
@@ -50,7 +59,9 @@ const en: ITranslation = {
     howDoYouWantToPay: "How do you want to pay?",
     minPriceIsRequired: "Min price is required",
     maxPriceIsRequired: "Max price is required",
-    categoryIsRequired: "Category is required"
+    categoryIsRequired: "Category is required",
+    yourProfileSuccessfullyUpdated: "Your profile is successfully updated",
+    phoneNumberInWrongFormat: "Phone number has wrong format"
   }
 };
 

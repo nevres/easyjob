@@ -431,23 +431,19 @@
         "properties": {
           "name": {
             "type": "string",
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
           },
           "description": {
             "type": "string",
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
           },
           "highlightedDescription": {
             "type": "string",
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
           },
           "numberOfEmployeesRequired": {
             "type": "integer",
-            "format": "int32",
-            "readOnly": true
+            "format": "int32"
           },
           "location": {
             "$ref": "#/components/schemas/JobAddressRequest"
@@ -463,8 +459,7 @@
           },
           "categoryId": {
             "type": "integer",
-            "format": "int32",
-            "readOnly": true
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -541,21 +536,18 @@
         "properties": {
           "currencyCode": {
             "type": "string",
-            "nullable": true,
-            "readOnly": true
+            "nullable": true
           },
           "priceType": {
             "$ref": "#/components/schemas/PriceType"
           },
           "minPrice": {
             "type": "integer",
-            "format": "int32",
-            "readOnly": true
+            "format": "int32"
           },
           "maxPrice": {
             "type": "integer",
-            "format": "int32",
-            "readOnly": true
+            "format": "int32"
           }
         },
         "additionalProperties": false

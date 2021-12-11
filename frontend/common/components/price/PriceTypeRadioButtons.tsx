@@ -2,8 +2,8 @@ import { AccessTime, Money } from "@mui/icons-material";
 import { Box } from "@mui/material";
 import React from "react";
 import { Control } from "react-hook-form";
-import { Price } from "../../../api/Models/Price";
-import { PriceType } from "../../../api/Models/PriceType";
+import { Price } from "../../../apis/jobProcessingApi/Models/Price";
+import { PriceType } from "../../../apis/jobProcessingApi/Models/PriceType";
 import useI18n, { TranslationFunc } from "../../i18n/useI18n";
 import CustomRadioButtonGroup, { RadioButtonOption } from "../../react-hook-mui/CustomRadioButtonGroup";
 

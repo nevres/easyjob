@@ -16,7 +16,7 @@ import Stack from "@mui/material/Stack";
 import { SxProps, Theme } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import * as React from "react";
-import { ResolvedJobResponse } from "../../api/Models/ResolvedJobResponse";
+import { ResolvedJobResponse } from "../../apis/jobProcessingApi/Models/ResolvedJobResponse";
 import useI18n from "../../common/i18n/useI18n";
 import { getUserFriendlyDate } from "../../common/utils/dateTimeHelper";
 import { isNullOrUndefined } from "../../common/utils/jsHelper";

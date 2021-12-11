@@ -29,6 +29,15 @@ export default interface ITranslation {
     zip: string;
     country: string;
     addNewJob: string;
+    email: string;
+    firstName: string;
+    firstNameIsRequired: string;
+    lastName: string;
+    lastNameIsRequired: string;
+    description: string;
+    phoneNumber: string;
+    company: string;
+    person: string;
     chooseNameForYourJob: string;
     jobTitleExample: string;
     jobDescriptionLabel: string;
@@ -48,5 +57,7 @@ export default interface ITranslation {
     minPriceIsRequired: string;
     maxPriceIsRequired: string;
     categoryIsRequired: string;
+    yourProfileSuccessfullyUpdated: string;
+    phoneNumberInWrongFormat: string;
   };
 }

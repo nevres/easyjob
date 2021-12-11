@@ -33,7 +33,7 @@ export function useYupValidationResolver(
       } catch (errors: any) {
         return {
           values: {},
-          errors: errors.inner.reduce(
+          errors: errors.inner?.reduce(
             (allErrors: any, currentError: any) => ({
               ...allErrors,
               [currentError.path]: {

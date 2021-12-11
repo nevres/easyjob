@@ -10,15 +10,15 @@ namespace JobProcessing.Application.Commands.CreateJob
 {
     public class CreateJobCommand : IRequest<int>
     {
-        public string Name { get; private set; }
-        public string Description { get; private set; }
-        public string HighlightedDescription { get; private set; }
-        public int NumberOfEmployeesRequired { get; private set; }
-        public JobAddressRequest Location { get; private set; }
-        public JobDurationType JobDurationType { get; private set; }
-        public JobPriceRequest Price { get; private set; }
-        public JobUrgency Urgency { get; private set; }
-        public int CategoryId { get; private set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string HighlightedDescription { get; set; }
+        public int NumberOfEmployeesRequired { get; set; }
+        public JobAddressRequest Location { get; set; }
+        public JobDurationType JobDurationType { get; set; }
+        public JobPriceRequest Price { get; set; }
+        public JobUrgency Urgency { get; set; }
+        public int CategoryId { get; set; }
     }
 
     public class JobAddressRequest
@@ -33,9 +33,9 @@ namespace JobProcessing.Application.Commands.CreateJob
 
     public class JobPriceRequest
     {
-        public string CurrencyCode { get; private set; }
-        public PriceType PriceType { get; private set; }
-        public int MinPrice { get; private set; }
-        public int MaxPrice { get; private set; }
+        public string CurrencyCode { get; set; }
+        public PriceType PriceType { get; set; }
+        public int MinPrice { get; set; }
+        public int MaxPrice { get; set; }
     }
 }

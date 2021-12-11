@@ -2,7 +2,7 @@ import { Box, Button, Grid } from "@mui/material";
 import Link from "next/link";
 import React, { useCallback, useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { ResolvedJobResponse } from "../../api/Models/ResolvedJobResponse";
+import { ResolvedJobResponse } from "../../apis/jobProcessingApi/Models/ResolvedJobResponse";
 import { useJobApi } from "../../common/customHooks/api/useJobApi";
 import useI18n from "../../common/i18n/useI18n";
 import { SHOP_CURRENCY } from "../../domain/constants";
@@ -69,11 +69,10 @@ export default function JobPortfolio() {
             next={() => setCurrentPage((prevValue) => (prevValue += 1))}
           >
             {loadedItems?.map((x) => (
-              <Box sx={{ marginBottom: 1 }}>
+              <Box sx={{ marginBottom: 1 }} key={x.id}>
                 <JobCard
                   job={x}
                   handleCardClick={(job) => setSelectedJob(job)}
-                  key={x.id}
                   customStyle={
                     selectedJob?.id == x.id ? { background: (theme) => theme.palette.primary.veryLight } : undefined
                   }

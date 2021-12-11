@@ -1,4 +1,4 @@
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import authService from "../../auth/AuthorizeService";
 // import AuthenticationContext, {
 //   IAuthenticationContext,
@@ -34,10 +34,10 @@ function createFetch(): IHttp["fetch"] {
   };
 }
 
-export default function useApi<T>(clientClass: IClientClass<T>) {
+export default function useApi<T>(clientClass: IClientClass<T>, url: string) {
   //   const auth = useContext(AuthenticationContext);
 
-  const client = new clientClass("https://localhost:7001", {
+  const client = new clientClass(url, {
     fetch: createFetch() //(auth),
   });
   const api = useRef(client);

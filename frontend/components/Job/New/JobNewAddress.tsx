@@ -1,7 +1,7 @@
 import { Box, Grid } from "@mui/material";
 import * as React from "react";
 import { Control } from "react-hook-form";
-import { Address } from "../../../api/Models/Address";
+import { Address } from "../../../apis/jobProcessingApi/Models/Address";
 import useI18n from "../../../common/i18n/useI18n";
 import TextFieldElement from "../../../common/react-hook-mui/TextFieldElement";
 import { JobNewFormLayout } from "./JobNewFormLayout";

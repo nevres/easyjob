@@ -4,13 +4,13 @@ import TextFieldElement from "../../../common/react-hook-mui/TextFieldElement";
 import { Button, Divider, Stack } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import { JobUrgency } from "../../../api/Models/JobUrgency";
+import { JobUrgency } from "../../../apis/jobProcessingApi/Models/JobUrgency";
 import { CategoriesSelect } from "../../../common/components/CategoriesSelect";
-import { JobDurationType } from "../../../api/Models/JobDurationType";
+import { JobDurationType } from "../../../apis/jobProcessingApi/Models/JobDurationType";
 import { JobDurationSelect } from "../../../common/components/JobDurationSelect";
 import { LocationSelect } from "../../../common/components/LocationSelect";
 import PriceGroupFilter from "../../../common/components/price/PriceGroupFilter";
-import { Price } from "../../../api/Models/Price";
+import { Price } from "../../../apis/jobProcessingApi/Models/Price";
 import { SelectItem } from "../../../common/react-hook-mui/MultiSelectElement";
 
 export type JobFilterModel = {

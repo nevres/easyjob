@@ -504,6 +504,13 @@
         },
         "additionalProperties": false
       },
+      "BusinessType": {
+        "enum": [
+          "Individual",
+          "Company"
+        ],
+        "type": "string"
+      },
       "CategoryResponse": {
         "type": "object",
         "properties": {
@@ -621,7 +628,7 @@
             "nullable": true
           },
           "employer": {
-            "$ref": "#/components/schemas/User"
+            "$ref": "#/components/schemas/UserResponse"
           }
         },
         "additionalProperties": false
@@ -655,13 +662,9 @@
         },
         "additionalProperties": false
       },
-      "User": {
+      "UserResponse": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "string",
-            "nullable": true
-          },
           "firstName": {
             "type": "string",
             "nullable": true
@@ -675,6 +678,17 @@
             "nullable": true
           },
           "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "businessType": {
+            "$ref": "#/components/schemas/BusinessType"
+          },
+          "externalLink": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
             "type": "string",
             "nullable": true
           }

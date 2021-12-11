@@ -1,6 +1,8 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Profile.Application.Commands.AddOrUpdateUser;
 using Profile.Application.Queries.GetUser;
+using Profile.Application.Shared;
 using Profile.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -21,8 +23,15 @@ namespace Profile.Application.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<User> GetAsync(string id) {
+        public async Task<UserResponse> GetAsync(string id) {
             return await _mediator.Send(new GetUserQuery() { Id = id });
+        }
+
+        [HttpPut("{id}")]
+        public async Task<UserResponse> AddOrUpdate(string id, AddOrUpdateUserCommand command)
+        {
+
+            return await _mediator.Send(command);
         }
     }
 }

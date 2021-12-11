@@ -1,7 +1,7 @@
 import React from "react";
 import { Control } from "react-hook-form";
-import { Price } from "../../../api/Models/Price";
-import { PriceType } from "../../../api/Models/PriceType";
+import { Price } from "../../../apis/jobProcessingApi/Models/Price";
+import { PriceType } from "../../../apis/jobProcessingApi/Models/PriceType";
 import CheckboxButtonGroup, { CheckBoxOption } from "../../react-hook-mui/CheckboxButtonGroup";
 
 export const PRICE_OPTIONS: Array<CheckBoxOption> = [

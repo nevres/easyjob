@@ -1,9 +1,6 @@
-//using DocumentProcessing;
 using DocumentProcessing;
 using EasyJob.Filters;
 using EasyJob.Infrastructure;
-using EasyJob.Models;
-using EasyJob.Services;
 using JobProcessing;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -175,12 +172,14 @@ namespace EasyJob
         }
         private void AddHttpClients(IServiceCollection services)
         {
-            services.AddHttpClient<IProfileApi, ProfileApi>((config)=> {
+            services.AddHttpClient<IProfileApi, ProfileApi>((config) =>
+            {
                 var profileApiUrl = Configuration.GetValue<string>("urls:profileApi");
                 config.BaseAddress = new Uri(profileApiUrl);
             }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();
 
-            services.AddHttpClient<IDocumentService, DocumentService>((config) => {
+            services.AddHttpClient<IDocumentService, DocumentService>((config) =>
+            {
                 var profileApiUrl = Configuration.GetValue<string>("urls:documentApi");
                 config.BaseAddress = new Uri(profileApiUrl);
             }).AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>();

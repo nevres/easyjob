@@ -1,10 +1,8 @@
 // // @ts-nocheck
 import { useRouter } from "next/dist/client/router";
 import React, { useEffect, useState } from "react";
-import { Component } from "react";
 import { ApplicationPaths, LoginActions, QueryParameterNames } from "../../common/auth/ApiAuthorizationConstants";
 import authService, { AuthenticationResultStatus } from "../../common/auth/AuthorizeService";
-import useMountEffect from "../../common/customHooks/useMountEffect";
 
 // The main responsibility of this component is to handle the user's login process.
 // This is the starting point for the login process. Any component that needs to authenticate
@@ -13,7 +11,6 @@ import useMountEffect from "../../common/customHooks/useMountEffect";
 export default function Login() {
   const router = useRouter();
   const { action } = router.query;
-  console.log(router);
 
   const [message, setMessage] = useState<string | null>("");
 
