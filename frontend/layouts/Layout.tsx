@@ -2,6 +2,7 @@ import Box from "@mui/material/Box";
 import { StyledEngineProvider, SxProps, Theme, ThemeProvider } from "@mui/material/styles";
 import appTheme from "../common/theme/theme";
 import Loader from "../common/useLoader/Loader";
+import SnackbarMessageProvider from "../common/useSnackbar/Snackbar";
 import Header from "../components/Heaader/Header";
 
 interface Props {
@@ -23,16 +24,17 @@ export default function Layout({ children, mainContentStyle }: Props) {
     <StyledEngineProvider injectFirst>
       <ThemeProvider theme={appTheme}>
         <Loader>
-          {/* <Sidebar /> */}
-          <Header />
-          <Box
-            sx={[
-              { p: 1 },
-              ...(mainContentStyle ? (Array.isArray(mainContentStyle) ? mainContentStyle : [mainContentStyle]) : [])
-            ]}
-          >
-            {children}
-          </Box>
+          <SnackbarMessageProvider>
+            <Header />
+            <Box
+              sx={[
+                { p: 1 },
+                ...(mainContentStyle ? (Array.isArray(mainContentStyle) ? mainContentStyle : [mainContentStyle]) : [])
+              ]}
+            >
+              {children}
+            </Box>
+          </SnackbarMessageProvider>
         </Loader>
       </ThemeProvider>
     </StyledEngineProvider>

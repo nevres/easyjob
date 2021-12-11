@@ -7,6 +7,7 @@ export class AuthorizeService {
   _nextSubscriptionId = 0;
   _user = null;
   _isAuthenticated = false;
+  _userManager: UserManager;
 
   // By default pop ups are disabled because they don't work properly on Edge.
   // If you want to enable pop up authentication simply set this flag to false.
@@ -23,13 +24,13 @@ export class AuthorizeService {
     }
 
     await this.ensureUserManagerInitialized();
-    const user = await this.userManager.getUser();
+    const user = await this._userManager.getUser();
     return user && user.profile;
   }
 
   async getAccessToken() {
     await this.ensureUserManagerInitialized();
-    const user = await this.userManager.getUser();
+    const user = await this._userManager.getUser();
     return user && user.access_token;
   }
 
@@ -45,7 +46,7 @@ export class AuthorizeService {
     await this.ensureUserManagerInitialized();
     try {
       console.log("before signin silent");
-      const silentUser = await this.userManager.signinSilent(this.createArguments());
+      const silentUser = await this._userManager.signinSilent(this.createArguments());
       this.updateState(silentUser);
       return this.success(state);
     } catch (silentError) {
@@ -60,7 +61,7 @@ export class AuthorizeService {
           );
         }
 
-        const popUpUser = await this.userManager.signinPopup(this.createArguments());
+        const popUpUser = await this._userManager.signinPopup(this.createArguments());
         this.updateState(popUpUser);
         return this.success(state);
       } catch (popUpError) {
@@ -73,7 +74,7 @@ export class AuthorizeService {
 
         // PopUps might be blocked by the user, fallback to redirect
         try {
-          await this.userManager.signinRedirect(this.createArguments(state));
+          await this._userManager.signinRedirect(this.createArguments(state));
           return this.redirect();
         } catch (redirectError) {
           console.log("Redirect authentication error: ", redirectError);
@@ -86,7 +87,7 @@ export class AuthorizeService {
   async completeSignIn(url) {
     try {
       await this.ensureUserManagerInitialized();
-      const user = await this.userManager.signinCallback(url);
+      const user = await this._userManager.signinCallback(url);
       this.updateState(user);
       return this.success(user && user.state);
     } catch (error) {
@@ -109,13 +110,13 @@ export class AuthorizeService {
         );
       }
 
-      await this.userManager.signoutPopup(this.createArguments());
+      await this._userManager.signoutPopup(this.createArguments());
       this.updateState(undefined);
       return this.success(state);
     } catch (popupSignOutError) {
       console.log("Popup signout error: ", popupSignOutError);
       try {
-        await this.userManager.signoutRedirect(this.createArguments(state));
+        await this._userManager.signoutRedirect(this.createArguments(state));
         return this.redirect();
       } catch (redirectSignOutError) {
         console.log("Redirect signout error: ", redirectSignOutError);
@@ -127,7 +128,7 @@ export class AuthorizeService {
   async completeSignOut(url) {
     await this.ensureUserManagerInitialized();
     try {
-      const response = await this.userManager.signoutCallback(url);
+      const response = await this._userManager.signoutCallback(url);
       this.updateState(null);
       return this.success(response && response.data);
     } catch (error) {
@@ -182,7 +183,7 @@ export class AuthorizeService {
   }
 
   async ensureUserManagerInitialized() {
-    if (this.userManager !== undefined) {
+    if (this._userManager !== undefined) {
       return;
     }
 
@@ -206,12 +207,13 @@ export class AuthorizeService {
       prefix: ApplicationName
     });
 
-    this.userManager = new UserManager(settings);
+    this._userManager = new UserManager(settings);
 
-    this.userManager.events.addUserSignedOut(async () => {
-      await this.userManager.removeUser();
-      this.updateState(undefined);
-    });
+    // This was called automatically after log in...we need to investigate further
+    // this._userManager.events.addUserSignedOut(async () => {
+    //   await this._userManager.removeUser();
+    //   this.updateState(undefined);
+    // });
   }
 
   static get instance() {

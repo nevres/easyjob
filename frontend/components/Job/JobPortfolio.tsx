@@ -69,11 +69,10 @@ export default function JobPortfolio() {
             next={() => setCurrentPage((prevValue) => (prevValue += 1))}
           >
             {loadedItems?.map((x) => (
-              <Box sx={{ marginBottom: 1 }}>
+              <Box sx={{ marginBottom: 1 }} key={x.id}>
                 <JobCard
                   job={x}
                   handleCardClick={(job) => setSelectedJob(job)}
-                  key={x.id}
                   customStyle={
                     selectedJob?.id == x.id ? { background: (theme) => theme.palette.primary.veryLight } : undefined
                   }

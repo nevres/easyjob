@@ -57,5 +57,6 @@ export default interface ITranslation {
     minPriceIsRequired: string;
     maxPriceIsRequired: string;
     categoryIsRequired: string;
+    yourProfileSuccessfullyUpdated: string;
   };
 }

@@ -59,7 +59,8 @@ const ba: ITranslation = {
     howDoYouWantToPay: "Kako želite platiti?",
     minPriceIsRequired: "Morate unijeti minimalnu vrijednost",
     maxPriceIsRequired: "Morate unijeti maksimalnu vrijednost",
-    categoryIsRequired: "Morate unijeti kategoriju"
+    categoryIsRequired: "Morate unijeti kategoriju",
+    yourProfileSuccessfullyUpdated: "Vas profil je uspjesno sacuvan"
   }
 };
 

@@ -59,7 +59,8 @@ const en: ITranslation = {
     howDoYouWantToPay: "How do you want to pay?",
     minPriceIsRequired: "Min price is required",
     maxPriceIsRequired: "Max price is required",
-    categoryIsRequired: "Category is required"
+    categoryIsRequired: "Category is required",
+    yourProfileSuccessfullyUpdated: "Your profile is successfully updated"
   }
 };
 
