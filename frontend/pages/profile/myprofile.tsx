@@ -53,16 +53,11 @@ const CurrentUserProfile = () => {
     }
   };
 
-  const handleError = () => {
-    debugger;
-    window.console.log("error");
-  };
-
   return (
     <React.Fragment>
       <ProfileForm ref={profileFormRef} defaultValues={defaultValues} />
       <Stack spacing={2} direction={"row"} justifyContent="end" sx={{ mt: 1 }}>
-        <Button variant="contained" onClick={profileFormRef.current?.handleSubmit(handleSubmit, handleError)}>
+        <Button variant="contained" onClick={profileFormRef.current?.handleSubmit(handleSubmit)}>
           {t("save")}
         </Button>
       </Stack>

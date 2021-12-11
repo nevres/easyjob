@@ -6,6 +6,7 @@ import { AddOrUpdateUserCommand } from "../../apis/profileApi/Models/AddOrUpdate
 import BusinessTypeSelection from "../../common/components/profile/BusinessTypeRadioButtons";
 import useI18n from "../../common/i18n/useI18n";
 import TextFieldElement from "../../common/react-hook-mui/TextFieldElement";
+import { PhoneNumberRegex } from "../../common/utils/regex";
 import { useYupValidationResolver } from "../../common/utils/yupValidationHelper";
 
 export type ProfileForm = Omit<AddOrUpdateUserCommand, "id"> & {
@@ -25,9 +26,8 @@ export const ProfileForm = forwardRef<RefHandle, ProfileFormProps>(({ defaultVal
 
   const ProfileValidationSchema = yup.object().shape({
     firstName: yup.string().required(t("firstNameIsRequired")),
-    lastName: yup.string().required(t("lastNameIsRequired"))
-    // lastName: yup.string().required(),
-    // phoneNumber: yup.string().matches(PhoneNumberRegex)
+    lastName: yup.string().required(t("lastNameIsRequired")),
+    phoneNumber: yup.string().matches(PhoneNumberRegex, t("phoneNumberInWrongFormat"))
   });
 
   const { handleSubmit, control, watch, reset } = useForm<ProfileForm>({

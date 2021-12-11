@@ -60,7 +60,8 @@ const ba: ITranslation = {
     minPriceIsRequired: "Morate unijeti minimalnu vrijednost",
     maxPriceIsRequired: "Morate unijeti maksimalnu vrijednost",
     categoryIsRequired: "Morate unijeti kategoriju",
-    yourProfileSuccessfullyUpdated: "Vas profil je uspjesno sacuvan"
+    yourProfileSuccessfullyUpdated: "Vas profil je uspjesno sacuvan",
+    phoneNumberInWrongFormat: "Format broja telefona je pogresan"
   }
 };
 

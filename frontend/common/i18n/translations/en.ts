@@ -60,7 +60,8 @@ const en: ITranslation = {
     minPriceIsRequired: "Min price is required",
     maxPriceIsRequired: "Max price is required",
     categoryIsRequired: "Category is required",
-    yourProfileSuccessfullyUpdated: "Your profile is successfully updated"
+    yourProfileSuccessfullyUpdated: "Your profile is successfully updated",
+    phoneNumberInWrongFormat: "Phone number has wrong format"
   }
 };
 

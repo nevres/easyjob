@@ -58,5 +58,6 @@ export default interface ITranslation {
     maxPriceIsRequired: string;
     categoryIsRequired: string;
     yourProfileSuccessfullyUpdated: string;
+    phoneNumberInWrongFormat: string;
   };
 }
