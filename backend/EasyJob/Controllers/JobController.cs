@@ -72,9 +72,9 @@ namespace EasyJob.Controllers
         }
 
         [HttpPost]
-        public async Task<int> CreateJob([FromQuery] CreateJobCommand query)
+        public async Task<int> CreateJob([FromQuery] CreateJobCommand request)
         {
-            return await _jobProcessingApi.CreateJobAsync(query);
+            return await _jobProcessingApi.CreateJobAsync(request);
         }
 
 

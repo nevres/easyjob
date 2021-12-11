@@ -1,6 +1,6 @@
 // @ts-nocheck
-import { UserManager, UserManagerSettings, WebStorageStateStore } from "oidc-client";
-import { ApplicationPaths, ApplicationName } from "./ApiAuthorizationConstants";
+import { User, UserManager, UserManagerSettings, WebStorageStateStore } from "oidc-client";
+import { ApplicationName, ApplicationPaths } from "./ApiAuthorizationConstants";
 
 export class AuthorizeService {
   _callbacks = [];
@@ -17,7 +17,7 @@ export class AuthorizeService {
     return !!user;
   }
 
-  async getUser() {
+  async getUser(): Promise<User> {
     if (this._user && this._user.profile) {
       return this._user.profile;
     }

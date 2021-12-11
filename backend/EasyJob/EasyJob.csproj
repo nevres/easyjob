@@ -42,6 +42,10 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\Shared\Shared.csproj" />
 	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Services\" />
+	</ItemGroup>
     
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
 		<Exec Command="dotnet build $(SolutionDir)FrontendClientGenerator\FrontendClientGenerator.csproj" />

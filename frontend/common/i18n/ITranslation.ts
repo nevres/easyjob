@@ -31,7 +31,9 @@ export default interface ITranslation {
     addNewJob: string;
     email: string;
     firstName: string;
+    firstNameIsRequired: string;
     lastName: string;
+    lastNameIsRequired: string;
     description: string;
     phoneNumber: string;
     company: string;

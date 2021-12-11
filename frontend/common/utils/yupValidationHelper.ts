@@ -31,7 +31,6 @@ export function useYupValidationResolver(
           errors: {}
         };
       } catch (errors: any) {
-        debugger;
         return {
           values: {},
           errors: errors.inner?.reduce(

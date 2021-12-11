@@ -1,4 +1,4 @@
-import {User} from './User'
+import {UserResponse} from './UserResponse'
 import {Price} from './Price'
 import {JobUrgency} from './JobUrgency'
 import {JobDurationType} from './JobDurationType'
@@ -16,6 +16,6 @@ export interface ResolvedJobResponse {
     createDate?: string;
     categoryId?: number;
     categoryName?: string | undefined;
-    employer?: User;
+    employer?: UserResponse;
 }
 

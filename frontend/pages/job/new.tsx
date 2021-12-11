@@ -7,7 +7,7 @@ import { StepperInline } from "../../common/components/stepBased/StepperInline";
 import "../../common/i18n/i18next";
 import useI18n from "../../common/i18n/useI18n";
 import { useJobNew } from "../../components/Job/New/hooks/useJobNew";
-import Layout from "../../layouts/Layout";
+import Layout, { smallerPageContentWrapper } from "../../layouts/Layout";
 
 const JobNewPage: NextPage = () => {
   const t = useI18n();
@@ -17,16 +17,7 @@ const JobNewPage: NextPage = () => {
 
   return (
     <Layout>
-      <Box
-        sx={{
-          p: (theme) => theme.spacing(3),
-          m: (theme) => theme.spacing(2),
-          borderRadius: 8,
-          // TODO: Change the color
-          border: (theme) => `1px solid ${theme.palette.primary.veryLight}`,
-          boxShadow: (theme) => `5px 5px 5px ${theme.palette.primary.veryLight}`
-        }}
-      >
+      <Box sx={smallerPageContentWrapper}>
         <Typography variant="h3" sx={{ textAlign: "center" }}>
           {t("createNewJobTitle")}
         </Typography>

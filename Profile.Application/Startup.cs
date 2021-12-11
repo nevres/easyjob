@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Profile.Application.Filters;
+using Profile.Application.Infrastructure.AuthPolicies;
+using Profile.Application.Infrastructure.Identity;
 using Profile.Infrastructure;
 using Profile.Infrastructure.Repositories;
 using System;
@@ -24,6 +27,8 @@ namespace Profile.Application
 {
     public class Startup
     {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -34,10 +39,22 @@ namespace Profile.Application
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            AddCustomAuthentication(services, Configuration);
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:3000")
+                                        .AllowAnyMethod()
+                                        .AllowAnyHeader()
+                                        .AllowCredentials();
+                                  });
+            });
+
+            services.AddCustomAuthentication(Configuration);
             services.AddAuthorization();
 
-            AddProfileContext<ProfileContext>(services);
+            services.AddProfileContext<ProfileContext>(Configuration);
 
             services.AddControllers(opt =>
             {
@@ -49,10 +66,14 @@ namespace Profile.Application
             );
 
             services.AddScoped<IProfileRepository, ProfileRepository>();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IIdentityService, IdentityService>();
 
-            AddCustomSwagger(services);
+            services.AddCustomSwagger(Configuration);
 
             services.AddMediatR(typeof(Startup));
+
+            services.AddAppAuthPolicies();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -84,6 +105,7 @@ namespace Profile.Application
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseCors(MyAllowSpecificOrigins);
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -93,16 +115,19 @@ namespace Profile.Application
                 endpoints.MapControllers();
             });
         }
+    }
 
-        private void AddProfileContext<T>(IServiceCollection services) where T : DbContext
+    static class ConfigureServicesExtensions {
+        public static IServiceCollection AddProfileContext<T>(this IServiceCollection services, IConfiguration configuration) where T : DbContext
         {
             services.AddDbContext<T>(opt =>
                 opt
-                .UseNpgsql(Configuration.GetConnectionString("EasyJobDb"))
+                .UseNpgsql(configuration.GetConnectionString("EasyJobDb"))
                 .UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll));
+            return services;
         }
 
-        private void AddCustomSwagger(IServiceCollection services)
+        public static IServiceCollection AddCustomSwagger(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddSwaggerGen(options =>
             {
@@ -117,8 +142,8 @@ namespace Profile.Application
                     {
                         AuthorizationCode = new OpenApiOAuthFlow()
                         {
-                            AuthorizationUrl = new Uri($"{Configuration.GetValue<string>("urls:identity")}/connect/authorize"),
-                            TokenUrl = new Uri($"{Configuration.GetValue<string>("urls:identity")}/connect/token"),
+                            AuthorizationUrl = new Uri($"{configuration.GetValue<string>("urls:identity")}/connect/authorize"),
+                            TokenUrl = new Uri($"{configuration.GetValue<string>("urls:identity")}/connect/token"),
 
                             Scopes = new Dictionary<string, string>()
                             {
@@ -140,16 +165,17 @@ namespace Profile.Application
                                 Id = "oauth2"
                             }
                         }
-                    ] = new[] { "profileApi"}
+                    ] = new[] { "profileApi" }
                 };
 
                 options.AddSecurityRequirement(securityRequirement);
 
                 options.OperationFilter<AuthorizeCheckOperationFilter>();
             });
+            return services;
         }
 
-        private void AddCustomAuthentication(IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             // prevent from mapping "sub" claim to nameidentifier.
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
@@ -167,6 +193,18 @@ namespace Profile.Application
                 options.RequireHttpsMetadata = false;
                 options.Audience = "profileApi";
             });
+            return services;
+        }
+
+        public static IServiceCollection AddAppAuthPolicies(this IServiceCollection services) {
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(nameof(EditProfilePolicy), policy =>
+                    policy.Requirements.Add(new SameUserPolicy()));
+            });
+
+            services.AddSingleton<IAuthorizationHandler, EditProfilePolicy>();
+            return services;
         }
     }
 }

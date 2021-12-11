@@ -1,6 +1,5 @@
 import {BusinessType} from './BusinessType'
-export interface User {
-    id?: string | undefined;
+export interface UserResponse {
     firstName?: string | undefined;
     lastName?: string | undefined;
     email?: string | undefined;
