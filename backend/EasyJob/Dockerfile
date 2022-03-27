@@ -1,23 +1,24 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-#Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
-#For more information, please see https://aka.ms/containercompat
-
-FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS base
+FROM mcr.microsoft.com/dotnet/aspnet:5.0-focal AS base
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
+EXPOSE 7000
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+ENV ASPNETCORE_URLS=http://*:7000
+
+# Creates a non-root user with an explicit UID and adds permission to access the /app folder
+# For more info, please refer to https://aka.ms/vscode-docker-dotnet-configure-containers
+RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /app
+USER appuser
+
+FROM mcr.microsoft.com/dotnet/sdk:5.0-focal AS build
 WORKDIR /src
-COPY ["EasyJob/EasyJob.csproj", "EasyJob/"]
-RUN dotnet restore "EasyJob/EasyJob.csproj"
+COPY ["EasyJob.csproj", "./"]
+RUN dotnet restore "EasyJob.csproj"
 COPY . .
-WORKDIR "/src/EasyJob"
+WORKDIR "/src/."
 RUN dotnet build "EasyJob.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "EasyJob.csproj" -c Release -o /app/publish
+RUN dotnet publish "EasyJob.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app

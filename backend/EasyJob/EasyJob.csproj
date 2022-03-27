@@ -47,14 +47,4 @@
 	  <Folder Include="Services\" />
 	</ItemGroup>
     
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-		<Exec Command="dotnet build $(SolutionDir)FrontendClientGenerator\FrontendClientGenerator.csproj" />
-		<!--Guidelines for caommand
-		1. install globally Swashbuckle.AspNetCore.Cli v6.0.4 (see .config/dotnet-tools.json in root backend folder)
-		2. run dotnet tool restore and build solution
-		3. build FrontendClientGenerator
-		Note: last command argument is name of swagger doc from Startup.cs (won't run if name mismatch)-->
-		<Exec Command="swagger tofile --output swagger.json $(OutDir)EasyJob.dll v1" />
-		<Exec Command="$(SolutionDir)FrontendClientGenerator\bin\Debug\net5.0\FrontendClientGenerator.exe $(ProjectDir)swagger.json C:\Users\njahic\Desktop\Projects\EasyJob\easyjob\frontend\apis\jobProcessingApi" />
-  </Target>
 </Project>
