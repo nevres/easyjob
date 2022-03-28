@@ -14,7 +14,9 @@ Backend applications is written as a microservice web app consisting of followin
   - jobprocessing
   - profile
   - document. 
-In front of microservices there is API gateway.
+  
+In front of microservices there is API gateway. Primary responsibility is to perform aggregate logic for the app. API gateway does not encapsulate other microservices behind, which some implementations of API gateway do. All microservices within solution are public APIs, and are protected by oauth2/openid auth. 
+
 ### Security
 All microservices are registered as API resources in respect to identity provider. All clients that want to communicate with particular microservice need to have allowed microservice scope, and are acccessing the resource using code oauth flow. All microservices, through swagger UI, are also registered as a clients, so that we can execute direct calls and test using swagger UI.
 ### Implementation
